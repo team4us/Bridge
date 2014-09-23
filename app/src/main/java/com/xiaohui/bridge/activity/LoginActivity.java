@@ -21,5 +21,6 @@ public class LoginActivity extends AbsActivity implements ILoginView {
     @Override
     public void onClickLogin() {
         startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

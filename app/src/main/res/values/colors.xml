@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--2.0-->
+    <color name="color_ffffff">#ffffff</color>
+    <color name="color_f2f2f2">#f2f2f2</color>
+    <color name="color_b2b2b2">#b2b2b2</color>
+    <color name="color_bcbcbc">#bcbcbc</color>
+    <color name="color_000000">#000000</color>
+    <color name="color_ff9913">#ff9913</color>
+    <color name="color_fc2125">#fc2125</color>
+    <color name="color_f5f5f5">#f5f5f5</color>
+    <!--分割线-->
+    <color name="color_c8c8c8">#c8c8c8</color>
+    <!--标题栏背景色-->
+    <color name="color_099fde">#099fde</color>
+    <!--通用标示金钱蓝色-->
+    <color name="color_1484dc">#1484dc</color>
+    <!--通用背景色-->
+    <color name="color_efefef">#efefef</color>
+    <!--按钮1-Normal-->
+    <color name="color_ff9a14">#ff9a14</color>
+    <!--按钮1-Pressed-->
+    <color name="color_d77f0b">#d77f0b</color>
+    <!--按钮1-Disable #ff9a14/60%-->
+    <color name="color_eeab5b">#eeab5b</color>
+    <!--按钮2-Normal-->
+    <color name="color_ff7d13">#ff7d13</color>
+    <!--按钮2-Pressed-->
+    <color name="color_bf5600">#bf5600</color>
+    <!--按钮2-Disable #ff7d13/60%-->
+    <color name="color_ee934f">#ee934f</color>
+    <!--灰色字体颜色1最深-->
+    <color name="color_333333">#333333</color>
+    <!--灰色字体颜色2次深-->
+    <color name="color_666666">#666666</color>
+    <!--灰色字体颜色3次浅-->
+    <color name="color_999999">#999999</color>
+    <!--灰色字体颜色4最浅-->
+    <color name="color_dddddd">#dddddd</color>
+    <!--通用被点击后变化背景色-->
+    <color name="color_0f000000">#0f000000</color>
+    <!--通用不可点击预订文字颜色-->
+    <color name="color_66ffffff">#66ffffff</color>
+
+</resources>

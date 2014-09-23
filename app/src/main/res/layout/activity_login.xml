@@ -3,19 +3,33 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:background="@color/color_efefef">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/title"
+        android:textSize="60sp"
+        android:textColor="@color/color_333333"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:hint="@string/user_name"
+        style="@style/BaseInput"/>
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        style="@style/BaseInput"/>
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        style="@style/Button1"
+        android:text="@string/login"
         bind:onClick="login"/>
 </LinearLayout>
 
