@@ -10,7 +10,7 @@ import com.xiaohui.bridge.viewmodel.LoginViewModel;
 /**
  * Created by xhChen on 14/9/22.
  */
-public class LoginActivity extends AbsActivity implements ILoginView {
+public class LoginActivity extends AbstractActivity implements ILoginView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,7 +11,7 @@ import org.robobinding.binder.BinderFactory;
 /**
  * Created by xhChen on 14/9/22.
  */
-public class AbsActivity extends Activity {
+public abstract class AbstractActivity extends Activity {
     
     public void initializeContentView(int layoutId, Object presentationModel) {
         ViewBinder viewBinder = createViewBinder();
@@ -19,8 +19,12 @@ public class AbsActivity extends Activity {
         setContentView(rootView);
     }
 
+    public XhApplication getGlobalApplication() {
+        return (XhApplication) getApplication();
+    }
+
     private ViewBinder createViewBinder() {
-        BinderFactory binderFactory = ((XhApplication) getApplication()).getBinderFactory();
+        BinderFactory binderFactory = getGlobalApplication().getBinderFactory();
         return binderFactory.createViewBinder(this);
     }
 }
