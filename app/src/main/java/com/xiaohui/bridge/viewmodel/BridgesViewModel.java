@@ -1,5 +1,7 @@
 package com.xiaohui.bridge.viewmodel;
 
+import com.xiaohui.bridge.business.bean.Bridge;
+import com.xiaohui.bridge.model.BridgesModel;
 import com.xiaohui.bridge.view.IBridgeView;
 
 import org.robobinding.annotation.ItemPresentationModel;
@@ -17,24 +19,25 @@ import java.util.List;
 public class BridgesViewModel {
 
     private IBridgeView bridgeView;
-    private List<String> bridges = new ArrayList<String>(Arrays.asList("桥梁一", "桥梁二", "桥梁三"));
+    private BridgesModel model;
 
     public BridgesViewModel(IBridgeView view) {
+        model = new BridgesModel();
         bridgeView = view;
     }
 
     @ItemPresentationModel(BridgeItemViewModel.class)
-    public List<String> getBridges() {
-        return bridges;
+    public List<Bridge> getBridges() {
+        return model.getBridges();
     }
 
     public void onItemClick(ItemClickEvent event) {
         if (bridgeView != null) {
-            bridgeView.selectItem(event.getPosition(), bridges.get(event.getPosition()));
+            bridgeView.notifyBridgeChange(event.getPosition(), getBridge(event.getPosition()));
         }
     }
 
-    public String getBridgeName(int pos) {
-        return bridges.get(pos);
+    public Bridge getBridge(int pos) {
+        return model.getBridge(pos);
     }
 }

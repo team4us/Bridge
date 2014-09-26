@@ -15,7 +15,6 @@ public class XhApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         binderFactory = new BinderFactoryBuilder().build();
     }
 

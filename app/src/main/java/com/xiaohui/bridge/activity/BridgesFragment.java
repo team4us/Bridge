@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.view.IBridgeView;
 import com.xiaohui.bridge.viewmodel.BridgesViewModel;
 
@@ -187,18 +188,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     private void selectItem(int position) {
-        selectItem(position, getViewModel().getBridgeName(position));
-    }
-
-    @Override
-    public void selectItem(int position, String name) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(mFragmentContainerView);
-        }
-        if (mCallbacks != null) {
-            mCallbacks.onBridgeSelected(name);
-        }
+        notifyBridgeChange(position, getViewModel().getBridge(position));
     }
 
     @Override
@@ -255,6 +245,15 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void notifyBridgeChange(int position, Bridge bridge) {
+        getActionBar().setTitle(bridge.getName());
+        mCurrentSelectedPosition = position;
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
+    }
+
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */
@@ -262,6 +261,6 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        void onBridgeSelected(String name);
+        void onSelectedBridge(Bridge bridge);
     }
 }

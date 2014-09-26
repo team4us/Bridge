@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.viewmodel.BridgeViewModel;
 
 /**
@@ -24,10 +25,10 @@ public class BridgeFragment extends AbstractFragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static BridgeFragment newInstance(String name) {
+    public static BridgeFragment newInstance(Bridge bridge) {
         BridgeFragment fragment = new BridgeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_SECTION_NUMBER, name);
+        args.putString(ARG_SECTION_NUMBER, bridge.getName());
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,6 +49,6 @@ public class BridgeFragment extends AbstractFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(getArguments().getString(ARG_SECTION_NUMBER));
+//        ((MainActivity) activity).onSectionAttached(getArguments().getString(ARG_SECTION_NUMBER));
     }
 }

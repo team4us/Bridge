@@ -14,7 +14,9 @@ import org.robobinding.binder.BinderFactory;
  * Created by xhChen on 14/9/22.
  */
 public abstract class AbstractActivity extends Activity {
-    
+
+    private ActionBar actionBar;
+
     public void initializeContentView(int layoutId, Object presentationModel) {
         ViewBinder viewBinder = createViewBinder();
         View rootView = viewBinder.inflateAndBind(layoutId, presentationModel);
@@ -32,10 +34,12 @@ public abstract class AbstractActivity extends Activity {
 
     @Override
     public ActionBar getActionBar() {
-        ActionBar actionBar = super.getActionBar();
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.color_099fde));
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        if (actionBar == null) {
+            actionBar = super.getActionBar();
+            actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.color_099fde));
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        }
         return actionBar;
     }
 }

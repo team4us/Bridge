@@ -1,6 +1,5 @@
 package com.xiaohui.bridge.activity;
 
-import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -8,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.bean.Bridge;
 
 
 public class MainActivity extends AbstractActivity
@@ -18,11 +18,6 @@ public class MainActivity extends AbstractActivity
      */
     private BridgesFragment bridgesFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
-    private CharSequence mTitle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +25,7 @@ public class MainActivity extends AbstractActivity
 
         bridgesFragment = (BridgesFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+//        mTitle = getTitle();
 
         // Set up the drawer.
         bridgesFragment.setUp(
@@ -39,18 +34,18 @@ public class MainActivity extends AbstractActivity
     }
 
     @Override
-    public void onBridgeSelected(String name) {
+    public void onSelectedBridge(Bridge bridge) {
         // update the main content by replacing fragments
-        getActionBar().setTitle(name);
+//        getActionBar().setTitle(name);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, BridgeFragment.newInstance(name))
+                .replace(R.id.container, BridgeFragment.newInstance(bridge))
                 .commit();
     }
 
-    public void onSectionAttached(String name) {
-        mTitle = name;
-    }
+//    public void onSectionAttached(String name) {
+//        mTitle = name;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
