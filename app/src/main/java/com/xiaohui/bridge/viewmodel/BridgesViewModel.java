@@ -17,7 +17,7 @@ import java.util.List;
 public class BridgesViewModel {
 
     private IBridgeView bridgeView;
-    private List<String> bridges = new ArrayList<String>(Arrays.asList("aaaa", "bbbbb", "ccccc"));
+    private List<String> bridges = new ArrayList<String>(Arrays.asList("桥梁一", "桥梁二", "桥梁三"));
 
     public BridgesViewModel(IBridgeView view) {
         bridgeView = view;
@@ -32,5 +32,9 @@ public class BridgesViewModel {
         if (bridgeView != null) {
             bridgeView.selectItem(event.getPosition(), bridges.get(event.getPosition()));
         }
+    }
+
+    public String getBridgeName(int pos) {
+        return bridges.get(pos);
     }
 }

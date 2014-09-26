@@ -1,5 +1,6 @@
 package com.xiaohui.bridge.activity;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.XhApplication;
 
 import org.robobinding.MenuBinder;
@@ -34,6 +36,10 @@ public abstract class AbstractFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return createViewBinder().inflateAndBind(getLayoutId(), getViewModel());
+    }
+
+    protected ActionBar getActionBar() {
+        return getActivity().getActionBar();
     }
 
     protected abstract int getLayoutId();

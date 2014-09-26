@@ -52,12 +52,12 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
     private View mFragmentContainerView;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private BridgesViewModel viewModel;
 
     public BridgesFragment() {
     }
@@ -77,7 +77,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         }
 
         // Select either the default item (0) or the last selected item.
-//        selectItem(mCurrentSelectedPosition);
+        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
@@ -90,9 +90,9 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) super.onCreateView(inflater, container, savedInstanceState);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        ListView drawerListView = (ListView) super.onCreateView(inflater, container, savedInstanceState);
+        drawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        return drawerListView;
     }
 
     @Override
@@ -101,8 +101,11 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     @Override
-    protected Object getViewModel() {
-        return new BridgesViewModel(this);
+    protected BridgesViewModel getViewModel() {
+        if (viewModel == null) {
+            viewModel = new BridgesViewModel(this);
+        }
+        return viewModel;
     }
 
     public boolean isDrawerOpen() {
@@ -183,6 +186,10 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+    private void selectItem(int position) {
+        selectItem(position, getViewModel().getBridgeName(position));
+    }
+
     @Override
     public void selectItem(int position, String name) {
         mCurrentSelectedPosition = position;
@@ -229,7 +236,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
             inflater.inflate(R.menu.global, menu);
-            showGlobalContextActionBar();
+            getActionBar().setTitle("项目1");
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -246,21 +253,6 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Per the navigation drawer design guidelines, updates the action bar to show the global app
-     * 'context', rather than just what's in the current screen.
-     */
-    private void showGlobalContextActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setTitle(R.string.app_name);
-    }
-
-    private ActionBar getActionBar() {
-        return getActivity().getActionBar();
     }
 
     /**
