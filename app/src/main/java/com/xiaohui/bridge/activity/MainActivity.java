@@ -17,6 +17,7 @@ public class MainActivity extends AbstractActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private BridgesFragment bridgesFragment;
+    private Bridge bridge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,6 @@ public class MainActivity extends AbstractActivity
 
         bridgesFragment = (BridgesFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
-//        mTitle = getTitle();
 
         // Set up the drawer.
         bridgesFragment.setUp(
@@ -35,25 +35,19 @@ public class MainActivity extends AbstractActivity
 
     @Override
     public void onSelectedBridge(Bridge bridge) {
-        // update the main content by replacing fragments
-//        getActionBar().setTitle(name);
+        // update the project_menu content by replacing fragments
+        this.bridge = bridge;
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, BridgeFragment.newInstance(bridge))
                 .commit();
     }
 
-//    public void onSectionAttached(String name) {
-//        mTitle = name;
-//    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!bridgesFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
+            getActionBar().setTitle(bridge.getName());
+            getMenuInflater().inflate(R.menu.bridge_menu, menu);
             return true;
         }
         return super.onCreateOptionsMenu(menu);

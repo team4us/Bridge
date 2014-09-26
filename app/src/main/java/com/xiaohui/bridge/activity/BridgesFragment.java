@@ -7,16 +7,12 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
@@ -55,8 +51,6 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     private DrawerLayout mDrawerLayout;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
-    private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     private BridgesViewModel viewModel;
 
@@ -64,36 +58,9 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Read in the flag indicating whether or not the user has demonstrated awareness of the
-        // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
-
-        if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-            mFromSavedInstanceState = true;
-        }
-
-        // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ListView drawerListView = (ListView) super.onCreateView(inflater, container, savedInstanceState);
-        drawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return drawerListView;
     }
 
     @Override
@@ -123,7 +90,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
-        // set a custom shadow that overlays the main content when the drawer opens
+        // set a custom shadow that overlays the project_menu content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
@@ -172,7 +139,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+        if (!mUserLearnedDrawer) {
             mDrawerLayout.openDrawer(mFragmentContainerView);
         }
 
@@ -185,10 +152,6 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }
-
-    private void selectItem(int position) {
-        notifyBridgeChange(position, getViewModel().getBridge(position));
     }
 
     @Override
@@ -208,25 +171,12 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Forward the new configuration the drawer toggle component.
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // If the drawer is open, show the global app actions in the action bar. See also
+        // If the drawer is open, show the bridge_menu app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
         if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
-            getActionBar().setTitle("项目1");
+            getActionBar().setTitle("项目一");
+            inflater.inflate(R.menu.project_menu, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -246,11 +196,15 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     @Override
-    public void notifyBridgeChange(int position, Bridge bridge) {
+    public void notifyBridgeChange() {
+        Bridge bridge = viewModel.getCurrentBridge();
         getActionBar().setTitle(bridge.getName());
-        mCurrentSelectedPosition = position;
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
+        }
+
+        if (mCallbacks != null) {
+            mCallbacks.onSelectedBridge(bridge);
         }
     }
 

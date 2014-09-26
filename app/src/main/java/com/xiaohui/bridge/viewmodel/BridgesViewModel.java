@@ -8,8 +8,6 @@ import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.aspects.PresentationModel;
 import org.robobinding.widget.adapterview.ItemClickEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +18,7 @@ public class BridgesViewModel {
 
     private IBridgeView bridgeView;
     private BridgesModel model;
+    private int position;
 
     public BridgesViewModel(IBridgeView view) {
         model = new BridgesModel();
@@ -32,12 +31,13 @@ public class BridgesViewModel {
     }
 
     public void onItemClick(ItemClickEvent event) {
+        position = event.getPosition();
         if (bridgeView != null) {
-            bridgeView.notifyBridgeChange(event.getPosition(), getBridge(event.getPosition()));
+            bridgeView.notifyBridgeChange();
         }
     }
 
-    public Bridge getBridge(int pos) {
-        return model.getBridge(pos);
+    public Bridge getCurrentBridge() {
+        return model.getBridge(position);
     }
 }

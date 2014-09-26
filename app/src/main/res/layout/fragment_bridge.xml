@@ -5,7 +5,7 @@
           android:choiceMode="singleChoice"
           android:divider="@color/color_c8c8c8"
           android:dividerHeight="@dimen/divider_line_height"
-          android:background="#cccc"
+          android:background="@color/color_efefef"
           bind:source="{bridges}"
           bind:itemLayout="@layout/view_bridge_item"
           bind:onItemClick="onItemClick"/>

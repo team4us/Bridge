@@ -12,6 +12,7 @@
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:textSize="@dimen/font_size_26"
+        android:textColor="@color/tv_black_blue"
         android:gravity="center_vertical"
         bind:text="{title}"/>
 </LinearLayout>

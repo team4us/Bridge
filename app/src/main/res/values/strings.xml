@@ -9,6 +9,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
-    <string name="action_detail">详情</string>
+    <string name="action_bridge_detail">桥梁详情</string>
+    <string name="action_project_detail">项目详情</string>
 
 </resources>

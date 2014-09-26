@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- As the main content view, the view below consumes the entire
+    <!-- As the project_menu content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
     <LinearLayout
         android:id="@+id/container"
@@ -23,7 +23,8 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="50dp"
+            android:background="@color/color_efefef">
 
             <RadioGroup
                 android:orientation="horizontal"
@@ -33,37 +34,21 @@
                 <RadioButton
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:text="11111"/>
+                    android:gravity="center"
+                    android:text="分幅桥1"
+                    android:textColor="@color/tv_black_blue"
+                    android:background="@null"
+                    android:button="@null"/>
 
                 <RadioButton
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:text="11111"/>
+                    android:gravity="center"
+                    android:text="分幅桥2"
+                    android:textColor="@color/tv_black_blue"
+                    android:background="@null"
+                    android:button="@null"/>
 
-                <RadioButton
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="11111"/>
-
-                <RadioButton
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="11111"/>
-
-                <RadioButton
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="11111"/>
-
-                <RadioButton
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="11111"/>
-
-                <RadioButton
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="11111"/>
             </RadioGroup>
         </HorizontalScrollView>
     </LinearLayout>
