@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_project_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所在项目："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_project"
+                    android:layout_width="match_parent"
+                    android:text="长江一桥xxxx桥墩"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_project_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_number_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="桥梁编号："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_number"
+                    android:layout_width="match_parent"
+                    android:text="Q300245"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_number_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_name_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="桥梁名称："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_name"
+                    android:layout_width="match_parent"
+                    android:text="南京大桥第一桥"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_name_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_span_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="跨径分类："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_span"
+                    android:layout_width="match_parent"
+                    android:text="斜跨"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_span_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_maintainlevel_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="养护类别："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_maintainlevel"
+                    android:layout_width="match_parent"
+                    android:text="精保养"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_maintainlevel_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_maintain_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="养护等级："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_maintain"
+                    android:layout_width="match_parent"
+                    android:text="精养护"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_maintain_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_designload_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设计荷载："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_designload"
+                    android:layout_width="match_parent"
+                    android:text="100t"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_designload_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_buildtime_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="建造年月："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_buildtime"
+                    android:layout_width="match_parent"
+                    android:text="1999-10-2"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_buildtime_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_design_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设计单位："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_design"
+                    android:layout_width="match_parent"
+                    android:text="南京桥梁所"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_design_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/tv_bridge_build_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="施工单位："
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/tv_bridge_build"
+                    android:layout_width="match_parent"
+                    android:text="南京游记一队"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_bridge_build_title"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
