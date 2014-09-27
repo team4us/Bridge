@@ -36,6 +36,11 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".activity.BridgeDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".activity.ProjectsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
