@@ -20,7 +20,7 @@ public class LoginActivity extends AbstractActivity implements ILoginView {
 
     @Override
     public void onClickLogin() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, ProjectsActivity.class));
         finish();
     }
 }

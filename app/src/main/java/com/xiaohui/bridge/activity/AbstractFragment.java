@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.XhApplication;
+import com.xiaohui.bridge.business.store.Cookie;
 
 import org.robobinding.MenuBinder;
 import org.robobinding.ViewBinder;
@@ -27,6 +28,10 @@ public abstract class AbstractFragment extends Fragment {
 
     public XhApplication getGlobalApplication() {
         return (XhApplication) getActivity().getApplicationContext();
+    }
+
+    public Cookie getCookie() {
+        return getGlobalApplication().getCookie();
     }
 
     protected MenuBinder createMenuBinder(Menu menu, MenuInflater menuInflater) {

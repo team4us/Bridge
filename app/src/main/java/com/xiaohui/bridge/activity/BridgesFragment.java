@@ -196,7 +196,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     @Override
-    public void notifyBridgeChange() {
+    public void notifyChange() {
         Bridge bridge = viewModel.getCurrentBridge();
         getActionBar().setTitle(bridge.getName());
         if (mDrawerLayout != null) {

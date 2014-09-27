@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.XhApplication;
+import com.xiaohui.bridge.business.store.Cookie;
 
 import org.robobinding.ViewBinder;
 import org.robobinding.binder.BinderFactory;
@@ -25,6 +26,10 @@ public abstract class AbstractActivity extends Activity {
 
     public XhApplication getGlobalApplication() {
         return (XhApplication) getApplication();
+    }
+
+    public Cookie getCookie() {
+        return getGlobalApplication().getCookie();
     }
 
     private ViewBinder createViewBinder() {

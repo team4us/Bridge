@@ -8,8 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name=".XhApplication">
-        <activity android:name="com.xiaohui.bridge.activity.MainActivity">
-        </activity>
+
         <activity
             android:name="com.xiaohui.bridge.activity.LoginActivity"
             android:label="@string/app_name"
@@ -21,9 +20,20 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.DiseaseListActivity"
+        <activity
+            android:name="com.xiaohui.bridge.activity.MainActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.DiseaseListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.ProjectsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

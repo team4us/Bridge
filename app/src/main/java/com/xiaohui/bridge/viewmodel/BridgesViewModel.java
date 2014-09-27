@@ -1,6 +1,7 @@
 package com.xiaohui.bridge.viewmodel;
 
 import com.xiaohui.bridge.business.bean.Bridge;
+import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.BridgesModel;
 import com.xiaohui.bridge.view.IBridgeView;
 
@@ -21,7 +22,7 @@ public class BridgesViewModel {
     private int position;
 
     public BridgesViewModel(IBridgeView view) {
-        model = new BridgesModel();
+        model = new BridgesModel(StoreManager.Instance.getBridges());
         bridgeView = view;
     }
 
@@ -33,7 +34,7 @@ public class BridgesViewModel {
     public void onItemClick(ItemClickEvent event) {
         position = event.getPosition();
         if (bridgeView != null) {
-            bridgeView.notifyBridgeChange();
+            bridgeView.notifyChange();
         }
     }
 
