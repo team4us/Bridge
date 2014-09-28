@@ -27,6 +27,18 @@
         android:inputType="textPassword"
         style="@style/BaseInput"/>
 
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="@dimen/margin_15"
+        android:paddingLeft="@dimen/margin_10"
+        android:text="@string/as_checker"
+        android:textSize="@dimen/font_size_36"
+        android:textColor="@color/color_333333"
+        android:button="@drawable/selector_checkbox"
+        android:id="@+id/checkBox"/>
+
     <Button
         style="@style/Button1"
         android:text="@string/login"
