@@ -2,6 +2,7 @@ package com.xiaohui.bridge.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.view.Menu;
 import android.view.View;
 
 import com.xiaohui.bridge.R;
@@ -35,6 +36,12 @@ public abstract class AbstractActivity extends Activity {
     private ViewBinder createViewBinder() {
         BinderFactory binderFactory = getGlobalApplication().getBinderFactory();
         return binderFactory.createViewBinder(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getActionBar();
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

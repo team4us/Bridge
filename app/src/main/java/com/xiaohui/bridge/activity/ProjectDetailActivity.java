@@ -13,7 +13,6 @@ public class ProjectDetailActivity extends AbstractActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_detail);
-        setTitleColor(getResources().getColor(R.color.color_099fde));
         setTitle("项目详情");
     }
 }

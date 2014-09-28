@@ -8,6 +8,10 @@
     <ListView
         android:id="@+id/lv_disease"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:divider="@color/color_c8c8c8"
+        android:dividerHeight="1px"/>
+
+    <View style="@style/line_h" />
 
 </LinearLayout>

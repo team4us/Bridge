@@ -13,7 +13,6 @@ public class BridgeDetailActivity extends AbstractActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bridge_detail);
-
         setTitle("桥梁详情");
     }
 }
