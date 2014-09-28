@@ -12,229 +12,287 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
-
-            <RelativeLayout
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_project_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="所在项目："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_project"
-                    android:layout_width="match_parent"
-                    android:text="长江一桥xxxx桥墩"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_project_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="长江一桥xxxx桥墩" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_number_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="桥梁编号："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_number"
-                    android:layout_width="match_parent"
-                    android:text="Q300245"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_number_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="Q300245" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_name_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="桥梁名称："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_name"
-                    android:layout_width="match_parent"
-                    android:text="南京大桥第一桥"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_name_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="南京大桥第一桥" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_span_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="跨径分类："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_span"
-                    android:layout_width="match_parent"
-                    android:text="斜跨"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_span_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="斜跨" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_maintainlevel_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="养护类别："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_maintainlevel"
-                    android:layout_width="match_parent"
-                    android:text="精保养"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_maintainlevel_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="精保养" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_maintain_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="养护等级："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_maintain"
-                    android:layout_width="match_parent"
-                    android:text="精养护"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_maintain_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="精养护" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tv_bridge_designload_title"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:text="设计荷载："
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/font_size_26" />
+
+            <TextView
+                android:id="@+id/tv_bridge_designload"
+                android:layout_width="0dp"
+                android:layout_weight="6"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_size_26"
+                android:layout_marginLeft="5dp"
+                android:text="100t" />
+
+        </LinearLayout>
+
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
-
-                <TextView
-                    android:id="@+id/tv_bridge_designload_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="设计荷载："
-                    android:layout_centerVertical="true" />
-
-                <TextView
-                    android:id="@+id/tv_bridge_designload"
-                    android:layout_width="match_parent"
-                    android:text="100t"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_designload_title"
-                    android:layout_marginLeft="5dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_buildtime_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="建造年月："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_buildtime"
-                    android:layout_width="match_parent"
-                    android:text="1999-10-2"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_buildtime_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="1999-10-2" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_design_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="设计单位："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_design"
-                    android:layout_width="match_parent"
-                    android:text="南京桥梁所"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_design_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="南京桥梁所" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_bridge_build_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:text="施工单位："
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/font_size_26" />
 
                 <TextView
                     android:id="@+id/tv_bridge_build"
-                    android:layout_width="match_parent"
-                    android:text="南京游记一队"
-                    android:layout_centerVertical="true"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_bridge_build_title"
-                    android:layout_marginLeft="5dp" />
+                    android:textSize="@dimen/font_size_26"
+                    android:layout_marginLeft="5dp"
+                    android:text="南京游记一队" />
 
-            </RelativeLayout>
+            </LinearLayout>
+
+            <View style="@style/line_h" />
 
         </LinearLayout>
     </ScrollView>

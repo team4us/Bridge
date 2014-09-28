@@ -7,7 +7,6 @@
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
 
-    <!--2.0-->
     <dimen name="font_size_40">26sp</dimen>
     <dimen name="font_size_36">24sp</dimen>
     <dimen name="font_size_30">20sp</dimen>
@@ -35,4 +34,5 @@
     <dimen name="button_height_60">60dp</dimen>
     <dimen name="button_height_45">45dp</dimen>
     <dimen name="button_height_90">90dp</dimen>
+    <dimen name="button_height_40">40dp</dimen>
 </resources>

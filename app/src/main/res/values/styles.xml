@@ -28,4 +28,14 @@
         <item name="android:layout_margin">@dimen/margin_15</item>
     </style>
 
+    <style name="line_h_margin_left_10" parent="line_h">
+        <item name="android:layout_marginLeft">@dimen/margin_10</item>
+    </style>
+
+    <style name="line_h">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/color_c8c8c8</item>
+    </style>
+
 </resources>
