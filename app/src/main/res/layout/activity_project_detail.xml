@@ -19,24 +19,17 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_number_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="项目编号："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="项目编号："/>
 
-                <TextView
-                    android:id="@+id/tv_project_number"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_marginLeft="5dp"
+                <EditText
+                    android:id="@+id/ev_project_number"
+                    style="@style/base_input_edittext"
                     android:text="L0000025" />
 
             </LinearLayout>
@@ -47,24 +40,17 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_name_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="项目名称："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="项目名称："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_name"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textSize="@dimen/font_size_26"
+                    style="@style/base_input_edittext"
                     android:text="测试使用大桥1" />
 
             </LinearLayout>
@@ -75,24 +61,17 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_builder_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="委托单位："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="委托单位："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_builder"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_marginLeft="5dp"
+                    style="@style/base_input_edittext"
                     android:text="南京市测试研究所" />
 
             </LinearLayout>
@@ -103,25 +82,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_industries_class_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="行业分类："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="行业分类："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_industries_class"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:layout_height="wrap_content"
-                    android:text="市政工程"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="市政工程" />
 
             </LinearLayout>
 
@@ -131,25 +103,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_leader_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="项目经理："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="项目经理："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_leader"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:layout_height="wrap_content"
-                    android:text="张三"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="张三" />
 
             </LinearLayout>
 
@@ -159,26 +124,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_creater_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="项目创建人："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="项目创建人："/>
 
-
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_creater"
-                    android:layout_width="0dp"
-                    android:text="李四"
-                    android:layout_weight="6"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="李四" />
 
             </LinearLayout>
 
@@ -188,25 +145,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_techleader_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="技术负责人："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="技术负责人："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_techleader"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:text="陈五"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="陈五" />
 
             </LinearLayout>
 
@@ -216,26 +166,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_audit_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="审核人："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="审核人："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_audit"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:text="王六"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="王六" />
 
             </LinearLayout>
 
@@ -245,26 +187,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_mainaudit_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="审定人："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="审定人："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_mainaudit"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:text="赵七"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="赵七" />
 
             </LinearLayout>
 
@@ -274,26 +208,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_decision_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="决策人："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="决策人："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_decision"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:text="胡八"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="胡八" />
 
             </LinearLayout>
 
@@ -303,26 +229,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_member_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="项目成员："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="项目成员："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_member"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:text="郭靖、黄蓉、萧十一郎、金蛇郎君、美国队长"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="郭靖、黄蓉、萧十一郎、金蛇郎君、美国队长" />
 
             </LinearLayout>
 
@@ -332,26 +250,18 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_project_survey_title"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:text="项目概况："
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/font_size_26" />
+                    style="@style/base_title_textview"
+                    android:text="项目概况："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_project_survey"
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:text="主要目的是为了缓解两边交通不便的问题"
-                    android:textSize="@dimen/font_size_26"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/color_333333"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="主要目的是为了缓解两边交通不便的问题" />
 
             </LinearLayout>
 

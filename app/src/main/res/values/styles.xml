@@ -38,4 +38,27 @@
         <item name="android:background">@color/color_c8c8c8</item>
     </style>
 
+    <style name="line_v">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/color_c8c8c8</item>
+    </style>
+
+    <style name="base_title_textview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_099fde</item>
+        <item name="android:textSize">@dimen/font_size_36</item>
+    </style>
+
+    <style name="base_input_edittext">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_10</item>
+        <item name="android:textColor">@color/color_333333</item>
+        <item name="android:textSize">@dimen/font_size_36</item>
+        <item name="android:background">@color/color_00000000</item>
+        <item name="android:editable">false</item>
+    </style>
+
 </resources>

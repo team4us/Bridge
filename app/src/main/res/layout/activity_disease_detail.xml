@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_efefef">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,211 +13,267 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
-
-            <RelativeLayout
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_component_name_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="构件名称："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="构件名称："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_component_name"
-                    android:layout_width="match_parent"
-                    android:layout_centerVertical="true"
-                    android:text="桥梁部件"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_component_name_title"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="桥梁部件" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_position_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="部位："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="部位："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_position"
-                    android:layout_width="match_parent"
-                    android:layout_centerVertical="true"
-                    android:text="上部一般构件"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/tv_position_title"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="上部一般构件" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="30dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_type_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="病害类型："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="病害类型："/>
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_type"
-                    android:layout_width="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content"
-                    android:text="钢筋锈蚀"
-                    android:layout_toRightOf="@id/tv_type_title"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="钢筋锈蚀" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_startpoint_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="起点坐标："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="起点坐标：" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_toRightOf="@id/tv_startpoint_title"
-                    android:layout_marginLeft="5dp"
                     android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/et_startpoint_x"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_marginRight="5dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/et_startpoint_y"
+                        <TextView
+                            style="@style/base_title_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:textColor="@color/color_333333"
+                            android:text="X:"/>
+
+                        <EditText
+                            android:id="@+id/et_startpoint_x"
+                            style="@style/base_input_edittext"
+                            android:gravity="center"
+                            android:text="102" />
+
+                    </LinearLayout>
+
+                    <View style="@style/line_v"/>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_marginLeft="5dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/base_title_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:textColor="@color/color_333333"
+                            android:text="Y:"/>
+
+                        <EditText
+                            android:id="@+id/et_startpoint_y"
+                            style="@style/base_input_edittext"
+                            android:gravity="center"
+                            android:text="305" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_endpoint_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="终点坐标："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="终点坐标：" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_toRightOf="@id/tv_endpoint_title"
-                    android:layout_marginLeft="5dp"
                     android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/et_endpoint_x"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_marginRight="5dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_height="wrap_content">
 
-                    <EditText
-                        android:id="@+id/et_endpoint_y"
+                        <TextView
+                            style="@style/base_title_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:textColor="@color/color_333333"
+                            android:text="X:"/>
+
+                        <EditText
+                            android:id="@+id/et_endpoint_x"
+                            style="@style/base_input_edittext"
+                            android:gravity="center"
+                            android:text="127" />
+
+                    </LinearLayout>
+
+                    <View style="@style/line_v"/>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_marginLeft="5dp"
-                        android:layout_height="wrap_content" />
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/base_title_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:textColor="@color/color_333333"
+                            android:text="Y:"/>
+
+                        <EditText
+                            android:id="@+id/et_endpoint_y"
+                            style="@style/base_input_edittext"
+                            android:gravity="center"
+                            android:text="305" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_length_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="长度（m）："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="长度（m）："/>
 
                 <EditText
                     android:id="@+id/et_length"
-                    android:layout_width="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content"
-                    android:text="25"
-                    android:layout_toRightOf="@id/tv_length_title"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="3" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_width_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="典型宽度（mm）："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="典型宽度（mm）："/>
 
                 <EditText
                     android:id="@+id/et_width"
-                    android:layout_width="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content"
-                    android:text="25"
-                    android:layout_toRightOf="@id/tv_width_title"
-                    android:layout_marginLeft="5dp" />
+                    style="@style/base_input_edittext"
+                    android:text="20" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/tv_media_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="多媒体："
-                    android:layout_centerVertical="true" />
+                    style="@style/base_title_textview"
+                    android:text="多媒体："/>
 
                 <Button
                     android:id="@+id/btn_media"
                     android:layout_width="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
-                    android:text="请选择多媒体类型"
-                    android:layout_toRightOf="@id/tv_media_title"
-                    android:layout_marginLeft="5dp" />
+                    android:text="点击添加多媒体"
+                    android:textSize="@dimen/font_size_36"
+                    android:textColor="@color/color_333333"
+                    android:layout_marginTop="@dimen/margin_10"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
