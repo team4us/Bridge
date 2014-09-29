@@ -23,9 +23,9 @@ public enum StoreManager {
 
     public List<Project> getProjects() {
         List<Project> projects = new ArrayList<Project>();
-        projects.add(new Project("桥梁一"));
-        projects.add(new Project("桥梁二"));
-        projects.add(new Project("桥梁三"));
+        projects.add(new Project("项目一"));
+        projects.add(new Project("项目二"));
+        projects.add(new Project("项目三"));
         return projects;
     }
 

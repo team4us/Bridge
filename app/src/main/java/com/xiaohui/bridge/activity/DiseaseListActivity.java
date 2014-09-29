@@ -1,5 +1,6 @@
 package com.xiaohui.bridge.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,6 +46,6 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
+        startActivity(new Intent(this, DiseaseDetailActivity.class));
     }
 }

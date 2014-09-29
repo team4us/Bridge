@@ -9,21 +9,17 @@
 
     <!-- As the project_menu content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ExpandableListView
-            android:id="@+id/elv_content"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
         <HorizontalScrollView
+            android:id="@+id/hsv_tab_bar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
             android:background="@color/color_efefef">
 
             <RadioGroup
@@ -51,7 +47,15 @@
 
             </RadioGroup>
         </HorizontalScrollView>
-    </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/elv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:groupIndicator="@null"
+            android:layout_above="@+id/hsv_tab_bar"/>
+    </RelativeLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right
