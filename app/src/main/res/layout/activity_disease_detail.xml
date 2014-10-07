@@ -265,6 +265,27 @@
                     android:text="多媒体："/>
 
                 <Button
+                    android:id="@+id/btn_add_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="添加照片"
+                    android:textSize="@dimen/font_size_36"
+                    android:textColor="@color/color_333333"
+                    android:layout_marginTop="@dimen/margin_10"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_pictures"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+
+                        </LinearLayout>
+
+
+
+                <Button
                     android:id="@+id/btn_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
