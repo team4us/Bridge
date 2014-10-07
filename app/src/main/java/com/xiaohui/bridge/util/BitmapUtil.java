@@ -219,7 +219,7 @@ public class BitmapUtil {
 		Bitmap bitmap = getBitmapFromByte(dataByte);
 		BitmapDrawable bitmapDrawable = null;
 		if(null != bitmap){
-			bitmapDrawable = new BitmapDrawable(XhApplication.getAppication().getResources(), bitmap);
+			bitmapDrawable = new BitmapDrawable(XhApplication.getApplication().getResources(), bitmap);
 		}
 		return bitmapDrawable;
 	}
@@ -236,7 +236,7 @@ public class BitmapUtil {
 		Bitmap bitmap = getBitmapFromResource(resourceId);
 		BitmapDrawable bitmapDrawable = null;
 		if(null != bitmap){
-			bitmapDrawable = new BitmapDrawable(XhApplication.getAppication().getResources(), bitmap);
+			bitmapDrawable = new BitmapDrawable(XhApplication.getApplication().getResources(), bitmap);
 		}
 		return bitmapDrawable;
 	}
@@ -266,7 +266,7 @@ public class BitmapUtil {
 		// 对象引用是否可分享 只有inPurgeable为true时才生效
 		opt.inInputShareable = true;
 
-		InputStream is = XhApplication.getAppication().getResources().openRawResource(resId);
+		InputStream is = XhApplication.getApplication().getResources().openRawResource(resId);
 		bitmap = BitmapFactory.decodeStream(is, null, opt);
 		
 		if(null != is){

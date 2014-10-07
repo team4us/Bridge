@@ -3,6 +3,12 @@
     android:layout_height="match_parent"
     android:background="@color/color_efefef">
 
+    <SurfaceView
+        android:id="@+id/surface_camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </SurfaceView>
+
     <LinearLayout
         android:id="@+id/ll_operate_layout"
         android:layout_width="match_parent"
@@ -32,13 +38,6 @@
             android:text="停止"/>
 
     </LinearLayout>
-
-    <SurfaceView
-        android:id="@+id/surface_camera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/ll_operate_layout">
-    </SurfaceView>
 
 </RelativeLayout>
 

@@ -1,6 +1,5 @@
 package com.xiaohui.bridge.activity;
 
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import com.xiaohui.bridge.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 录制视频界面
@@ -45,7 +45,7 @@ public class MovieRecordActivity extends AbstractActivity implements SurfaceHold
 
     public void onStart(View v) {
         try {
-            camera.unlock();
+//            camera.unlock();
 
             mediaRecorder = new MediaRecorder();
 
@@ -57,9 +57,7 @@ public class MovieRecordActivity extends AbstractActivity implements SurfaceHold
 
             mediaRecorder.setMaxDuration(maxDurationInMs);
 
-            File cameraPhotoSaveDir = new File(moviePath + "1.3gp");
-
-
+            File cameraPhotoSaveDir = new File(moviePath);
             if (!cameraPhotoSaveDir.exists()) {
                 if (!cameraPhotoSaveDir.mkdirs()) {
                     Toast.makeText(this, "创建目录失败", Toast.LENGTH_SHORT).show();
@@ -67,7 +65,7 @@ public class MovieRecordActivity extends AbstractActivity implements SurfaceHold
                 }
             }
 
-            mediaRecorder.setOutputFile(cameraPhotoSaveDir.getPath());
+            mediaRecorder.setOutputFile(moviePath+"/1.3gp");
 
             mediaRecorder.setVideoFrameRate(videoFramesPerSecond);
             mediaRecorder.setVideoSize(surfaceView.getWidth(), surfaceView.getHeight());
@@ -78,6 +76,10 @@ public class MovieRecordActivity extends AbstractActivity implements SurfaceHold
             mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
 
             mediaRecorder.setMaxFileSize(maxFileSizeInBytes);
+
+            // 加上这两句后recorder的start方法就不会报start failed错误，但是没有实时预览了
+            camera.stopPreview();
+            camera.release();
 
             mediaRecorder.prepare();
 
@@ -90,7 +92,7 @@ public class MovieRecordActivity extends AbstractActivity implements SurfaceHold
 
     public void onStop(View v) {
         mediaRecorder.stop();
-        camera.lock();
+//        camera.lock();
     }
 
     @Override
@@ -111,8 +113,9 @@ public class MovieRecordActivity extends AbstractActivity implements SurfaceHold
             camera.stopPreview();
         }
         Camera.Parameters p = camera.getParameters();
-        p.setPreviewSize(width, height);
-        p.setPreviewFormat(PixelFormat.JPEG);
+        List<Camera.Size> previewSize = p.getSupportedPreviewSizes();
+        p.setPreviewSize(previewSize.get(0).width, previewSize.get(0).height);
+//        p.setPreviewFormat(PixelFormat.JPEG);
         camera.setParameters(p);
 
         try {

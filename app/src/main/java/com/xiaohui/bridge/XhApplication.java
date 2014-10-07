@@ -32,7 +32,7 @@ public class XhApplication extends Application {
         return cookie;
     }
 
-    public static Application getAppication(){
+    public static Application getApplication(){
         return application;
     }
 }
