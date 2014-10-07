@@ -34,7 +34,6 @@ import java.util.TimerTask;
 public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener{
 
     private static String picturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
-    private static String recordPath = Environment.getExternalStorageDirectory() + "/IBridge/Record/";
 
     private Button btnAddPicture;
     private Button btnAddMedia;
@@ -92,38 +91,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             addMovie();
         }
     }
-    MediaRecorder mVoiceRecorder = new MediaRecorder();
+
     private void addVoiceRecord(){
-        try {
-            File recordSaveDir = new File(recordPath);
-
-            if (!recordSaveDir.exists()) {
-                if (!recordSaveDir.mkdirs()) {
-                    Toast.makeText(this, "创建目录失败", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-
-            File myRecAudioFile = new File(recordPath + "1.amr");
-            mVoiceRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mVoiceRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-            mVoiceRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-            mVoiceRecorder.setOutputFile(myRecAudioFile.getAbsolutePath());
-            mVoiceRecorder.prepare();
-            mVoiceRecorder.start();
-
-            Timer time = new Timer();
-            time.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    mVoiceRecorder.stop();
-                    mVoiceRecorder.release();
-                    mVoiceRecorder = null;
-                }
-            }, 6000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Intent intent = new Intent();
+        intent.setClass(this, VoiceRecordActivity.class);
+        startActivityForResult(intent, KeyStore.RequestCodeTakeRecord);
     }
 
     private void addMovie(){
@@ -175,8 +147,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != KeyStore.ResultCodeSuccess)
-            return;
         switch (requestCode) {
             case KeyStore.RequestCodePicture:
                 onMenuResult(data);
@@ -194,6 +164,14 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 }
                 break;
             case KeyStore.RequestCodePickPicture:
+                break;
+            case KeyStore.RequestCodeTakeRecord:
+                if(null != data && null != data.getExtras()) {
+                    ArrayList<String> recordList = data.getExtras().getStringArrayList(KeyStore.KeyContent);
+                    if(!recordList.isEmpty()){
+                        // TODO 这里显示录音文件的名字
+                    }
+                }
                 break;
         }
     }

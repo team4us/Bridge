@@ -12,4 +12,6 @@
     <string name="action_bridge_detail">桥梁详情</string>
     <string name="action_project_detail">项目详情</string>
 
+    <string name="record_seconds">%1$s 秒</string>
+
 </resources>

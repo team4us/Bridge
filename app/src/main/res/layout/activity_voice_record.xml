@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tv_voice_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_10"
+        android:gravity="center"
+        android:text="0 秒"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/font_size_36"/>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:onClick="onStart"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/margin_10"
+        android:textColor="@color/color_333333"
+        android:text="开始" />
+
+    <Button
+        android:onClick="onStop"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/margin_10"
+        android:textColor="@color/color_333333"
+        android:text="完成" />
+
+</LinearLayout>
