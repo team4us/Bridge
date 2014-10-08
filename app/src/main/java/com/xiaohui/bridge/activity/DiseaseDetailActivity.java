@@ -138,6 +138,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         try {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
             intent.setType("image/*");
+            intent.putExtra("return-data", true);
             startActivityForResult(intent, KeyStore.RequestCodePickPicture);
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,26 +153,10 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 onMenuResult(data);
                 break;
             case KeyStore.RequestCodeTakePicture:
-                if (null != data) {
-                    //获取图片的BitmapDrawable对象
-                    BitmapDrawable drableBit = getPhotoDrawable(data);
-                    ImageView picView = new ImageView(this);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
-                    picView.setLayoutParams(lp);
-
-                    picView.setBackgroundDrawable(drableBit);
-                    llPictures.addView(picView);
-                } else {
-                    BitmapDrawable bp = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picturePath + currentTakePictureName));
-                    ImageView picView = new ImageView(this);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
-                    picView.setLayoutParams(lp);
-
-                    picView.setBackgroundDrawable(bp);
-                    llPictures.addView(picView);
-                }
+                addPictureBack(data);
                 break;
             case KeyStore.RequestCodePickPicture:
+                addPictureBack(data);
                 break;
             case KeyStore.RequestCodeTakeRecord:
                 if(null != data && null != data.getExtras()) {
@@ -181,6 +166,27 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     }
                 }
                 break;
+        }
+    }
+
+    private void addPictureBack(Intent data){
+        if (null != data) {
+            //获取图片的BitmapDrawable对象
+            BitmapDrawable drableBit = getPhotoDrawable(data);
+            ImageView picView = new ImageView(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
+            picView.setLayoutParams(lp);
+
+            picView.setBackgroundDrawable(drableBit);
+            llPictures.addView(picView);
+        } else {
+            BitmapDrawable bp = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picturePath + currentTakePictureName));
+            ImageView picView = new ImageView(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
+            picView.setLayoutParams(lp);
+
+            picView.setBackgroundDrawable(bp);
+            llPictures.addView(picView);
         }
     }
 

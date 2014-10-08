@@ -28,6 +28,7 @@
     <!--边距-->
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_5">5dp</dimen>
     <!--分割线宽度-->
     <dimen name="divider_line_height">1px</dimen>
     <dimen name="button_width_150">150dp</dimen>
