@@ -26,12 +26,8 @@ import java.io.InputStream;
  * @author eric.huang
  */
 public class BitmapUtil {
-	/* eric.huang 2013-9-2
-	 * 此处4M是暂定值，为了适应目前所有机型长微博能够清晰显示
-	 * 查阅了资料，系统给虚拟机分配至少16M的空间来跑进程，以后系统会自动分配空间给进程
-	 * 我们能够获得的只有这个16M值，如果给虚拟机设置最大内存值，只是系统分配不超过最大值而已，而不是扩大初始值
-	 * 所以，无法通过设置内存大小来达到避免内存溢出的问题，只能是去避免
-	 * 具体方法是设置图片压缩比，创建图片缓存区，软引用方式来减少内存溢出的可能
+	/*
+	 * 此处4M是暂定值
 	 */
 	private final static double MAX_IMAGE_DECODE_ZONE = 1024 * 1024 * 4; // 4M
 	public static int roundCornerPx = 24; // 圆角像素

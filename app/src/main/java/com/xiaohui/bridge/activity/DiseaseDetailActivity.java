@@ -9,14 +9,17 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.util.BitmapUtil;
+import com.xiaohui.bridge.util.DeviceParamterUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,14 +34,17 @@ import java.util.TimerTask;
  * 病害详情界面
  * Created by Administrator on 2014/9/27.
  */
-public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener{
+public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
 
     private static String picturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
 
-    private Button btnAddPicture;
+    //    private Button btnAddPicture;
     private Button btnAddMedia;
     private LinearLayout llPictures;
     private String currentTakePictureName = "";
+
+    private int mediaLayoutWidth = 0;
+    private int mediaLayoutHeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +52,36 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         setContentView(R.layout.activity_disease_detail);
         setTitle("病害录入");
 
-        btnAddPicture = (Button) findViewById(R.id.btn_add_picture);
+//        btnAddPicture = (Button) findViewById(R.id.btn_add_picture);
         btnAddMedia = (Button) findViewById(R.id.btn_media);
         llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
 
-        btnAddPicture.setOnClickListener(this);
+//        btnAddPicture.setOnClickListener(this);
         btnAddMedia.setOnClickListener(this);
+
+        initPictureLayout();
+    }
+
+    private void initPictureLayout() {
+        mediaLayoutWidth = (int) (DeviceParamterUtil.getScreenPixelsWidth() - DeviceParamterUtil.getScreenDensity() * 40);
+        mediaLayoutHeight = mediaLayoutWidth / 5;
+
+        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mediaLayoutHeight);
+        llPictures.setLayoutParams(layoutLP);
+
+        ImageView addPictureIcon = new ImageView(this);
+        LinearLayout.LayoutParams addPicLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
+        addPictureIcon.setLayoutParams(addPicLP);
+        addPictureIcon.setTag("AddPicture");
+        addPictureIcon.setOnClickListener(this);
+        addPictureIcon.setBackgroundResource(R.drawable.bg_add_picture);
+
+        llPictures.addView(addPictureIcon);
     }
 
     @Override
     public void onClick(View v) {
-        if(v == btnAddPicture) {
+        if (v.getTag().equals("AddPicture")) {
             Intent intent = new Intent();
             intent.setClass(this, MenuActivity.class);
             ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
@@ -64,7 +89,10 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             menuItems.add(new MenuActivity.MenuItem("从相册选择"));
             intent.putExtra(KeyStore.KeyContent, menuItems);
             startActivityForResult(intent, KeyStore.RequestCodePicture);
-        } else if(v == btnAddMedia){
+            return;
+        }
+
+        if (v == btnAddMedia) {
             Intent intent = new Intent();
             intent.setClass(this, MenuActivity.class);
             ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
@@ -77,8 +105,42 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case KeyStore.RequestCodePicture:
+                if (resultCode != KeyStore.ResultCodeSuccess) {
+                    return;
+                }
+                onMenuResult(data);
+                break;
+            case KeyStore.RequestCodeTakePicture:
+                if (resultCode != RESULT_OK) {
+                    return;
+                }
+                addPictureBack(data);
+                break;
+            case KeyStore.RequestCodePickPicture:
+                if (resultCode != RESULT_OK) {
+                    return;
+                }
+                addPictureBack(data);
+                break;
+            case KeyStore.RequestCodeTakeRecord:
+                if (null != data && null != data.getExtras()) {
+                    ArrayList<String> recordList = data.getExtras().getStringArrayList(KeyStore.KeyContent);
+                    if (!recordList.isEmpty()) {
+                        // TODO 这里显示录音文件的名字
+                    }
+                }
+                break;
+        }
+    }
+
     private void onMenuResult(Intent data) {
-        if(null == data){
+        if (null == data) {
             return;
         }
         int selectedIndex = data.getIntExtra(KeyStore.KeySelectedIndex, -1);
@@ -87,22 +149,22 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
         if (selectedIndex == 0) {
             takePhotoFromCamera();
-        } else if(selectedIndex == 1){
+        } else if (selectedIndex == 1) {
             pickPhotoFromGallery();
-        } else if(selectedIndex == 2){
+        } else if (selectedIndex == 2) {
             addVoiceRecord();
-        } else if(selectedIndex == 3){
+        } else if (selectedIndex == 3) {
             addMovie();
         }
     }
 
-    private void addVoiceRecord(){
+    private void addVoiceRecord() {
         Intent intent = new Intent();
         intent.setClass(this, VoiceRecordActivity.class);
         startActivityForResult(intent, KeyStore.RequestCodeTakeRecord);
     }
 
-    private void addMovie(){
+    private void addMovie() {
         Intent intent = new Intent();
         intent.setClass(this, MovieRecordActivity.class);
         startActivityForResult(intent, KeyStore.RequestCodeTakeMovie);
@@ -145,49 +207,23 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case KeyStore.RequestCodePicture:
-                onMenuResult(data);
-                break;
-            case KeyStore.RequestCodeTakePicture:
-                addPictureBack(data);
-                break;
-            case KeyStore.RequestCodePickPicture:
-                addPictureBack(data);
-                break;
-            case KeyStore.RequestCodeTakeRecord:
-                if(null != data && null != data.getExtras()) {
-                    ArrayList<String> recordList = data.getExtras().getStringArrayList(KeyStore.KeyContent);
-                    if(!recordList.isEmpty()){
-                        // TODO 这里显示录音文件的名字
-                    }
-                }
-                break;
-        }
-    }
+    private void addPictureBack(Intent data) {
+        ImageView picView = new ImageView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
+        lp.setMargins(0, 0, (int) DeviceParamterUtil.getScreenDensity() * 5, 0);
 
-    private void addPictureBack(Intent data){
+        BitmapDrawable drableBit;
         if (null != data) {
             //获取图片的BitmapDrawable对象
-            BitmapDrawable drableBit = getPhotoDrawable(data);
-            ImageView picView = new ImageView(this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
-            picView.setLayoutParams(lp);
-
-            picView.setBackgroundDrawable(drableBit);
-            llPictures.addView(picView);
+            drableBit = getPhotoDrawable(data);
         } else {
-            BitmapDrawable bp = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picturePath + currentTakePictureName));
-            ImageView picView = new ImageView(this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
-            picView.setLayoutParams(lp);
+            drableBit = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picturePath + currentTakePictureName, 400 * 400));
 
-            picView.setBackgroundDrawable(bp);
-            llPictures.addView(picView);
         }
+
+        picView.setBackgroundDrawable(drableBit);
+        picView.setLayoutParams(lp);
+        llPictures.addView(picView, 0);
     }
 
     @SuppressWarnings("deprecation")
@@ -206,10 +242,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
     /**
      * 返回裁剪后的照片的Bitmap对象路径
+     *
      * @param data
      * @return
      */
-    public static Bitmap getPhotoBitmap(Intent data){
+    public static Bitmap getPhotoBitmap(Intent data) {
         Bundle extras = data.getExtras();
         Bitmap photo = null;
         if (null != extras) {

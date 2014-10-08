@@ -264,22 +264,22 @@
                     style="@style/disease_title_textview"
                     android:text="多媒体："/>
 
-                <Button
-                    android:id="@+id/btn_add_picture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="添加照片"
-                    android:textSize="@dimen/font_size_36"
-                    android:textColor="@color/color_333333"
-                    android:layout_marginTop="@dimen/margin_5"/>
+                <!--<Button-->
+                    <!--android:id="@+id/btn_add_picture"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="添加照片"-->
+                    <!--android:textSize="@dimen/font_size_36"-->
+                    <!--android:textColor="@color/color_333333"-->
+                    <!--android:layout_marginTop="@dimen/margin_5"/>-->
 
                     <LinearLayout
                         android:id="@+id/ll_pictures"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
-                        </LinearLayout>
+                    </LinearLayout>
 
                 <Button
                     android:id="@+id/btn_media"
