@@ -81,7 +81,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getTag().equals("AddPicture")) {
+        if (null != v.getTag() && v.getTag().equals("AddPicture")) {
             Intent intent = new Intent();
             intent.setClass(this, MenuActivity.class);
             ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
