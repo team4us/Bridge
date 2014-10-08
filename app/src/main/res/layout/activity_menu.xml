@@ -24,7 +24,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:background="@color/color_099fde"
+            android:background="@drawable/selector_btn_3"
             android:textSize="@dimen/font_size_26"
             android:textColor="@color/color_ffffff"
             android:text="取消"

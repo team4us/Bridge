@@ -36,11 +36,11 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
             View view = getViewWithData(menuItems.get(i));
             view.setTag(i);
             if (i == 0) {
-                view.setBackgroundResource(R.drawable.selector_btn_1);
+                view.setBackgroundResource(R.drawable.selector_btn_5);
             } else {
                 llMenuContent.addView(getLineView());
             }
-            view.setBackgroundResource(R.drawable.selector_btn_1);
+            view.setBackgroundResource(R.drawable.selector_btn_5);
             view.setClickable(true);
             view.setOnClickListener(this);
             llMenuContent.addView(view);
@@ -57,7 +57,8 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
 
     private ImageView getLineView() {
         ImageView line = new ImageView(this);
-        line.setBackgroundColor(getResources().getColor(R.color.color_c8c8c8));
+        line.setPadding(0,10,0,0);
+        line.setBackgroundColor(getResources().getColor(R.color.color_transparent));
         return line;
     }
 

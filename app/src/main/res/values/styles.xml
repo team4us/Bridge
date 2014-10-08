@@ -5,6 +5,20 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="MenuOptionsTheme">
+        <item name="android:windowAnimationStyle">@style/AnimBottom</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/color_transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/out_to_bottom</item>
+    </style>
+
     <style name="BaseInput" parent="android:Widget.EditText">
         <item name="android:layout_height">@dimen/button_height_60</item>
         <item name="android:textColor">@color/color_333333</item>

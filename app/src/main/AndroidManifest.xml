@@ -63,7 +63,9 @@
         <activity
             android:name=".activity.MenuActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/MenuOptionsTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
             android:name=".activity.MovieRecordActivity"
