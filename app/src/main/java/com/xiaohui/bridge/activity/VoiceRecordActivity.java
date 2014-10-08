@@ -18,6 +18,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -67,10 +68,10 @@ public class VoiceRecordActivity extends AbstractActivity{
                 }
             }
 
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            currentRecordName = recordPath + df.format(new Date()) + ".amr";
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+            currentRecordName = "Voice" + df.format(new Date()) + ".amr";
 
-            if(recordedList.contains(currentRecordName)) {
+            if(recordedList.contains(recordPath + currentRecordName)) {
                 return;
             }
 

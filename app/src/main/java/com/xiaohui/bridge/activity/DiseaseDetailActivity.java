@@ -38,6 +38,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private Button btnAddPicture;
     private Button btnAddMedia;
     private LinearLayout llPictures;
+    private String currentTakePictureName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void onMenuResult(Intent data) {
+        if(null == data){
+            return;
+        }
         int selectedIndex = data.getIntExtra(KeyStore.KeySelectedIndex, -1);
         if (selectedIndex == -1) {
             return;
@@ -116,7 +120,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             }
 
             // 给拍摄的照片文件命名
-            File cameraPhotoSavePath = new File(picturePath + newCameraPhotoFileName());
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+            currentTakePictureName = "Picture-" + df.format(new Date()) + ".jpg";
+            File cameraPhotoSavePath = new File(picturePath + currentTakePictureName);
 
             // 打开相机拍照
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -138,12 +144,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
     }
 
-    public String newCameraPhotoFileName() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-        Date date = new Date();
-        return  "Picture" + dateFormat.format(date) + ".jpg";
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,6 +160,14 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     picView.setLayoutParams(lp);
 
                     picView.setBackgroundDrawable(drableBit);
+                    llPictures.addView(picView);
+                } else {
+                    BitmapDrawable bp = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picturePath + currentTakePictureName));
+                    ImageView picView = new ImageView(this);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(100, 100);
+                    picView.setLayoutParams(lp);
+
+                    picView.setBackgroundDrawable(bp);
                     llPictures.addView(picView);
                 }
                 break;

@@ -24,12 +24,12 @@
 
                 <TextView
                     android:id="@+id/tv_component_name_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="构件名称："/>
 
                 <EditText
                     android:id="@+id/tv_component_name"
-                    style="@style/base_input_edittext"
+                    style="@style/disease_input_edittext"
                     android:text="桥梁部件" />
 
             </LinearLayout>
@@ -45,12 +45,12 @@
 
                 <TextView
                     android:id="@+id/tv_position_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="部位："/>
 
                 <EditText
                     android:id="@+id/tv_position"
-                    style="@style/base_input_edittext"
+                    style="@style/disease_input_edittext"
                     android:text="上部一般构件" />
 
             </LinearLayout>
@@ -66,12 +66,12 @@
 
                 <TextView
                     android:id="@+id/tv_type_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="病害类型："/>
 
                 <EditText
                     android:id="@+id/tv_type"
-                    style="@style/base_input_edittext"
+                    style="@style/disease_input_edittext"
                     android:text="钢筋锈蚀" />
 
             </LinearLayout>
@@ -87,7 +87,7 @@
 
                 <TextView
                     android:id="@+id/tv_startpoint_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="起点坐标：" />
 
                 <LinearLayout
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            style="@style/base_title_textview"
+                            style="@style/disease_title_textview"
                             android:layout_width="wrap_content"
                             android:layout_marginTop="@dimen/margin_10"
                             android:textColor="@color/color_333333"
@@ -109,7 +109,7 @@
 
                         <EditText
                             android:id="@+id/et_startpoint_x"
-                            style="@style/base_input_edittext"
+                            style="@style/disease_input_edittext"
                             android:gravity="center"
                             android:text="102" />
 
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            style="@style/base_title_textview"
+                            style="@style/disease_title_textview"
                             android:layout_width="wrap_content"
                             android:layout_marginTop="@dimen/margin_10"
                             android:textColor="@color/color_333333"
@@ -132,7 +132,7 @@
 
                         <EditText
                             android:id="@+id/et_startpoint_y"
-                            style="@style/base_input_edittext"
+                            style="@style/disease_input_edittext"
                             android:gravity="center"
                             android:text="305" />
 
@@ -153,7 +153,7 @@
 
                 <TextView
                     android:id="@+id/tv_endpoint_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="终点坐标：" />
 
                 <LinearLayout
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            style="@style/base_title_textview"
+                            style="@style/disease_title_textview"
                             android:layout_width="wrap_content"
                             android:layout_marginTop="@dimen/margin_10"
                             android:textColor="@color/color_333333"
@@ -175,7 +175,7 @@
 
                         <EditText
                             android:id="@+id/et_endpoint_x"
-                            style="@style/base_input_edittext"
+                            style="@style/disease_input_edittext"
                             android:gravity="center"
                             android:text="127" />
 
@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            style="@style/base_title_textview"
+                            style="@style/disease_title_textview"
                             android:layout_width="wrap_content"
                             android:layout_marginTop="@dimen/margin_10"
                             android:textColor="@color/color_333333"
@@ -198,7 +198,7 @@
 
                         <EditText
                             android:id="@+id/et_endpoint_y"
-                            style="@style/base_input_edittext"
+                            style="@style/disease_input_edittext"
                             android:gravity="center"
                             android:text="305" />
 
@@ -219,12 +219,12 @@
 
                 <TextView
                     android:id="@+id/tv_length_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="长度（m）："/>
 
                 <EditText
                     android:id="@+id/et_length"
-                    style="@style/base_input_edittext"
+                    style="@style/disease_input_edittext"
                     android:text="3" />
 
             </LinearLayout>
@@ -240,12 +240,12 @@
 
                 <TextView
                     android:id="@+id/tv_width_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="典型宽度（mm）："/>
 
                 <EditText
                     android:id="@+id/et_width"
-                    style="@style/base_input_edittext"
+                    style="@style/disease_input_edittext"
                     android:text="20" />
 
             </LinearLayout>
@@ -261,7 +261,7 @@
 
                 <TextView
                     android:id="@+id/tv_media_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="多媒体："/>
 
                 <Button
