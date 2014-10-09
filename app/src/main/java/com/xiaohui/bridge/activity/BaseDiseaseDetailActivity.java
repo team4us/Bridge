@@ -1,6 +1,7 @@
 package com.xiaohui.bridge.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -30,12 +31,12 @@ import java.util.Locale;
  * 多种病害输入模板基类
  * Created by Administrator on 2014/10/9.
  */
-public class BaseDiseaseDetailActivity extends AbstractActivity implements View.OnClickListener{
+public class BaseDiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
 
     private static String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
     private static String AddPictureTag = "AddPicture";
-    private static String AddVoiceTag =  "AddVoice";
-    private static String AddVideoTag =  "AddVedio";
+    private static String AddVoiceTag = "AddVoice";
+    private static String AddVideoTag = "AddVedio";
 
     private Button btnAddPictureFromScreen;
     private LinearLayout llPictures;
@@ -127,13 +128,13 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 if (resultCode != RESULT_OK) {
                     return;
                 }
-                addPictureBack(data);
+                addPictureFromCamera(data);
                 break;
             case KeyStore.RequestCodePickPicture:
                 if (resultCode != RESULT_OK) {
                     return;
                 }
-                addPictureBack(data);
+                addPictureFromAlbum(data);
                 break;
             case KeyStore.RequestCodeTakeRecord:
                 if (null != data && null != data.getExtras()) {
@@ -160,10 +161,10 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         }
     }
 
-    private void llPicturesLayoutChange(String picturePath){
-        for (int i = 0; i < llPictures.getChildCount(); i ++){
+    private void llPicturesLayoutChange(String picturePath) {
+        for (int i = 0; i < llPictures.getChildCount(); i++) {
             View view = llPictures.getChildAt(i);
-            if(view.getTag().equals(picturePath)){
+            if (view.getTag().equals(picturePath)) {
                 llPictures.removeView(view);
                 return;
             }
@@ -219,7 +220,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         }
     }
 
-    private void addPictureBack(Intent data) {
+    private void addPictureFromCamera(Intent data) {
         ImageView picView = new ImageView(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
         lp.setMargins(0, 0, (int) DeviceParamterUtil.getScreenDensity() * 5, 0);
@@ -240,12 +241,43 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         llPictures.addView(picView, 0);
     }
 
+    private void addPictureFromAlbum(Intent data) {
+        ImageView picView = new ImageView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
+        lp.setMargins(0, 0, (int) DeviceParamterUtil.getScreenDensity() * 5, 0);
+
+        Uri originalUri = data.getData();
+        String picPath = "";
+        if (originalUri != null) {
+            try {
+                String[] proj = {MediaStore.MediaColumns.DATA};
+                Cursor cursor = managedQuery(originalUri, proj, null, null, null);
+                // 按我个人理解 这个是获得用户选择的图片的索引值
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                // 将光标移至开头 ，这个很重要，不小心很容易引起越界
+                cursor.moveToFirst();
+
+                // 最后根据索引值获取图片路径
+                picPath = cursor.getString(column_index);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        BitmapDrawable drawableBit = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picPath, 400 * 400));
+
+        picView.setBackgroundDrawable(drawableBit);
+        picView.setLayoutParams(lp);
+        picView.setTag(picPath);
+        picView.setOnClickListener(this);
+        llPictures.addView(picView, 0);
+    }
+
     @SuppressWarnings("deprecation")
     public static BitmapDrawable getPhotoDrawable(Intent data) {
-        ByteArrayOutputStream stream = null;
         Bitmap photo = getPhotoBitmap(data);
         if (photo != null) {
-            stream = new ByteArrayOutputStream();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
             photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);// (0,100)压缩文件
             //将Bitmap对象转换成BitmapDrawable对象
             BitmapDrawable drableBit = new BitmapDrawable(photo);
@@ -256,22 +288,15 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
 
     /**
      * 返回裁剪后的照片的Bitmap对象路径
-     *
-     * @param data
-     * @return
      */
     public static Bitmap getPhotoBitmap(Intent data) {
         Bundle extras = data.getExtras();
         Bitmap photo = null;
         if (null != extras) {
             photo = extras.getParcelable("data");
-
-            // 此else改法是根据bug:1184的报错信息和solomon给的提示信息修改，暂时没有方法验证，但能确保正常情况下不会有问题。
-            // eric.huang 2013-8-21 如果裁剪后设置不需要返回return-data也会通过uri方式获取图片
         } else {
             Uri uri = data.getData();
             if (uri != null) {
-                // eric.huang从资源中获取的图片可能会比较大，需要经过自定义缩放比的压缩
                 photo = BitmapUtil.getBitmapFromFilePath(uri.getPath());
             }
         }
@@ -290,10 +315,16 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 intent.putExtra(KeyStore.KeyContent, menuItems);
                 startActivityForResult(intent, KeyStore.RequestCodePicture);
                 return;
-            } else if(v.getTag().equals(AddVoiceTag)){
+            } else if (v.getTag().equals(AddVoiceTag)) {
                 addVoiceRecord();
-            } else if(v.getTag().equals(AddVideoTag)){
+            } else if (v.getTag().equals(AddVideoTag)) {
                 addMovie();
+            } else {
+                String picPath = (String)v.getTag();
+                Intent intent = new Intent();
+                intent.setClass(this, ShowImageActivity.class);
+                intent.putExtra(KeyStore.KeyContent, picPath);
+                startActivityForResult(intent, KeyStore.RequestCodeShowImage);
             }
         }
     }
