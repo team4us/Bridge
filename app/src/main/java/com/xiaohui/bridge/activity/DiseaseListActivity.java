@@ -3,6 +3,7 @@ package com.xiaohui.bridge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,7 +53,19 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_disease_add) {
+            startActivity(new Intent(this, DiseaseDetailTwoActivity.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        startActivity(new Intent(this, DiseaseDetailActivity.class));
+        startActivity(new Intent(this, DiseaseDetailOneActivity.class));
     }
 }

@@ -30,12 +30,13 @@ import java.util.Locale;
  * 病害详情界面
  * Created by Administrator on 2014/9/27.
  */
-public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
+public class DiseaseDetailOneActivity extends AbstractActivity implements View.OnClickListener {
 
     private static String picturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
 
     //    private Button btnAddPicture;
     private Button btnAddMedia;
+    private Button btnAddPictureFromScreen;
     private LinearLayout llPictures;
     private String currentTakePictureName = "";
 
@@ -45,15 +46,17 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_disease_detail);
-        setTitle("病害录入");
+        setContentView(R.layout.activity_disease_detail_one);
+        setTitle("病害录入模板一");
 
 //        btnAddPicture = (Button) findViewById(R.id.btn_add_picture);
         btnAddMedia = (Button) findViewById(R.id.btn_media);
+        btnAddPictureFromScreen = (Button) findViewById(R.id.btn_addposition_from_screen);
         llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
 
 //        btnAddPicture.setOnClickListener(this);
         btnAddMedia.setOnClickListener(this);
+        btnAddPictureFromScreen.setOnClickListener(this);
 
         initPictureLayout();
     }
