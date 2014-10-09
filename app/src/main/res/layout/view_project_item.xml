@@ -14,5 +14,7 @@
         android:textSize="@dimen/font_size_26"
         android:textColor="@color/tv_black_blue"
         android:gravity="center_vertical"
+        android:drawableLeft="@drawable/icon_project"
+        android:drawablePadding="@dimen/margin_10"
         bind:text="{title}"/>
 </LinearLayout>
