@@ -54,6 +54,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:groupIndicator="@null"
+            android:background="@color/color_ffffff"
             android:layout_above="@+id/hsv_tab_bar"/>
     </RelativeLayout>
 
