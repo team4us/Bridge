@@ -79,6 +79,12 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".activity.ShowImageActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
             android:name=".activity.ProjectsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>

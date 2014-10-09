@@ -3,7 +3,6 @@ package com.xiaohui.bridge.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
@@ -27,8 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 病害详情界面
@@ -81,15 +77,23 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (null != v.getTag() && v.getTag().equals("AddPicture")) {
-            Intent intent = new Intent();
-            intent.setClass(this, MenuActivity.class);
-            ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
-            menuItems.add(new MenuActivity.MenuItem("拍照"));
-            menuItems.add(new MenuActivity.MenuItem("从相册选择"));
-            intent.putExtra(KeyStore.KeyContent, menuItems);
-            startActivityForResult(intent, KeyStore.RequestCodePicture);
-            return;
+        if(null != v.getTag()) {
+            if (v.getTag().equals("AddPicture")) {
+                Intent intent = new Intent();
+                intent.setClass(this, MenuActivity.class);
+                ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
+                menuItems.add(new MenuActivity.MenuItem("拍照"));
+                menuItems.add(new MenuActivity.MenuItem("从相册选择"));
+                intent.putExtra(KeyStore.KeyContent, menuItems);
+                startActivityForResult(intent, KeyStore.RequestCodePicture);
+                return;
+            } else {
+                String picPath = (String)v.getTag();
+                Intent intent = new Intent();
+                intent.setClass(this, ShowImageActivity.class);
+                intent.putExtra(KeyStore.KeyContent, picPath);
+                startActivityForResult(intent, KeyStore.RequestCodeShowImage);
+            }
         }
 
         if (v == btnAddMedia) {
@@ -135,6 +139,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                         // TODO 这里显示录音文件的名字
                     }
                 }
+                break;
+
+            case KeyStore.RequestCodeShowImage:
                 break;
         }
     }
@@ -223,6 +230,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
         picView.setBackgroundDrawable(drableBit);
         picView.setLayoutParams(lp);
+        picView.setTag(picturePath + currentTakePictureName);
+        picView.setOnClickListener(this);
         llPictures.addView(picView, 0);
     }
 
