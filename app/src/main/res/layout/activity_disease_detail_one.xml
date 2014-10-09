@@ -138,6 +138,18 @@
 
                     </LinearLayout>
 
+                    <View style="@style/line_v"/>
+
+                    <Button
+                        android:id="@+id/btn_start_addposition_from_screen"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/margin_5"
+                        android:textSize="@dimen/font_size_24"
+                        android:textColor="@color/color_333333"
+                        android:text="从屏幕选择"/>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -207,7 +219,7 @@
                     <View style="@style/line_v"/>
 
                     <Button
-                        android:id="@+id/btn_addposition_from_screen"
+                        android:id="@+id/btn_end_addposition_from_screen"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

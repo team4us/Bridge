@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -38,7 +37,8 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     private static String AddVoiceTag = "AddVoice";
     private static String AddVideoTag = "AddVedio";
 
-    private Button btnAddPictureFromScreen;
+    protected boolean isHaveTag = false;
+
     private LinearLayout llPictures;
     private LinearLayout llVoices;
     private LinearLayout llVideos;
@@ -51,12 +51,9 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        btnAddPictureFromScreen = (Button) findViewById(R.id.btn_addposition_from_screen);
         llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
         llVoices = (LinearLayout) findViewById(R.id.ll_voice_records);
         llVideos = (LinearLayout) findViewById(R.id.ll_video_records);
-
-        btnAddPictureFromScreen.setOnClickListener(this);
 
         initMediaLayout();
     }
@@ -306,6 +303,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     @Override
     public void onClick(View v) {
         if (null != v.getTag()) {
+            isHaveTag = true;
             if (v.getTag().equals(AddPictureTag)) {
                 Intent intent = new Intent();
                 intent.setClass(this, MenuActivity.class);
@@ -314,7 +312,6 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 menuItems.add(new MenuActivity.MenuItem("从相册选择"));
                 intent.putExtra(KeyStore.KeyContent, menuItems);
                 startActivityForResult(intent, KeyStore.RequestCodePicture);
-                return;
             } else if (v.getTag().equals(AddVoiceTag)) {
                 addVoiceRecord();
             } else if (v.getTag().equals(AddVideoTag)) {
@@ -326,6 +323,8 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 intent.putExtra(KeyStore.KeyContent, picPath);
                 startActivityForResult(intent, KeyStore.RequestCodeShowImage);
             }
+        } else {
+            isHaveTag = false;
         }
     }
 }
