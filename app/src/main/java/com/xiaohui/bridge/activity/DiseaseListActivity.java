@@ -2,6 +2,7 @@ package com.xiaohui.bridge.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +28,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         setTitle("病害列表");
 
         diseaseListView = (ListView) findViewById(R.id.lv_disease);
-        diseaseListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, getData()));
+        diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
         diseaseListView.setOnItemClickListener(this);
     }
 
@@ -42,6 +43,12 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         data.add("钢筋锈蚀");
 
         return data;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.disease_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

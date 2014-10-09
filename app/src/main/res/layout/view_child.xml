@@ -14,5 +14,8 @@
         android:background="@color/color_efefef"
         android:textSize="@dimen/font_size_26"
         android:textColor="@color/color_333333"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/icon_bullet"
+        android:drawableRight="@drawable/icon_next"
+        android:drawablePadding="@dimen/margin_10"/>
 </LinearLayout>

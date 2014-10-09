@@ -11,5 +11,6 @@
         style="@style/list_item"
         android:drawableLeft="@drawable/icon_project"
         android:drawablePadding="@dimen/margin_10"
+        android:drawableRight="@drawable/icon_next"
         bind:text="{title}"/>
 </LinearLayout>
