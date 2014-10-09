@@ -83,18 +83,18 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
 
     public static class MenuItem implements Serializable {
 
-        private String _title;
+        private String title;
 
         public MenuItem(String title) {
             setTitle(title);
         }
 
         public String getTitle() {
-            return _title;
+            return title;
         }
 
         public void setTitle(String title) {
-            _title = title;
+            this.title = title;
         }
     }
 }

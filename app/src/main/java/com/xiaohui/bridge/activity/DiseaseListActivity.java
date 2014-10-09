@@ -22,7 +22,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diseaselist);
+        setContentView(R.layout.activity_disease_list);
 
         setTitle("病害列表");
 

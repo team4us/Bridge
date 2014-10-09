@@ -50,4 +50,8 @@ public abstract class AbstractFragment extends Fragment {
     protected abstract int getLayoutId();
 
     protected abstract Object getViewModel();
+
+    protected void setTitle(String title) {
+        getActionBar().setTitle(title);
+    }
 }

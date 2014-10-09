@@ -54,4 +54,10 @@ public abstract class AbstractActivity extends Activity {
         }
         return actionBar;
     }
+
+    protected void setTitle(String text) {
+        if (getActionBar() != null) {
+            getActionBar().setTitle(text);
+        }
+    }
 }

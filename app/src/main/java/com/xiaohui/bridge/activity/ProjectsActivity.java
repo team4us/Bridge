@@ -24,6 +24,6 @@ public class ProjectsActivity extends AbstractActivity implements IProjectView {
     @Override
     public void onItemSelect(int position, Project project) {
         getCookie().put(Keys.PROJECT, project);
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, BridgeActivity.class));
     }
 }

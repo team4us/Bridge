@@ -1,6 +1,5 @@
 package com.xiaohui.bridge.activity;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,9 +14,10 @@ import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
+import com.xiaohui.bridge.util.LogUtil;
 
 
-public class MainActivity extends AbstractActivity
+public class BridgeActivity extends AbstractActivity
         implements BridgesFragment.OnBridgeSelectListener {
 
     /**
@@ -30,7 +30,7 @@ public class MainActivity extends AbstractActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_bridge);
 
         bridgesFragment = (BridgesFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -48,7 +48,7 @@ public class MainActivity extends AbstractActivity
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                startActivity(new Intent(MainActivity.this, DiseaseListActivity.class));
+                startActivity(new Intent(BridgeActivity.this, DiseaseListActivity.class));
                 return false;
             }
         });
@@ -56,18 +56,12 @@ public class MainActivity extends AbstractActivity
 
     @Override
     public void onSelectedBridge(Bridge bridge) {
-        // update the project_menu content by replacing fragments
         this.bridge = bridge;
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, BridgeFragment.newInstance(bridge))
-                .commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!bridgesFragment.isDrawerOpen()) {
-            getActionBar().setTitle(bridge.getName());
             getMenuInflater().inflate(R.menu.bridge_menu, menu);
             return true;
         }
@@ -76,12 +70,8 @@ public class MainActivity extends AbstractActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, BridgeDetailActivity.class));
             return true;
@@ -167,7 +157,7 @@ public class MainActivity extends AbstractActivity
         public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(MainActivity.this, R.layout.view_group, null);
+                convertView = View.inflate(BridgeActivity.this, R.layout.view_group, null);
             }
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText(groupPosition + "." + generalsTypes[groupPosition]);
@@ -178,7 +168,7 @@ public class MainActivity extends AbstractActivity
         public View getChildView(int groupPosition, int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(MainActivity.this, R.layout.view_child, null);
+                convertView = View.inflate(BridgeActivity.this, R.layout.view_child, null);
             }
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText(generals[groupPosition][childPosition]);

@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-            android:name="com.xiaohui.bridge.activity.MainActivity"
+            android:name=".activity.BridgeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
