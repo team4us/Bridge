@@ -32,11 +32,15 @@ import java.util.Locale;
  */
 public class BaseDiseaseDetailActivity extends AbstractActivity implements View.OnClickListener{
 
-    private static String picturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
+    private static String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
+    private static String AddPictureTag = "AddPicture";
+    private static String AddVoiceTag =  "AddVoice";
+    private static String AddVideoTag =  "AddVedio";
 
-    private Button btnAddMedia;
     private Button btnAddPictureFromScreen;
     private LinearLayout llPictures;
+    private LinearLayout llVoices;
+    private LinearLayout llVideos;
     private String currentTakePictureName = "";
 
     private int mediaLayoutWidth = 0;
@@ -46,31 +50,47 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        btnAddMedia = (Button) findViewById(R.id.btn_media);
         btnAddPictureFromScreen = (Button) findViewById(R.id.btn_addposition_from_screen);
         llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
+        llVoices = (LinearLayout) findViewById(R.id.ll_voice_records);
+        llVideos = (LinearLayout) findViewById(R.id.ll_video_records);
 
-        btnAddMedia.setOnClickListener(this);
         btnAddPictureFromScreen.setOnClickListener(this);
 
-        initPictureLayout();
+        initMediaLayout();
     }
 
-    private void initPictureLayout() {
+    private void initMediaLayout() {
         mediaLayoutWidth = (int) (DeviceParamterUtil.getScreenPixelsWidth() - DeviceParamterUtil.getScreenDensity() * 40);
         mediaLayoutHeight = mediaLayoutWidth / 5;
 
         LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mediaLayoutHeight);
         llPictures.setLayoutParams(layoutLP);
+        llVoices.setLayoutParams(layoutLP);
+        llVideos.setLayoutParams(layoutLP);
 
-        ImageView addPictureIcon = new ImageView(this);
-        LinearLayout.LayoutParams addPicLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
-        addPictureIcon.setLayoutParams(addPicLP);
-        addPictureIcon.setTag("AddPicture");
-        addPictureIcon.setOnClickListener(this);
-        addPictureIcon.setBackgroundResource(R.drawable.bg_add_picture);
+        ImageView addPicIcon = new ImageView(this);
+        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
+        addPicIcon.setLayoutParams(addIconLP);
+        addPicIcon.setOnClickListener(this);
+        addPicIcon.setTag(AddPictureTag);
+        addPicIcon.setBackgroundResource(R.drawable.bg_add_picture);
+        llPictures.addView(addPicIcon);
 
-        llPictures.addView(addPictureIcon);
+
+        ImageView addVoiceIcon = new ImageView(this);
+        addVoiceIcon.setLayoutParams(addIconLP);
+        addVoiceIcon.setOnClickListener(this);
+        addVoiceIcon.setTag(AddVoiceTag);
+        addVoiceIcon.setBackgroundResource(R.drawable.bg_add_voice);
+        llVoices.addView(addVoiceIcon);
+
+        ImageView addVideoIcon = new ImageView(this);
+        addVideoIcon.setLayoutParams(addIconLP);
+        addVideoIcon.setOnClickListener(this);
+        addVideoIcon.setTag(AddVideoTag);
+        addVideoIcon.setBackgroundResource(R.drawable.bg_add_movie);
+        llVideos.addView(addVideoIcon);
     }
 
     private void onMenuResult(Intent data) {
@@ -164,7 +184,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
 
     protected void takePhotoFromCamera() {
         try {
-            File cameraPhotoSaveDir = new File(picturePath);
+            File cameraPhotoSaveDir = new File(PicturePath);
 
             if (!cameraPhotoSaveDir.exists()) {
                 if (!cameraPhotoSaveDir.mkdirs()) {
@@ -176,7 +196,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
             // 给拍摄的照片文件命名
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
             currentTakePictureName = "Picture-" + df.format(new Date()) + ".jpg";
-            File cameraPhotoSavePath = new File(picturePath + currentTakePictureName);
+            File cameraPhotoSavePath = new File(PicturePath + currentTakePictureName);
 
             // 打开相机拍照
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -209,13 +229,13 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
             //获取图片的BitmapDrawable对象
             drableBit = getPhotoDrawable(data);
         } else {
-            drableBit = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picturePath + currentTakePictureName, 400 * 400));
+            drableBit = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(PicturePath + currentTakePictureName, 400 * 400));
 
         }
 
         picView.setBackgroundDrawable(drableBit);
         picView.setLayoutParams(lp);
-        picView.setTag(picturePath + currentTakePictureName);
+        picView.setTag(PicturePath + currentTakePictureName);
         picView.setOnClickListener(this);
         llPictures.addView(picView, 0);
     }
@@ -261,7 +281,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     @Override
     public void onClick(View v) {
         if (null != v.getTag()) {
-            if (v.getTag().equals("AddPicture")) {
+            if (v.getTag().equals(AddPictureTag)) {
                 Intent intent = new Intent();
                 intent.setClass(this, MenuActivity.class);
                 ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
@@ -270,25 +290,11 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 intent.putExtra(KeyStore.KeyContent, menuItems);
                 startActivityForResult(intent, KeyStore.RequestCodePicture);
                 return;
-            } else {
-                String picPath = (String) v.getTag();
-                Intent intent = new Intent();
-                intent.setClass(this, ShowImageActivity.class);
-                intent.putExtra(KeyStore.KeyContent, picPath);
-                startActivityForResult(intent, KeyStore.RequestCodeShowImage);
+            } else if(v.getTag().equals(AddVoiceTag)){
+                addVoiceRecord();
+            } else if(v.getTag().equals(AddVideoTag)){
+                addMovie();
             }
-        }
-
-        if (v == btnAddMedia) {
-            Intent intent = new Intent();
-            intent.setClass(this, MenuActivity.class);
-            ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
-            menuItems.add(new MenuActivity.MenuItem("拍照"));
-            menuItems.add(new MenuActivity.MenuItem("从相册选择"));
-            menuItems.add(new MenuActivity.MenuItem("录音"));
-            menuItems.add(new MenuActivity.MenuItem("摄像"));
-            intent.putExtra(KeyStore.KeyContent, menuItems);
-            startActivityForResult(intent, KeyStore.RequestCodePicture);
         }
     }
 }

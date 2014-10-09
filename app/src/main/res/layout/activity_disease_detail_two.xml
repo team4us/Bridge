@@ -218,18 +218,28 @@
                         android:id="@+id/ll_pictures"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5"
                         android:orientation="horizontal">
 
                     </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_media"
+                <LinearLayout
+                    android:id="@+id/ll_voice_records"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:layout_height="wrap_content"
-                    android:text="点击添加多媒体"
-                    android:textSize="@dimen/font_size_36"
-                    android:textColor="@color/color_333333"
-                    android:layout_marginTop="@dimen/margin_5"/>
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_video_records"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
 
             </LinearLayout>
 
