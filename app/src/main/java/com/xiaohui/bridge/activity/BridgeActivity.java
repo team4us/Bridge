@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
@@ -156,10 +157,12 @@ public class BridgeActivity extends AbstractActivity
         public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(BridgeActivity.this, R.layout.view_group, null);
+                convertView = View.inflate(BridgeActivity.this, R.layout.view_part_item, null);
             }
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText(groupPosition + "." + generalsTypes[groupPosition]);
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_expandable);
+            imageView.setImageResource(isExpanded ? R.drawable.icon_expand : R.drawable.icon_collapse);
             return convertView;
         }
 
@@ -167,7 +170,7 @@ public class BridgeActivity extends AbstractActivity
         public View getChildView(int groupPosition, int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = View.inflate(BridgeActivity.this, R.layout.view_child, null);
+                convertView = View.inflate(BridgeActivity.this, R.layout.view_part_child_item, null);
             }
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText(generals[groupPosition][childPosition]);
