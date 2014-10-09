@@ -1,6 +1,9 @@
 package com.xiaohui.bridge.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
@@ -24,6 +27,27 @@ public class ShowImageActivity extends AbstractActivity{
         picPath = getIntent().getExtras().getString(KeyStore.KeyContent);
 
         initToShowImage();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.showimage_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_delete_image) {
+            Intent intent = new Intent();
+            intent.putExtra(KeyStore.KeyContent, picPath);
+            setResult(KeyStore.ResultCodeDelete, intent);
+            this.finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initToShowImage(){

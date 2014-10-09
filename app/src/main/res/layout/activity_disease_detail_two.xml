@@ -102,12 +102,14 @@
                             android:layout_width="wrap_content"
                             android:layout_marginTop="@dimen/margin_10"
                             android:textColor="@color/color_333333"
-                            android:text="X:"/>
+                            android:text="X:"
+                            android:layout_gravity="center_vertical"/>
 
                         <EditText
                             android:id="@+id/et_startpoint_x"
                             style="@style/disease_input_edittext"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:layout_gravity="center_vertical"/>
 
                     </LinearLayout>
 

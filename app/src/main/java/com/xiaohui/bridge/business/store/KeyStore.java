@@ -15,4 +15,5 @@ public class KeyStore {
 
     public static final int ResultCodeFailed = 0;
     public static final int ResultCodeSuccess = 1;
+    public static final int ResultCodeDelete = 2;
 }
