@@ -160,7 +160,7 @@ public class BridgeActivity extends AbstractActivity
                 convertView = View.inflate(BridgeActivity.this, R.layout.view_part_item, null);
             }
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
-            tvTitle.setText(groupPosition + "." + generalsTypes[groupPosition]);
+            tvTitle.setText((groupPosition + 1) + " " + generalsTypes[groupPosition]);
             ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_expandable);
             imageView.setImageResource(isExpanded ? R.drawable.icon_expand : R.drawable.icon_collapse);
             return convertView;

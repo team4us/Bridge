@@ -36,12 +36,12 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     private List<String> getData() {
 
         List<String> data = new ArrayList<String>();
-        data.add("裂缝");
-        data.add("破损");
-        data.add("裂缝");
-        data.add("钢筋锈蚀");
-        data.add("破损");
-        data.add("钢筋锈蚀");
+        data.add("1 裂缝");
+        data.add("2 破损");
+        data.add("3 裂缝");
+        data.add("4 钢筋锈蚀");
+        data.add("5 破损");
+        data.add("6 钢筋锈蚀");
 
         return data;
     }
