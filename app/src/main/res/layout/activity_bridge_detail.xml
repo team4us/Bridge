@@ -24,12 +24,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_project_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="所在项目：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_project"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="长江一桥xxxx桥墩" />
 
             </LinearLayout>
@@ -45,12 +45,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_number_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="桥梁编号：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_number"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="Q300245" />
 
             </LinearLayout>
@@ -66,12 +66,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_name_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="桥梁名称：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_name"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="南京大桥第一桥" />
 
             </LinearLayout>
@@ -87,12 +87,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_span_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="跨径分类：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_span"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="斜跨" />
 
             </LinearLayout>
@@ -108,12 +108,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_maintainlevel_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="养护类别：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_maintainlevel"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="精保养" />
 
             </LinearLayout>
@@ -129,12 +129,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_maintain_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="养护等级：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_maintain"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="精养护" />
 
             </LinearLayout>
@@ -150,12 +150,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_designload_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="设计荷载：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_designload"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="100t" />
 
             </LinearLayout>
@@ -171,12 +171,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_buildtime_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="建造年月：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_buildtime"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="1999-10-2" />
 
             </LinearLayout>
@@ -192,12 +192,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_design_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="设计单位：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_design"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="南京桥梁所" />
 
             </LinearLayout>
@@ -213,12 +213,12 @@
 
                 <TextView
                     android:id="@+id/tv_bridge_build_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="施工单位：" />
 
                 <EditText
                     android:id="@+id/tv_bridge_build"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="南京游记一队" />
 
             </LinearLayout>

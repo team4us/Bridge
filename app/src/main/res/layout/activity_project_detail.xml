@@ -24,12 +24,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_number_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="项目编号："/>
 
                 <EditText
                     android:id="@+id/ev_project_number"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="L0000025" />
 
             </LinearLayout>
@@ -45,12 +45,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_name_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="项目名称："/>
 
                 <EditText
                     android:id="@+id/tv_project_name"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="测试使用大桥1" />
 
             </LinearLayout>
@@ -66,12 +66,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_builder_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="委托单位："/>
 
                 <EditText
                     android:id="@+id/tv_project_builder"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="南京市测试研究所" />
 
             </LinearLayout>
@@ -87,12 +87,12 @@
 
                 <TextView
                     android:id="@+id/tv_industries_class_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="行业分类："/>
 
                 <EditText
                     android:id="@+id/tv_industries_class"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="市政工程" />
 
             </LinearLayout>
@@ -108,12 +108,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_leader_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="项目经理："/>
 
                 <EditText
                     android:id="@+id/tv_project_leader"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="张三" />
 
             </LinearLayout>
@@ -129,12 +129,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_creater_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="项目创建人："/>
 
                 <EditText
                     android:id="@+id/tv_project_creater"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="李四" />
 
             </LinearLayout>
@@ -150,12 +150,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_techleader_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="技术负责人："/>
 
                 <EditText
                     android:id="@+id/tv_project_techleader"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="陈五" />
 
             </LinearLayout>
@@ -171,12 +171,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_audit_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="审核人："/>
 
                 <EditText
                     android:id="@+id/tv_project_audit"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="王六" />
 
             </LinearLayout>
@@ -192,12 +192,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_mainaudit_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="审定人："/>
 
                 <EditText
                     android:id="@+id/tv_project_mainaudit"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="赵七" />
 
             </LinearLayout>
@@ -213,12 +213,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_decision_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="决策人："/>
 
                 <EditText
                     android:id="@+id/tv_project_decision"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="胡八" />
 
             </LinearLayout>
@@ -234,12 +234,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_member_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="项目成员："/>
 
                 <EditText
                     android:id="@+id/tv_project_member"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="郭靖、黄蓉、萧十一郎、金蛇郎君、美国队长" />
 
             </LinearLayout>
@@ -255,12 +255,12 @@
 
                 <TextView
                     android:id="@+id/tv_project_survey_title"
-                    style="@style/base_title_textview"
+                    style="@style/disease_title_textview"
                     android:text="项目概况："/>
 
                 <EditText
                     android:id="@+id/tv_project_survey"
-                    style="@style/base_input_edittext"
+                    style="@style/detail_input_edittext"
                     android:text="主要目的是为了缓解两边交通不便的问题" />
 
             </LinearLayout>

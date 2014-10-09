@@ -85,6 +85,12 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="detail_input_edittext" parent="base_input_edittext">
+        <item name="android:textSize">@dimen/font_size_24</item>
+        <item name="android:editable">false</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <style name="list_item">
         <item name="android:layout_height">@dimen/view_item_height</item>
         <item name="android:paddingLeft">@dimen/margin_10</item>
