@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
-import com.xiaohui.bridge.util.LogUtil;
 
 
 public class BridgeActivity extends AbstractActivity
@@ -72,7 +71,7 @@ public class BridgeActivity extends AbstractActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_bridge_detail) {
             startActivity(new Intent(this, BridgeDetailActivity.class));
             return true;
         }

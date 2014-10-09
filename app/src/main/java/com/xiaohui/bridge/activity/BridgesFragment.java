@@ -7,20 +7,16 @@ import android.content.Intent;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.Project;
-import com.xiaohui.bridge.util.LogUtil;
 import com.xiaohui.bridge.view.IBridgeView;
 import com.xiaohui.bridge.viewmodel.BridgesViewModel;
 
@@ -140,7 +136,6 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
         }
-        Project project = (Project) getCookie().get(Keys.PROJECT);
     }
 
     @Override
@@ -163,7 +158,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
+        if (item.getItemId() == R.id.action_project_detail) {
             Intent intent = new Intent(getActivity(), ProjectDetailActivity.class);
             startActivity(intent);
             return true;
