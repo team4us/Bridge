@@ -3,6 +3,8 @@ package com.xiaohui.bridge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,10 +13,14 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
+import com.xiaohui.bridge.business.bean.ChildBridge;
+import com.xiaohui.bridge.util.DeviceParamterUtil;
 
 
 public class BridgeActivity extends AbstractActivity
@@ -57,6 +63,7 @@ public class BridgeActivity extends AbstractActivity
     @Override
     public void onSelectedBridge(Bridge bridge) {
         this.bridge = bridge;
+        updateChildBridgeView();
     }
 
     @Override
@@ -78,6 +85,24 @@ public class BridgeActivity extends AbstractActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateChildBridgeView() {
+        RadioGroup rg = (RadioGroup) findViewById(R.id.rg_child_bridge);
+        rg.removeAllViews();
+        for (ChildBridge childBridge : bridge.getChildBridges()) {
+            RadioButton rb = new RadioButton(this);
+            rb.setText(childBridge.getName());
+            rb.setTextColor(getResources().getColorStateList(R.color.tv_black_blue));
+            rb.setBackgroundResource(0);
+            rb.setButtonDrawable(0);
+            rb.setGravity(Gravity.CENTER);
+
+            RadioGroup.LayoutParams lp
+                    = new RadioGroup.LayoutParams(DeviceParamterUtil.dip2px(100),
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            rg.addView(rb, lp);
+        }
     }
 
     final ExpandableListAdapter adapter = new BaseExpandableListAdapter() {

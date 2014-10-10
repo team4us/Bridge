@@ -10,13 +10,19 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
 public class BridgeItemViewModel implements ItemPresentationModel<Bridge> {
 
     private String title;
+    private String code;
 
     public String getTitle() {
         return title;
     }
 
+    public String getCode() {
+        return "桥梁编号：" + code;
+    }
+
     @Override
     public void updateData(int index, Bridge bridge) {
         title = bridge.getName();
+        code = bridge.getCode();
     }
 }

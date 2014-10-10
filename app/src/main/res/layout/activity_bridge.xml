@@ -23,29 +23,10 @@
             android:background="@color/color_efefef">
 
             <RadioGroup
+                android:id="@+id/rg_child_bridge"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <RadioButton
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="分幅桥1"
-                    android:textColor="@color/tv_black_blue"
-                    android:background="@null"
-                    android:button="@null"/>
-
-                <RadioButton
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="分幅桥2"
-                    android:textColor="@color/tv_black_blue"
-                    android:background="@null"
-                    android:button="@null"/>
-
-            </RadioGroup>
+                android:layout_height="match_parent"/>
         </HorizontalScrollView>
 
         <ExpandableListView

@@ -1,5 +1,8 @@
 package com.xiaohui.bridge.business.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by xiaohui on 14-9-26.
  */
@@ -14,8 +17,9 @@ public class Bridge {
     private String designer; //设计单位
     private String builder; //施工单位
     private String load; //设计荷载
-    private String count; //分幅数
+    private int count; //分幅数
     private String decription; //分幅信息
+    private List<ChildBridge> childBridges; //分幅桥
 
     public Bridge(String name) {
         this.name = name;
@@ -57,7 +61,7 @@ public class Bridge {
         return load;
     }
 
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 
@@ -65,4 +69,77 @@ public class Bridge {
         return decription;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setMaintainType(String maintainType) {
+        this.maintainType = maintainType;
+    }
+
+    public void setMaintainLevel(String maintainLevel) {
+        this.maintainLevel = maintainLevel;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setDesigner(String designer) {
+        this.designer = designer;
+    }
+
+    public void setBuilder(String builder) {
+        this.builder = builder;
+    }
+
+    public void setLoad(String load) {
+        this.load = load;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public void setDecription(String decription) {
+        this.decription = decription;
+    }
+
+    public void addChildBridge(ChildBridge childBridge) {
+        if (childBridges == null) {
+            childBridges = new ArrayList<ChildBridge>();
+        }
+
+        childBridges.add(childBridge);
+    }
+
+    public List<ChildBridge> getChildBridges() {
+        return childBridges;
+    }
+
+    @Override
+    public String toString() {
+        return "Bridge{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", maintainType='" + maintainType + '\'' +
+                ", maintainLevel='" + maintainLevel + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", designer='" + designer + '\'' +
+                ", builder='" + builder + '\'' +
+                ", load='" + load + '\'' +
+                ", count=" + count +
+                ", decription='" + decription + '\'' +
+                ", childBridges=" + childBridges +
+                '}';
+    }
 }

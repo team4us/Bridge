@@ -65,6 +65,50 @@ public class Project {
         return decription;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public void setAuditor(String auditor) {
+        this.auditor = auditor;
+    }
+
+    public void setJudge(String judge) {
+        this.judge = judge;
+    }
+
+    public void setDecisionMaker(String decisionMaker) {
+        this.decisionMaker = decisionMaker;
+    }
+
+    public void setMember(String member) {
+        this.member = member;
+    }
+
+    public void setDecription(String decription) {
+        this.decription = decription;
+    }
+
     @Override
     public String toString() {
         return "Project{" +

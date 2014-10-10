@@ -3,5 +3,5 @@
         android:id="@+id/action_disease_add"
         android:icon="@drawable/icon_add"
         android:title="@string/action_disease_add"
-        android:showAsAction="withText|ifRoom"/>
+        android:showAsAction="ifRoom"/>
 </menu>
