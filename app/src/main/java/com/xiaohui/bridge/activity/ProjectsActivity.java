@@ -2,6 +2,8 @@ package com.xiaohui.bridge.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
@@ -25,5 +27,11 @@ public class ProjectsActivity extends AbstractActivity implements IProjectView {
     public void onItemSelect(int position, Project project) {
         getCookie().put(Keys.PROJECT, project);
         startActivity(new Intent(this, BridgeActivity.class));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.project_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

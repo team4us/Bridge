@@ -1,7 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_bridge_detail"
+        android:icon="@drawable/icon_detail"
         android:title="@string/action_bridge_detail"
         android:orderInCategory="100"
-        android:showAsAction="withText|ifRoom" />
+        android:showAsAction="ifRoom" />
 </menu>

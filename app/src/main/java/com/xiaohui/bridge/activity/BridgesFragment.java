@@ -71,7 +71,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
-        // set a custom shadow that overlays the project_menu content when the drawer opens
+        // set a custom shadow that overlays the bridges_menu content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
 
@@ -147,7 +147,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (mDrawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.project_menu, menu);
+            inflater.inflate(R.menu.bridges_menu, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
