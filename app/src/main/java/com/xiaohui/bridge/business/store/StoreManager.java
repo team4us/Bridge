@@ -100,4 +100,26 @@ public enum StoreManager {
         return projects;
     }
 
+    public String[] generalsTypes = new String[]{
+            "上部承重构件",
+            "上部一般构件",
+            "支座",
+            "翼墙、耳墙",
+            "锥坡、护坡",
+            "桥墩",
+            "桥台",
+            "墩台基础",
+            "河床",
+            "调治构造物",
+            "桥面铺装",
+            "伸缩缝装置",
+            "人行道",
+            "栏杆、护栏",
+            "排水系统",
+            "照明、标志"};
+
+    public String[] diseaseTypes = new String[]{"其他", "裂缝", "破损", "钢筋锈蚀"};
+
+    public String[] diseaseInputTypes = new String[]{"方法1", "方法2", "方法3", "方法4", "方法5"};
+
 }

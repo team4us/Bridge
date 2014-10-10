@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_startpoint_title"
+            style="@style/disease_title_textview"
+            android:text="位置坐标：" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/disease_title_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:textColor="@color/color_333333"
+                    android:text="X:"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/et_startpoint_x"
+                    style="@style/disease_input_edittext"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <View style="@style/line_v"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/disease_title_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:textColor="@color/color_333333"
+                    android:text="Y:"/>
+
+                <EditText
+                    android:id="@+id/et_startpoint_y"
+                    style="@style/disease_input_edittext"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <View style="@style/line_v"/>
+
+            <Button
+                android:id="@+id/btn_addposition_from_screen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:textSize="@dimen/font_size_24"
+                android:textColor="@color/color_333333"
+                android:text="从屏幕选择"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/line_h_margin_left_10" />
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_length_title"
+            style="@style/disease_title_textview"
+            android:text="长度（m）："/>
+
+        <EditText
+            android:id="@+id/et_length"
+            style="@style/disease_input_edittext" />
+
+    </LinearLayout>
+
+    <View style="@style/line_h_margin_left_10" />
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_width_title"
+            style="@style/disease_title_textview"
+            android:text="宽度（m）："/>
+
+        <EditText
+            android:id="@+id/et_width"
+            style="@style/disease_input_edittext" />
+
+    </LinearLayout>
+</LinearLayout>

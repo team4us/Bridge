@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_efefef">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_component_name_title"
+                    style="@style/disease_title_textview"
+                    android:text="构件名称：" />
+
+                <TextView
+                    android:id="@+id/tv_component_name"
+                    style="@style/disease_content_textview"
+                    android:text="桥梁部件" />
+
+            </LinearLayout>
+
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_position_title"
+                    style="@style/disease_title_textview"
+                    android:text="部位：" />
+
+                <Spinner
+                    android:id="@+id/sp_choose_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_type_title"
+                    style="@style/disease_title_textview"
+                    android:text="病害类型：" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_disease_type"
+                        style="@style/disease_input_edittext"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_marginRight="@dimen/margin_5"
+                        android:visibility="gone" />
+
+                    <Spinner
+                        android:id="@+id/sp_disease_type"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/line_h_margin_left_10" />
+            
+            <RadioGroup
+                android:id="@+id/rg_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginBottom="@dimen/margin_5">
+
+                <RadioButton
+                    android:id="@+id/rb_input_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="方法1"
+                    android:tag="1"
+                    android:textSize="@dimen/font_size_20"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/rb_input_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:tag="2"
+                    android:textSize="@dimen/font_size_20"
+                    android:text="方法2"/>
+
+                <RadioButton
+                    android:id="@+id/rb_input_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:tag="3"
+                    android:textSize="@dimen/font_size_20"
+                    android:text="方法3"/>
+
+                <RadioButton
+                    android:id="@+id/rb_input_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:tag="4"
+                    android:textSize="@dimen/font_size_20"
+                    android:text="方法4"/>
+
+                <RadioButton
+                    android:id="@+id/rb_input_5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:tag="5"
+                    android:textSize="@dimen/font_size_20"
+                    android:text="方法5"/>
+
+            </RadioGroup>
+
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:id="@+id/ll_input_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <View style="@style/line_h_margin_left_10" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_media_title"
+                    style="@style/disease_title_textview"
+                    android:text="多媒体：" />
+
+                <!--<Button-->
+                <!--android:id="@+id/btn_add_picture"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="添加照片"-->
+                <!--android:textSize="@dimen/font_size_36"-->
+                <!--android:textColor="@color/color_333333"-->
+                <!--android:layout_marginTop="@dimen/margin_5"/>-->
+
+                <LinearLayout
+                    android:id="@+id/ll_pictures"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_voice_records"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_video_records"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

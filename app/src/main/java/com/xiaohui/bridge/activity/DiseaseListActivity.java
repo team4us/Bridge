@@ -57,7 +57,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         int id = item.getItemId();
 
         if (id == R.id.action_disease_add) {
-            startActivity(new Intent(this, DiseaseDetailTwoActivity.class));
+            startActivity(new Intent(this, BaseDiseaseDetailActivity.class));
             return true;
         }
 
@@ -66,6 +66,6 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        startActivity(new Intent(this, DiseaseDetailOneActivity.class));
+        startActivity(new Intent(this, BaseDiseaseDetailActivity.class));
     }
 }

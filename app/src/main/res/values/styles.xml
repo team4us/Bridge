@@ -59,7 +59,7 @@
     </style>
 
     <style name="base_title_textview">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/color_099fde</item>
         <item name="android:textSize">@dimen/font_size_36</item>
@@ -77,6 +77,10 @@
 
     <style name="disease_title_textview" parent="base_title_textview">
         <item name="android:textSize">@dimen/font_size_24</item>
+    </style>
+
+    <style name="disease_content_textview" parent="disease_title_textview">
+        <item name="android:textColor">@color/color_333333</item>
     </style>
 
     <style name="disease_input_edittext" parent="base_input_edittext">

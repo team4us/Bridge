@@ -10,14 +10,26 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.util.BitmapUtil;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate1;
+import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate2;
+import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate3;
+import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate4;
+import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate5;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,6 +54,12 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     private LinearLayout llPictures;
     private LinearLayout llVoices;
     private LinearLayout llVideos;
+    private Spinner spChoosePosition;
+    private Spinner spChooseDiseaseType;
+    private EditText etDiseaseType;
+    private RadioGroup rgRadioGroup;
+    private LinearLayout llInputTemplate;
+
     private String currentTakePictureName = "";
 
     private int mediaLayoutWidth = 0;
@@ -50,10 +68,76 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_disease_detail);
+        setTitle("病害录入");
 
         llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
         llVoices = (LinearLayout) findViewById(R.id.ll_voice_records);
         llVideos = (LinearLayout) findViewById(R.id.ll_video_records);
+        spChoosePosition = (Spinner) findViewById(R.id.sp_choose_position);
+        spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
+        etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
+        rgRadioGroup = (RadioGroup) findViewById(R.id.rg_radio_group);
+        llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
+
+        ArrayAdapter<String> positions = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, StoreManager.Instance.generalsTypes);
+        positions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spChoosePosition.setAdapter(positions);
+        spChoosePosition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        ArrayAdapter<String> diseases = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, StoreManager.Instance.diseaseTypes);
+        diseases.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spChooseDiseaseType.setAdapter(diseases);
+        spChooseDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position == 0) {
+                    etDiseaseType.setVisibility(View.VISIBLE);
+                    etDiseaseType.setText("");
+                } else {
+                    etDiseaseType.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        llInputTemplate.addView(new DiseaseInputTemplate1(BaseDiseaseDetailActivity.this));
+        rgRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                RadioButton rb = (RadioButton)BaseDiseaseDetailActivity.this.findViewById(radioButtonId);
+                llInputTemplate.removeAllViews();
+                switch (Integer.valueOf((String)rb.getTag())){
+                    case 1:
+                        llInputTemplate.addView(new DiseaseInputTemplate1(BaseDiseaseDetailActivity.this));
+                        break;
+                    case 2:
+                        llInputTemplate.addView(new DiseaseInputTemplate2(BaseDiseaseDetailActivity.this));
+                        break;
+                    case 3:
+                        llInputTemplate.addView(new DiseaseInputTemplate3(BaseDiseaseDetailActivity.this));
+                        break;
+                    case 4:
+                        llInputTemplate.addView(new DiseaseInputTemplate4(BaseDiseaseDetailActivity.this));
+                        break;
+                    case 5:
+                        llInputTemplate.addView(new DiseaseInputTemplate5(BaseDiseaseDetailActivity.this));
+                        break;
+                }
+            }
+        });
 
         initMediaLayout();
     }
@@ -317,7 +401,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
             } else if (v.getTag().equals(AddVideoTag)) {
                 addMovie();
             } else {
-                String picPath = (String)v.getTag();
+                String picPath = (String) v.getTag();
                 Intent intent = new Intent();
                 intent.setClass(this, ShowImageActivity.class);
                 intent.putExtra(KeyStore.KeyContent, picPath);
