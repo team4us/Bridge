@@ -104,48 +104,33 @@
 
                 <RadioButton
                     android:id="@+id/rb_input_1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/base_radio_button"
                     android:text="方法1"
                     android:tag="1"
-                    android:textSize="@dimen/font_size_20"
                     android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/base_radio_button"
                     android:tag="2"
-                    android:textSize="@dimen/font_size_20"
                     android:text="方法2"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/base_radio_button"
                     android:tag="3"
-                    android:textSize="@dimen/font_size_20"
                     android:text="方法3"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/base_radio_button"
                     android:tag="4"
-                    android:textSize="@dimen/font_size_20"
                     android:text="方法4"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_5"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    style="@style/base_radio_button"
                     android:tag="5"
-                    android:textSize="@dimen/font_size_20"
                     android:text="方法5"/>
 
             </RadioGroup>
