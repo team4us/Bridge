@@ -58,8 +58,7 @@
                         <EditText
                             android:id="@+id/et_startpoint_x"
                             style="@style/disease_input_edittext"
-                            android:gravity="center"
-                            android:text="102" />
+                            android:gravity="center" />
 
                     </LinearLayout>
 
@@ -81,8 +80,7 @@
                         <EditText
                             android:id="@+id/et_startpoint_y"
                             style="@style/disease_input_edittext"
-                            android:gravity="center"
-                            android:text="305" />
+                            android:gravity="center" />
 
                     </LinearLayout>
 
@@ -124,8 +122,7 @@
                         <EditText
                             android:id="@+id/et_endpoint_x"
                             style="@style/disease_input_edittext"
-                            android:gravity="center"
-                            android:text="127" />
+                            android:gravity="center" />
 
                     </LinearLayout>
 
@@ -147,8 +144,7 @@
                         <EditText
                             android:id="@+id/et_endpoint_y"
                             style="@style/disease_input_edittext"
-                            android:gravity="center"
-                            android:text="305" />
+                            android:gravity="center" />
 
                     </LinearLayout>
 
@@ -179,8 +175,7 @@
 
         <EditText
             android:id="@+id/et_length"
-            style="@style/disease_input_edittext"
-            android:text="3" />
+            style="@style/disease_input_edittext" />
 
     </LinearLayout>
 
@@ -200,8 +195,7 @@
 
         <EditText
             android:id="@+id/et_width"
-            style="@style/disease_input_edittext"
-            android:text="20" />
+            style="@style/disease_input_edittext" />
 
     </LinearLayout>
 </LinearLayout>
