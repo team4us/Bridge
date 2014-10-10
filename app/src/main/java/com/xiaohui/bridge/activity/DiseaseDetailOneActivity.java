@@ -1,5 +1,6 @@
 package com.xiaohui.bridge.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,7 @@ public class DiseaseDetailOneActivity extends BaseDiseaseDetailActivity{
         }
 
         if(v == btnStartAddPictureFromScreen){
-
+            startActivity(new Intent(this, CoordinateActivity.class));
         } else if(v == btnEndAddPictureFromScreen){
 
         }
