@@ -75,7 +75,7 @@
     </style>
 
     <style name="disease_title_textview" parent="base_title_textview">
-        <item name="android:textSize">@dimen/font_size_24</item>
+        <item name="android:textSize">@dimen/font_size_36</item>
     </style>
 
     <style name="disease_content_textview" parent="disease_title_textview">
@@ -83,7 +83,7 @@
     </style>
 
     <style name="disease_input_edittext" parent="base_input_edittext">
-        <item name="android:textSize">@dimen/font_size_24</item>
+        <item name="android:textSize">@dimen/font_size_36</item>
         <item name="android:editable">true</item>
         <item name="android:singleLine">true</item>
     </style>

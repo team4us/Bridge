@@ -34,7 +34,7 @@
         <TextView
             android:id="@+id/tv_length_title"
             style="@style/disease_title_textview"
-            android:text="特征描述（m）："/>
+            android:text="特征描述："/>
 
         <EditText
             android:id="@+id/et_length"

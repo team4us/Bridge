@@ -5,6 +5,8 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     style="@style/list_item"
+    android:layout_height="60dp"
+    android:textSize="@dimen/font_size_36"
     android:drawableLeft="@drawable/icon_project"
     android:drawableRight="@drawable/icon_next"
     android:drawablePadding="@dimen/margin_10"/>

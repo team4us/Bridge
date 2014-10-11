@@ -94,6 +94,7 @@ public class BridgeActivity extends AbstractActivity
             ChildBridge childBridge = bridge.getChildBridges().get(i);
             RadioButton rb = new RadioButton(this);
             rb.setText(childBridge.getName());
+            rb.setTextSize(20);
             rb.setTextColor(getResources().getColorStateList(R.color.tv_black_blue));
             rb.setBackgroundResource(0);
             rb.setButtonDrawable(0);
@@ -101,7 +102,7 @@ public class BridgeActivity extends AbstractActivity
             rb.setTag(i);
             rb.setId(View.NO_ID);
             RadioGroup.LayoutParams lp
-                    = new RadioGroup.LayoutParams(DeviceParamterUtil.dip2px(100),
+                    = new RadioGroup.LayoutParams(DeviceParamterUtil.dip2px(150),
                     ViewGroup.LayoutParams.MATCH_PARENT);
             rg.addView(rb, lp);
             if (i == 0) {

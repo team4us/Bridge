@@ -20,8 +20,7 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_component_name_title"
@@ -31,7 +30,7 @@
                 <TextView
                     android:id="@+id/tv_component_name"
                     style="@style/disease_content_textview"
-                    android:text="桥梁构件"/>
+                    android:text="1号主梁"/>
 
             </LinearLayout>
 
@@ -45,17 +44,12 @@
                 <TextView
                     android:id="@+id/tv_position_title"
                     style="@style/disease_title_textview"
-                    android:text="部件："/>
-
-                <TextView
-                    style="@style/disease_content_textview"
-                    android:text="桥梁部件"/>
+                    android:text="部位："/>
 
                 <Spinner
                     android:id="@+id/sp_choose_position"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -98,30 +92,35 @@
                     android:id="@+id/rb_input_1"
                     style="@style/base_radio_button"
                     android:text="方法1"
+                    android:textSize="@dimen/font_size_36"
                     android:tag="1"
                     android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_2"
                     style="@style/base_radio_button"
+                    android:textSize="@dimen/font_size_36"
                     android:tag="2"
                     android:text="方法2"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_3"
                     style="@style/base_radio_button"
+                    android:textSize="@dimen/font_size_36"
                     android:tag="3"
                     android:text="方法3"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_4"
                     style="@style/base_radio_button"
+                    android:textSize="@dimen/font_size_36"
                     android:tag="4"
                     android:text="方法4"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_5"
                     style="@style/base_radio_button"
+                    android:textSize="@dimen/font_size_36"
                     android:tag="5"
                     android:text="方法5"/>
 
@@ -133,6 +132,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_endpoint_title"
+                    style="@style/disease_title_textview"
+                    android:text="照片编号："/>
+
+                <EditText
+                    android:id="@+id/et_endpoint"
+                    style="@style/disease_input_edittext"/>
             </LinearLayout>
 
             <LinearLayout

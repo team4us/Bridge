@@ -55,6 +55,110 @@ public enum StoreManager {
         bridge.addChildBridge(childBridge);
         bridges.add(bridge);
 
+
+        bridge = new Bridge("纬九路匝道");
+        bridge.setCode("Q002");
+        bridge.setCategory("特大桥");
+        bridge.setMaintainType("Ⅲ");
+        bridge.setMaintainLevel("Ⅰ");
+        bridge.setCreateTime("2013");
+        bridge.setDesigner("设计单位2");
+        bridge.setBuilder("施工单位2");
+        bridge.setLoad("汽车-10级");
+        childBridge = new ChildBridge("A匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        childBridge = new ChildBridge("B匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        bridges.add(bridge);
+        childBridge = new ChildBridge("C匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        bridges.add(bridge);
+
+        bridge = new Bridge("纬九路匝道");
+        bridge.setCode("Q002");
+        bridge.setCategory("特大桥");
+        bridge.setMaintainType("Ⅲ");
+        bridge.setMaintainLevel("Ⅰ");
+        bridge.setCreateTime("2013");
+        bridge.setDesigner("设计单位2");
+        bridge.setBuilder("施工单位2");
+        bridge.setLoad("汽车-10级");
+        childBridge = new ChildBridge("A匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        childBridge = new ChildBridge("B匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        bridges.add(bridge);
+        childBridge = new ChildBridge("C匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+
+        bridge = new Bridge("纬九路匝道");
+        bridge.setCode("Q002");
+        bridge.setCategory("特大桥");
+        bridge.setMaintainType("Ⅲ");
+        bridge.setMaintainLevel("Ⅰ");
+        bridge.setCreateTime("2013");
+        bridge.setDesigner("设计单位2");
+        bridge.setBuilder("施工单位2");
+        bridge.setLoad("汽车-10级");
+        childBridge = new ChildBridge("A匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        childBridge = new ChildBridge("B匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        bridges.add(bridge);
+        childBridge = new ChildBridge("C匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+
+
+        bridge = new Bridge("纬九路匝道");
+        bridge.setCode("Q002");
+        bridge.setCategory("特大桥");
+        bridge.setMaintainType("Ⅲ");
+        bridge.setMaintainLevel("Ⅰ");
+        bridge.setCreateTime("2013");
+        bridge.setDesigner("设计单位2");
+        bridge.setBuilder("施工单位2");
+        bridge.setLoad("汽车-10级");
+        childBridge = new ChildBridge("A匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        childBridge = new ChildBridge("B匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        bridges.add(bridge);
+        childBridge = new ChildBridge("C匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+
+
+        bridge = new Bridge("纬九路匝道");
+        bridge.setCode("Q002");
+        bridge.setCategory("特大桥");
+        bridge.setMaintainType("Ⅲ");
+        bridge.setMaintainLevel("Ⅰ");
+        bridge.setCreateTime("2013");
+        bridge.setDesigner("设计单位2");
+        bridge.setBuilder("施工单位2");
+        bridge.setLoad("汽车-10级");
+        childBridge = new ChildBridge("A匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        childBridge = new ChildBridge("B匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+        bridges.add(bridge);
+        childBridge = new ChildBridge("C匝道");
+        childBridge.setCategory("梁式桥");
+        bridge.addChildBridge(childBridge);
+
         return bridges;
     }
 
@@ -84,6 +188,53 @@ public enum StoreManager {
         project.setMember("张国立 魏万刚 邵加玉 王鑫 王召全");
         projects.add(project);
 
+        project = new Project("宁连高速公路桥梁定期检查");
+        project.setCode("20140057");
+        project.setCompany("江苏省高速公路管理中心");
+        project.setCategory("市政");
+        project.setManager("李琦");
+        project.setCreator("万涛");
+        project.setAuditor("韩尚武");
+        project.setJudge("赖广胜");
+        project.setDecisionMaker("徐庆丰");
+        project.setMember("张国立 魏万刚 邵加玉 王鑫 王召全");
+        projects.add(project);
+
+        project = new Project("宁连高速公路桥梁定期检查");
+        project.setCode("20140057");
+        project.setCompany("江苏省高速公路管理中心");
+        project.setCategory("市政");
+        project.setManager("李琦");
+        project.setCreator("万涛");
+        project.setAuditor("韩尚武");
+        project.setJudge("赖广胜");
+        project.setDecisionMaker("徐庆丰");
+        project.setMember("张国立 魏万刚 邵加玉 王鑫 王召全");
+        projects.add(project);
+
+        project = new Project("宁连高速公路桥梁定期检查");
+        project.setCode("20140057");
+        project.setCompany("江苏省高速公路管理中心");
+        project.setCategory("市政");
+        project.setManager("李琦");
+        project.setCreator("万涛");
+        project.setAuditor("韩尚武");
+        project.setJudge("赖广胜");
+        project.setDecisionMaker("徐庆丰");
+        project.setMember("张国立 魏万刚 邵加玉 王鑫 王召全");
+        projects.add(project);
+
+        project = new Project("宁连高速公路桥梁定期检查");
+        project.setCode("20140057");
+        project.setCompany("江苏省高速公路管理中心");
+        project.setCategory("市政");
+        project.setManager("李琦");
+        project.setCreator("万涛");
+        project.setAuditor("韩尚武");
+        project.setJudge("赖广胜");
+        project.setDecisionMaker("徐庆丰");
+        project.setMember("张国立 魏万刚 邵加玉 王鑫 王召全");
+        projects.add(project);
 
         project = new Project("无锡2014第一批城市桥梁定期检测");
         project.setCode("20140057");
@@ -101,22 +252,10 @@ public enum StoreManager {
     }
 
     public String[] generalsTypes = new String[]{
-            "上部承重构件",
-            "上部一般构件",
-            "支座",
-            "翼墙、耳墙",
-            "锥坡、护坡",
-            "桥墩",
-            "桥台",
-            "墩台基础",
-            "河床",
-            "调治构造物",
-            "桥面铺装",
-            "伸缩缝装置",
-            "人行道",
-            "栏杆、护栏",
-            "排水系统",
-            "照明、标志"};
+            "左腹板",
+            "底板",
+            "右腹板",
+            "右翼缘板"};
 
     public String[] diseaseTypes = new String[]{"其他", "裂缝", "破损", "钢筋锈蚀"};
 
