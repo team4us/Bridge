@@ -25,6 +25,7 @@
 
         <activity
             android:name="com.xiaohui.bridge.activity.LoginActivity"
+            android:icon="@drawable/icon_app"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateHidden">
@@ -37,6 +38,7 @@
 
         <activity
             android:name=".activity.BridgeActivity"
+            android:logo="@drawable/icon_app"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 

@@ -48,6 +48,7 @@ public abstract class AbstractActivity extends Activity {
     public ActionBar getActionBar() {
         if (actionBar == null) {
             actionBar = super.getActionBar();
+            actionBar.setLogo(getResources().getDrawable(R.drawable.icon_company));
             actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.color_099fde));
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
