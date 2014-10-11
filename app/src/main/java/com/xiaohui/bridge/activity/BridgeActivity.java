@@ -98,13 +98,15 @@ public class BridgeActivity extends AbstractActivity
             rb.setBackgroundResource(0);
             rb.setButtonDrawable(0);
             rb.setGravity(Gravity.CENTER);
-            rb.setChecked(i == 0);
             rb.setTag(i);
-
+            rb.setId(View.NO_ID);
             RadioGroup.LayoutParams lp
                     = new RadioGroup.LayoutParams(DeviceParamterUtil.dip2px(100),
                     ViewGroup.LayoutParams.MATCH_PARENT);
             rg.addView(rb, lp);
+            if (i == 0) {
+                rg.check(rb.getId());
+            }
         }
     }
 
