@@ -90,13 +90,16 @@ public class BridgeActivity extends AbstractActivity
     private void updateChildBridgeView() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rg_child_bridge);
         rg.removeAllViews();
-        for (ChildBridge childBridge : bridge.getChildBridges()) {
+        for (int i = 0; i < bridge.getChildBridges().size(); i++) {
+            ChildBridge childBridge = bridge.getChildBridges().get(i);
             RadioButton rb = new RadioButton(this);
             rb.setText(childBridge.getName());
             rb.setTextColor(getResources().getColorStateList(R.color.tv_black_blue));
             rb.setBackgroundResource(0);
             rb.setButtonDrawable(0);
             rb.setGravity(Gravity.CENTER);
+            rb.setChecked(i == 0);
+            rb.setTag(i);
 
             RadioGroup.LayoutParams lp
                     = new RadioGroup.LayoutParams(DeviceParamterUtil.dip2px(100),

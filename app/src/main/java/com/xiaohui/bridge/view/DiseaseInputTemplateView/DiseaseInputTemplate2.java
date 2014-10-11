@@ -17,7 +17,6 @@ import com.xiaohui.bridge.activity.CoordinateActivity;
  */
 public class DiseaseInputTemplate2 extends LinearLayout implements View.OnClickListener{
     private Context context;
-    private Button btnAddFromScreen;
 
     public DiseaseInputTemplate2(Context context) {
         super(context);
@@ -36,15 +35,13 @@ public class DiseaseInputTemplate2 extends LinearLayout implements View.OnClickL
 
     private void initView(Context context){
         this.context = context;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.view_disease_input_2, this);
-        btnAddFromScreen = (Button) view.findViewById(R.id.btn_add_position_from_screen);
-        btnAddFromScreen.setOnClickListener(this);
+        View view = View.inflate(context, R.layout.view_disease_input_2, this);
+        view.findViewById(R.id.btn_add_position_from_screen).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if(view == btnAddFromScreen){
+        if(view.getId() == R.id.btn_add_position_from_screen){
             Intent intent = new Intent();
             intent.setClass(context, CoordinateActivity.class);
             context.startActivity(intent);

@@ -1,201 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_add_position_from_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/font_size_24"
-            android:textColor="@color/color_333333"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="从屏幕选择" />
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="@dimen/margin_5"
-            android:layout_toLeftOf="@id/btn_add_position_from_screen">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/margin_15">
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_startpoint_title"
                     style="@style/disease_title_textview"
-                    android:text="起点坐标：" />
+                    android:text="起点坐标："/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            style="@style/disease_title_textview"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:textColor="@color/color_333333"
-                            android:text="X:" />
-
-                        <EditText
-                            android:id="@+id/et_startpoint_x"
-                            style="@style/disease_input_edittext"
-                            android:gravity="center" />
-
-                    </LinearLayout>
-
-                    <View style="@style/line_v" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            style="@style/disease_title_textview"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:textColor="@color/color_333333"
-                            android:text="Y:" />
-
-                        <EditText
-                            android:id="@+id/et_startpoint_y"
-                            style="@style/disease_input_edittext"
-                            android:gravity="center" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
+                <EditText
+                    android:id="@+id/et_startpoint"
+                    style="@style/disease_input_edittext"/>
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
-
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_endpoint_title"
                     style="@style/disease_title_textview"
-                    android:text="终点坐标：" />
+                    android:text="终点坐标："/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            style="@style/disease_title_textview"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:textColor="@color/color_333333"
-                            android:text="X:" />
-
-                        <EditText
-                            android:id="@+id/et_endpoint_x"
-                            style="@style/disease_input_edittext"
-                            android:gravity="center" />
-
-                    </LinearLayout>
-
-                    <View style="@style/line_v" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            style="@style/disease_title_textview"
-                            android:layout_width="wrap_content"
-                            android:layout_marginTop="@dimen/margin_10"
-                            android:textColor="@color/color_333333"
-                            android:text="Y:" />
-
-                        <EditText
-                            android:id="@+id/et_endpoint_y"
-                            style="@style/disease_input_edittext"
-                            android:gravity="center" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
+                <EditText
+                    android:id="@+id/et_endpoint"
+                    style="@style/disease_input_edittext"/>
             </LinearLayout>
-
-
         </LinearLayout>
 
-
-    </RelativeLayout>
-
-
-    <View style="@style/line_h_margin_left_10" />
+        <ImageView
+            android:id="@+id/btn_add_position_from_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_chart"
+            android:clickable="true"/>
+    </LinearLayout>
 
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_length_title"
             style="@style/disease_title_textview"
-            android:text="长度（m）：" />
+            android:text="长度（m）："/>
 
         <EditText
             android:id="@+id/et_length"
-            style="@style/disease_input_edittext" />
+            style="@style/disease_input_edittext"/>
 
     </LinearLayout>
-
-    <View style="@style/line_h_margin_left_10" />
 
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_width_title"
             style="@style/disease_title_textview"
-            android:text="典型宽度（mm）：" />
+            android:text="典型宽度（mm）："/>
 
         <EditText
             android:id="@+id/et_width"
-            style="@style/disease_input_edittext" />
+            style="@style/disease_input_edittext"/>
 
     </LinearLayout>
 </LinearLayout>

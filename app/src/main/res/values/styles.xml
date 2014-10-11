@@ -71,7 +71,6 @@
         <item name="android:layout_marginTop">@dimen/margin_5</item>
         <item name="android:textColor">@color/color_333333</item>
         <item name="android:textSize">@dimen/font_size_36</item>
-        <item name="android:background">@color/color_00000000</item>
         <item name="android:editable">false</item>
     </style>
 

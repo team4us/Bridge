@@ -6,32 +6,30 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_point_title"
             style="@style/disease_title_textview"
-            android:text="位置：" />
+            android:text="位置："/>
 
         <EditText
             android:id="@+id/et_point"
-            style="@style/disease_input_edittext" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            style="@style/disease_input_edittext"/>
 
     </LinearLayout>
-
-    <View style="@style/line_h_margin_left_10" />
 
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_length_title"
@@ -40,27 +38,24 @@
 
         <EditText
             android:id="@+id/et_length"
-            style="@style/disease_input_edittext" />
+            style="@style/disease_input_edittext"/>
 
     </LinearLayout>
-
-    <View style="@style/line_h_margin_left_10" />
 
     <LinearLayout
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_width_title"
             style="@style/disease_title_textview"
-            android:text="典型宽度（mm）："/>
+            android:text="典型宽度（m）："/>
 
         <EditText
             android:id="@+id/et_width"
-            style="@style/disease_input_edittext" />
+            style="@style/disease_input_edittext"/>
 
     </LinearLayout>
 </LinearLayout>

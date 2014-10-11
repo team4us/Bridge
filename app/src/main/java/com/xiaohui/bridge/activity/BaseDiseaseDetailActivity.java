@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.business.store.StoreManager;
@@ -69,7 +70,8 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_detail);
-        setTitle("病害录入");
+        boolean isAdded = getIntent().getBooleanExtra(Keys.FLAG, true);
+        setTitle(isAdded ? "病害新增" : "病害编辑");
 
         llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
         llVoices = (LinearLayout) findViewById(R.id.ll_voice_records);

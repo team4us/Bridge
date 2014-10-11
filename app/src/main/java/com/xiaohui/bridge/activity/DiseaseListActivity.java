@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 
 import java.util.ArrayList;
@@ -57,7 +58,9 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         int id = item.getItemId();
 
         if (id == R.id.action_disease_add) {
-            startActivity(new Intent(this, BaseDiseaseDetailActivity.class));
+            Intent intent = new Intent(this, BaseDiseaseDetailActivity.class);
+            intent.putExtra(Keys.FLAG, true); //是否为新增
+            startActivity(intent);
             return true;
         }
 
@@ -66,6 +69,8 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        startActivity(new Intent(this, BaseDiseaseDetailActivity.class));
+        Intent intent = new Intent(this, BaseDiseaseDetailActivity.class);
+        intent.putExtra(Keys.FLAG, false); //是否为新增
+        startActivity(intent);
     }
 }

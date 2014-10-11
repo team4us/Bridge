@@ -7,4 +7,5 @@ public final class Keys {
 
     public static final String PROJECT = "PROJECT";
 
+    public static final String FLAG = "FLAG";
 }
