@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_efefef">
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_efefef">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,211 +19,198 @@
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_project_title"
                     style="@style/disease_title_textview"
-                    android:text="所在项目：" />
+                    android:text="所在项目："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_project"
-                    style="@style/detail_input_edittext"
-                    android:text="长江一桥xxxx桥墩" />
+                    style="@style/disease_content_textview"
+                    android:text="长江一桥xxxx桥墩"/>
 
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_number_title"
                     style="@style/disease_title_textview"
-                    android:text="桥梁编号：" />
+                    android:text="桥梁编号："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_number"
-                    style="@style/detail_input_edittext"
-                    android:text="Q300245" />
+                    style="@style/disease_content_textview"
+                    android:text="Q300245"/>
 
             </LinearLayout>
-
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_name_title"
                     style="@style/disease_title_textview"
-                    android:text="桥梁名称：" />
+                    android:text="桥梁名称："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_name"
-                    style="@style/detail_input_edittext"
-                    android:text="南京大桥第一桥" />
+                    style="@style/disease_content_textview"
+                    android:text="南京大桥第一桥"/>
 
             </LinearLayout>
-
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_span_title"
                     style="@style/disease_title_textview"
-                    android:text="跨径分类：" />
+                    android:text="跨径分类："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_span"
-                    style="@style/detail_input_edittext"
-                    android:text="斜跨" />
+                    style="@style/disease_content_textview"
+                    android:text="斜跨"/>
 
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_maintainlevel_title"
                     style="@style/disease_title_textview"
-                    android:text="养护类别：" />
+                    android:text="养护类别："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_maintainlevel"
-                    style="@style/detail_input_edittext"
-                    android:text="精保养" />
+                    style="@style/disease_content_textview"
+                    android:text="精保养"/>
 
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_maintain_title"
                     style="@style/disease_title_textview"
-                    android:text="养护等级：" />
+                    android:text="养护等级："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_maintain"
-                    style="@style/detail_input_edittext"
-                    android:text="精养护" />
+                    style="@style/disease_content_textview"
+                    android:text="精养护"/>
 
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_designload_title"
                     style="@style/disease_title_textview"
-                    android:text="设计荷载：" />
+                    android:text="设计荷载："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_designload"
-                    style="@style/detail_input_edittext"
-                    android:text="100t" />
+                    style="@style/disease_content_textview"
+                    android:text="100t"/>
 
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_buildtime_title"
                     style="@style/disease_title_textview"
-                    android:text="建造年月：" />
+                    android:text="建造年月："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_buildtime"
-                    style="@style/detail_input_edittext"
-                    android:text="1999-10-2" />
+                    style="@style/disease_content_textview"
+                    android:text="1999-10-2"/>
 
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_design_title"
                     style="@style/disease_title_textview"
-                    android:text="设计单位：" />
+                    android:text="设计单位："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_design"
-                    style="@style/detail_input_edittext"
-                    android:text="南京桥梁所" />
+                    style="@style/disease_content_textview"
+                    android:text="南京桥梁所"/>
 
             </LinearLayout>
 
-            <View style="@style/line_h_margin_left_10" />
 
             <LinearLayout
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5">
 
                 <TextView
                     android:id="@+id/tv_bridge_build_title"
                     style="@style/disease_title_textview"
-                    android:text="施工单位：" />
+                    android:text="施工单位："/>
 
-                <EditText
+                <TextView
                     android:id="@+id/tv_bridge_build"
-                    style="@style/detail_input_edittext"
-                    android:text="南京游记一队" />
+                    style="@style/disease_content_textview"
+                    android:text="南京游记一队"/>
 
             </LinearLayout>
-
-            <View style="@style/line_h" />
 
         </LinearLayout>
     </ScrollView>
