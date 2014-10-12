@@ -3,6 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="android:Widget.ActionBar">
+        <item name="android:background">@color/color_099fde</item>
+        <item name="android:titleTextStyle">@style/titleTextStyle</item>
+    </style>
+
+    <style name="titleTextStyle">
+        <item name="android:textSize">@dimen/font_size_36</item>
+        <item name="android:textColor">@color/color_ffffff</item>
     </style>
 
     <style name="MenuOptionsTheme">
@@ -118,7 +129,5 @@
         <item name="android:textColor">@color/tv_black_blue</item>
         <item name="android:textSize">@dimen/font_size_20</item>
     </style>
-
-
 
 </resources>

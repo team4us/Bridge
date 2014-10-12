@@ -3,5 +3,5 @@
         android:id="@+id/action_bridge_detail"
         android:icon="@drawable/icon_detail"
         android:title="@string/action_bridge_detail"
-        android:showAsAction="withText|ifRoom" />
+        android:showAsAction="ifRoom" />
 </menu>
