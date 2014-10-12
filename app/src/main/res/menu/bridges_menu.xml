@@ -3,5 +3,5 @@
         android:id="@+id/action_project_detail"
         android:icon="@drawable/icon_detail"
         android:title="@string/action_project_detail"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="withText|ifRoom"/>
 </menu>

@@ -82,8 +82,8 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         rgRadioGroup = (RadioGroup) findViewById(R.id.rg_radio_group);
         llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
 
-        ArrayAdapter<String> positions = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, StoreManager.Instance.generalsTypes);
-        positions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> positions = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.generalsTypes);
+        positions.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
         spChoosePosition.setAdapter(positions);
         spChoosePosition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -95,8 +95,8 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
             }
         });
 
-        ArrayAdapter<String> diseases = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, StoreManager.Instance.diseaseTypes);
-        diseases.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> diseases = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.diseaseTypes);
+        diseases.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
         spChooseDiseaseType.setAdapter(diseases);
         spChooseDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -119,9 +119,9 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int radioButtonId = radioGroup.getCheckedRadioButtonId();
-                RadioButton rb = (RadioButton)BaseDiseaseDetailActivity.this.findViewById(radioButtonId);
+                RadioButton rb = (RadioButton) BaseDiseaseDetailActivity.this.findViewById(radioButtonId);
                 llInputTemplate.removeAllViews();
-                switch (Integer.valueOf((String)rb.getTag())){
+                switch (Integer.valueOf((String) rb.getTag())) {
                     case 1:
                         llInputTemplate.addView(new DiseaseInputTemplate1(BaseDiseaseDetailActivity.this));
                         break;
