@@ -1,12 +1,12 @@
 package com.xiaohui.bridge.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +32,6 @@ import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate3;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate4;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate5;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,10 +44,11 @@ import java.util.Locale;
  */
 public class BaseDiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
 
-    private static String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
+    private static String PicturePath = "/mnt/sdcard/IBridge/Picture/";
+    private static String AddPhotoTag = "AddPhoto";
     private static String AddPictureTag = "AddPicture";
     private static String AddVoiceTag = "AddVoice";
-    private static String AddVideoTag = "AddVedio";
+    private static String AddVideoTag = "AddVideo";
 
     protected boolean isHaveTag = false;
 
@@ -153,14 +153,20 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         llVoices.setLayoutParams(layoutLP);
         llVideos.setLayoutParams(layoutLP);
 
-        ImageView addPicIcon = new ImageView(this);
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
+        ImageView addPhotoIcon = new ImageView(this);
+        addPhotoIcon.setLayoutParams(addIconLP);
+        addPhotoIcon.setOnClickListener(this);
+        addPhotoIcon.setTag(AddPhotoTag);
+        addPhotoIcon.setBackgroundResource(R.drawable.bg_photo);
+        llPictures.addView(addPhotoIcon);
+
+        ImageView addPicIcon = new ImageView(this);
         addPicIcon.setLayoutParams(addIconLP);
         addPicIcon.setOnClickListener(this);
         addPicIcon.setTag(AddPictureTag);
         addPicIcon.setBackgroundResource(R.drawable.bg_add_picture);
         llPictures.addView(addPicIcon);
-
 
         ImageView addVoiceIcon = new ImageView(this);
         addVoiceIcon.setLayoutParams(addIconLP);
@@ -177,47 +183,22 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         llVideos.addView(addVideoIcon);
     }
 
-    private void onMenuResult(Intent data) {
-        if (null == data) {
-            return;
-        }
-        int selectedIndex = data.getIntExtra(KeyStore.KeySelectedIndex, -1);
-        if (selectedIndex == -1) {
-            return;
-        }
-        if (selectedIndex == 0) {
-            takePhotoFromCamera();
-        } else if (selectedIndex == 1) {
-            pickPhotoFromGallery();
-        } else if (selectedIndex == 2) {
-            addVoiceRecord();
-        } else if (selectedIndex == 3) {
-            addMovie();
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case KeyStore.RequestCodePicture:
-                if (resultCode != KeyStore.ResultCodeSuccess) {
-                    return;
-                }
-                onMenuResult(data);
-                break;
             case KeyStore.RequestCodeTakePicture:
                 if (resultCode != RESULT_OK) {
                     return;
                 }
-                addPictureFromCamera(data);
+                addPicture(data);
                 break;
             case KeyStore.RequestCodePickPicture:
                 if (resultCode != RESULT_OK) {
                     return;
                 }
-                addPictureFromAlbum(data);
+                addPicture(data);
                 break;
             case KeyStore.RequestCodeTakeRecord:
                 if (null != data && null != data.getExtras()) {
@@ -303,87 +284,51 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         }
     }
 
-    private void addPictureFromCamera(Intent data) {
-        ImageView picView = new ImageView(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
-        lp.setMargins(0, 0, (int) DeviceParamterUtil.getScreenDensity() * 5, 0);
+    public static String getDataColumn(Context context, Uri uri) {
+        String[] projection = {MediaStore.MediaColumns.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        // 按我个人理解 这个是获得用户选择的图片的索引值
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+        // 将光标移至开头 ，这个很重要，不小心很容易引起越界
+        cursor.moveToFirst();
+        String path = cursor.getString(column_index);
+        cursor.close();
+        // 最后根据索引值获取图片路径
+        return path;
 
-        BitmapDrawable drableBit;
-        if (null != data) {
-            //获取图片的BitmapDrawable对象
-            drableBit = getPhotoDrawable(data);
-        } else {
-            drableBit = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(PicturePath + currentTakePictureName, 400 * 400));
-
-        }
-
-        picView.setBackgroundDrawable(drableBit);
-        picView.setLayoutParams(lp);
-        picView.setTag(PicturePath + currentTakePictureName);
-        picView.setOnClickListener(this);
-        llPictures.addView(picView, 0);
     }
 
-    private void addPictureFromAlbum(Intent data) {
-        ImageView picView = new ImageView(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
-        lp.setMargins(0, 0, (int) DeviceParamterUtil.getScreenDensity() * 5, 0);
-
-        Uri originalUri = data.getData();
-        String picPath = "";
-        if (originalUri != null) {
+    private void addPicture(Intent data) {
+        if (null != data) {
             try {
-                String[] proj = {MediaStore.MediaColumns.DATA};
-                Cursor cursor = managedQuery(originalUri, proj, null, null, null);
-                // 按我个人理解 这个是获得用户选择的图片的索引值
-                int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-                // 将光标移至开头 ，这个很重要，不小心很容易引起越界
-                cursor.moveToFirst();
-
-                // 最后根据索引值获取图片路径
-                picPath = cursor.getString(column_index);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                addBitmapToView(bitmap, getDataColumn(this, data.getData()));
+                bitmap.recycle();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-
-        BitmapDrawable drawableBit = new BitmapDrawable(BitmapUtil.getBitmapFromFilePath(picPath, 400 * 400));
-
-        picView.setBackgroundDrawable(drawableBit);
-        picView.setLayoutParams(lp);
-        picView.setTag(picPath);
-        picView.setOnClickListener(this);
-        llPictures.addView(picView, 0);
-    }
-
-    @SuppressWarnings("deprecation")
-    public static BitmapDrawable getPhotoDrawable(Intent data) {
-        Bitmap photo = getPhotoBitmap(data);
-        if (photo != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);// (0,100)压缩文件
-            //将Bitmap对象转换成BitmapDrawable对象
-            BitmapDrawable drableBit = new BitmapDrawable(photo);
-            return drableBit;
-        }
-        return null;
-    }
-
-    /**
-     * 返回裁剪后的照片的Bitmap对象路径
-     */
-    public static Bitmap getPhotoBitmap(Intent data) {
-        Bundle extras = data.getExtras();
-        Bitmap photo = null;
-        if (null != extras) {
-            photo = extras.getParcelable("data");
         } else {
-            Uri uri = data.getData();
-            if (uri != null) {
-                photo = BitmapUtil.getBitmapFromFilePath(uri.getPath());
-            }
+            String path = PicturePath + currentTakePictureName;
+            Bitmap bitmap = BitmapUtil.getBitmapFromFilePath(path, 400 * 400);
+            addBitmapToView(bitmap, path);
+            bitmap.recycle();
         }
-        return photo;
+    }
+
+    private void addBitmapToView(Bitmap bitmap, Object tag) {
+        try {
+            ImageView picView = new ImageView(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
+            lp.setMargins(0, 0, (int) DeviceParamterUtil.getScreenDensity() * 5, 0);
+            picView.setImageBitmap(ThumbnailUtils.extractThumbnail(bitmap, 400, 400));
+            picView.setLayoutParams(lp);
+            picView.setClickable(true);
+            picView.setOnClickListener(this);
+            picView.setTag(tag);
+            llPictures.addView(picView, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -391,13 +336,9 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         if (null != v.getTag()) {
             isHaveTag = true;
             if (v.getTag().equals(AddPictureTag)) {
-                Intent intent = new Intent();
-                intent.setClass(this, MenuActivity.class);
-                ArrayList<MenuActivity.MenuItem> menuItems = new ArrayList<MenuActivity.MenuItem>();
-                menuItems.add(new MenuActivity.MenuItem("拍照"));
-                menuItems.add(new MenuActivity.MenuItem("从相册选择"));
-                intent.putExtra(KeyStore.KeyContent, menuItems);
-                startActivityForResult(intent, KeyStore.RequestCodePicture);
+                pickPhotoFromGallery();
+            } else if (v.getTag().equals(AddPhotoTag)) {
+                takePhotoFromCamera();
             } else if (v.getTag().equals(AddVoiceTag)) {
                 addVoiceRecord();
             } else if (v.getTag().equals(AddVideoTag)) {
