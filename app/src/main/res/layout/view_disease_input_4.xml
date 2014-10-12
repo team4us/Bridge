@@ -21,7 +21,8 @@
             android:id="@+id/et_point"
             android:layout_width="0dp"
             android:layout_weight="1"
-            style="@style/disease_input_edittext"/>
+            style="@style/disease_input_edittext"
+            />
 
     </LinearLayout>
 
@@ -38,7 +39,8 @@
 
         <EditText
             android:id="@+id/et_length"
-            style="@style/disease_input_edittext"/>
+            style="@style/disease_input_edittext"
+            android:inputType="number"/>
 
     </LinearLayout>
 
@@ -55,7 +57,8 @@
 
         <EditText
             android:id="@+id/et_width"
-            style="@style/disease_input_edittext"/>
+            style="@style/disease_input_edittext"
+            android:inputType="number"/>
 
     </LinearLayout>
 </LinearLayout>

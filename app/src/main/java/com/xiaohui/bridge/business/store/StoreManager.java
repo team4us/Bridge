@@ -257,7 +257,7 @@ public enum StoreManager {
             "右腹板",
             "右翼缘板"};
 
-    public String[] diseaseTypes = new String[]{"其他", "裂缝", "破损", "钢筋锈蚀"};
+    public String[] diseaseTypes = new String[]{"裂缝", "破损", "钢筋锈蚀", "其他"};
 
     public String[] diseaseInputTypes = new String[]{"方法1", "方法2", "方法3", "方法4", "方法5"};
 

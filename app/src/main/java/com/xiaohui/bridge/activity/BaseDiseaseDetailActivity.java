@@ -101,7 +101,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         spChooseDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if (position == 0) {
+                if (position == 3) {
                     etDiseaseType.setVisibility(View.VISIBLE);
                     etDiseaseType.setText("");
                 } else {
