@@ -172,8 +172,10 @@ public enum StoreManager {
         project.setCreator("张国庆");
         project.setAuditor("朱从明");
         project.setJudge("朱晓文");
+        project.setTechManager("刘玉胜");
         project.setDecisionMaker("徐庆丰");
         project.setMember("张国立 魏万刚 邵加玉 王鑫 王召全");
+        project.setDescription("");
         projects.add(project);
 
         project = new Project("宁连高速公路桥梁定期检查");

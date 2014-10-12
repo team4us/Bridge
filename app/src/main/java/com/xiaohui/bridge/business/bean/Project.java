@@ -12,10 +12,11 @@ public class Project {
     private String manager; //项目经理
     private String creator; //项目创建人
     private String auditor; //审核人
+    private String techManager; //技术负责人
     private String judge; //审定人
     private String decisionMaker; //决策人
     private String member; //项目成员
-    private String decription; //项目概况
+    private String description; //项目概况
 
     public Project(String name) {
         this.name = name;
@@ -61,8 +62,16 @@ public class Project {
         return member;
     }
 
-    public String getDecription() {
-        return decription;
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTechManager() {
+        return techManager;
+    }
+
+    public void setTechManager(String techManager) {
+        this.techManager = techManager;
     }
 
     public void setCode(String code) {
@@ -105,8 +114,8 @@ public class Project {
         this.member = member;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -122,7 +131,7 @@ public class Project {
                 ", judge='" + judge + '\'' +
                 ", decisionMaker='" + decisionMaker + '\'' +
                 ", member='" + member + '\'' +
-                ", decription='" + decription + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

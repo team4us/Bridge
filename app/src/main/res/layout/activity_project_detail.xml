@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:bind="http://robobinding.org/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -17,7 +18,6 @@
             android:padding="@dimen/margin_5">
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -31,13 +31,12 @@
                 <TextView
                     android:id="@+id/ev_project_number"
                     style="@style/disease_content_textview"
-                    android:text="L0000025"/>
+                    bind:text="{code}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -51,13 +50,12 @@
                 <TextView
                     android:id="@+id/tv_project_name"
                     style="@style/disease_content_textview"
-                    android:text="测试使用大桥1"/>
+                    bind:text="{name}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -71,13 +69,12 @@
                 <TextView
                     android:id="@+id/tv_project_builder"
                     style="@style/disease_content_textview"
-                    android:text="南京市测试研究所"/>
+                    bind:text="{company}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -91,12 +88,11 @@
                 <TextView
                     android:id="@+id/tv_industries_class"
                     style="@style/disease_content_textview"
-                    android:text="市政工程"/>
+                    bind:text="{category}"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -110,13 +106,12 @@
                 <TextView
                     android:id="@+id/tv_project_leader"
                     style="@style/disease_content_textview"
-                    android:text="张三"/>
+                    bind:text="{manager}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -130,13 +125,12 @@
                 <TextView
                     android:id="@+id/tv_project_creater"
                     style="@style/disease_content_textview"
-                    android:text="李四"/>
+                    bind:text="{creator}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -150,13 +144,12 @@
                 <TextView
                     android:id="@+id/tv_project_techleader"
                     style="@style/disease_content_textview"
-                    android:text="陈五"/>
+                    bind:text="{company}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -170,13 +163,12 @@
                 <TextView
                     android:id="@+id/tv_project_audit"
                     style="@style/disease_content_textview"
-                    android:text="王六"/>
+                    bind:text="{auditor}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -190,13 +182,12 @@
                 <TextView
                     android:id="@+id/tv_project_mainaudit"
                     style="@style/disease_content_textview"
-                    android:text="赵七"/>
+                    bind:text="{judge}"/>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -210,7 +201,7 @@
                 <TextView
                     android:id="@+id/tv_project_decision"
                     style="@style/disease_content_textview"
-                    android:text="胡八"/>
+                    bind:text="{decisionMaker}"/>
 
             </LinearLayout>
 
@@ -229,7 +220,7 @@
                 <TextView
                     android:id="@+id/tv_project_member"
                     style="@style/disease_content_textview"
-                    android:text="郭靖、黄蓉、萧十一郎、金蛇郎君、美国队长"/>
+                    bind:text="{member}"/>
 
             </LinearLayout>
 
@@ -248,7 +239,7 @@
                 <TextView
                     android:id="@+id/tv_project_survey"
                     style="@style/disease_content_textview"
-                    android:text="主要目的是为了缓解两边交通不便的问题"/>
+                    bind:text="{description}"/>
 
             </LinearLayout>
 
