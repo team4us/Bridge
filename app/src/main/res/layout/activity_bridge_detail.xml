@@ -1,39 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:bind="http://robobinding.org/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/color_efefef">
+              android:background="@color/color_ffffff">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/margin_5">
-
-                <TextView
-                    android:id="@+id/tv_bridge_project_title"
-                    style="@style/disease_title_textview"
-                    android:text="所在项目："/>
-
-                <TextView
-                    android:id="@+id/tv_bridge_project"
-                    style="@style/disease_content_textview"
-                    android:text="长江一桥xxxx桥墩"/>
-
-            </LinearLayout>
-
 
             <LinearLayout
                 android:gravity="center_vertical"
@@ -50,7 +32,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_number"
                     style="@style/disease_content_textview"
-                    android:text="Q300245"/>
+                    bind:text="{code}"/>
 
             </LinearLayout>
 
@@ -69,7 +51,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_name"
                     style="@style/disease_content_textview"
-                    android:text="南京大桥第一桥"/>
+                    bind:text="{name}"/>
 
             </LinearLayout>
 
@@ -88,7 +70,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_span"
                     style="@style/disease_content_textview"
-                    android:text="斜跨"/>
+                    bind:text="{category}"/>
 
             </LinearLayout>
 
@@ -108,7 +90,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_maintainlevel"
                     style="@style/disease_content_textview"
-                    android:text="精保养"/>
+                    bind:text="{maintainType}"/>
 
             </LinearLayout>
 
@@ -128,7 +110,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_maintain"
                     style="@style/disease_content_textview"
-                    android:text="精养护"/>
+                    bind:text="{maintainLevel}"/>
 
             </LinearLayout>
 
@@ -148,7 +130,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_designload"
                     style="@style/disease_content_textview"
-                    android:text="100t"/>
+                    bind:text="{load}"/>
 
             </LinearLayout>
 
@@ -168,7 +150,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_buildtime"
                     style="@style/disease_content_textview"
-                    android:text="1999-10-2"/>
+                    bind:text="{createTime}"/>
 
             </LinearLayout>
 
@@ -188,7 +170,7 @@
                 <TextView
                     android:id="@+id/tv_bridge_design"
                     style="@style/disease_content_textview"
-                    android:text="南京桥梁所"/>
+                    bind:text="{designer}"/>
 
             </LinearLayout>
 
@@ -208,9 +190,15 @@
                 <TextView
                     android:id="@+id/tv_bridge_build"
                     style="@style/disease_content_textview"
-                    android:text="南京游记一队"/>
+                    bind:text="{builder}"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_child"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </ScrollView>

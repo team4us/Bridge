@@ -18,7 +18,7 @@ public class Bridge {
     private String builder; //施工单位
     private String load; //设计荷载
     private int count; //分幅数
-    private String decription; //分幅信息
+    private String description; //分幅信息
     private List<ChildBridge> childBridges; //分幅桥
 
     public Bridge(String name) {
@@ -65,8 +65,8 @@ public class Bridge {
         return count;
     }
 
-    public String getDecription() {
-        return decription;
+    public String getDescription() {
+        return description;
     }
 
     public void setCode(String code) {
@@ -109,8 +109,8 @@ public class Bridge {
         this.count = count;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void addChildBridge(ChildBridge childBridge) {
@@ -138,7 +138,7 @@ public class Bridge {
                 ", builder='" + builder + '\'' +
                 ", load='" + load + '\'' +
                 ", count=" + count +
-                ", decription='" + decription + '\'' +
+                ", description='" + description + '\'' +
                 ", childBridges=" + childBridges +
                 '}';
     }

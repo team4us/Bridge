@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:bind="http://robobinding.org/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/color_ffffff">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        bind:text="{name}"
+        android:textSize="@dimen/font_size_36"
+        android:textColor="@color/color_333333"
+        android:background="@color/color_efefef"
+        android:paddingLeft="@dimen/margin_10"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_5">
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/tv_bridge_name_title"
+                style="@style/disease_title_textview"
+                android:text="结构类型："/>
+
+            <TextView
+                android:id="@+id/tv_bridge_name"
+                style="@style/disease_content_textview"
+                bind:text="{category}"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/tv_bridge_span_title"
+                style="@style/disease_title_textview"
+                android:text="桥梁跨数："/>
+
+            <TextView
+                android:id="@+id/tv_bridge_span"
+                style="@style/disease_content_textview"
+                bind:text="{count}"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/tv_bridge_maintainlevel_title"
+                style="@style/disease_title_textview"
+                android:text="跨径组合："/>
+
+            <TextView
+                android:id="@+id/tv_bridge_maintainlevel"
+                style="@style/disease_content_textview"
+                bind:text="{combination}"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/tv_bridge_maintain_title"
+                style="@style/disease_title_textview"
+                android:text="桥梁总长："/>
+
+            <TextView
+                android:id="@+id/tv_bridge_maintain"
+                style="@style/disease_content_textview"
+                bind:text="{length}"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/tv_bridge_designload_title"
+                style="@style/disease_title_textview"
+                android:text="桥梁总宽："/>
+
+            <TextView
+                android:id="@+id/tv_bridge_designload"
+                style="@style/disease_content_textview"
+                bind:text="{width}"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

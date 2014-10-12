@@ -15,7 +15,7 @@ public class LoginActivity extends AbstractActivity implements ILoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeContentView(R.layout.activity_login, new LoginViewModel(this));
+        setContentView(R.layout.activity_login, new LoginViewModel(this));
     }
 
     @Override

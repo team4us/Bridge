@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
@@ -63,6 +64,7 @@ public class BridgeActivity extends AbstractActivity
     @Override
     public void onSelectedBridge(Bridge bridge) {
         this.bridge = bridge;
+        getCookie().put(Keys.BRIDGE, bridge);
         updateChildBridgeView();
     }
 

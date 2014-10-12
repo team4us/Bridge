@@ -19,7 +19,7 @@ public class ProjectDetailActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         ProjectDetailViewModel viewModel = new ProjectDetailViewModel();
         viewModel.setProject((Project) getCookie().get(Keys.PROJECT));
-        initializeContentView(R.layout.activity_project_detail, viewModel);
+        setContentView(R.layout.activity_project_detail, viewModel);
         setTitle("项目详情");
     }
 }

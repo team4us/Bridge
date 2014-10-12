@@ -22,7 +22,7 @@ public class ProjectsActivity extends AbstractActivity implements IProjectView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeContentView(R.layout.activity_projects, new ProjectsViewModel(this));
+        setContentView(R.layout.activity_projects, new ProjectsViewModel(this));
         setTitle("项目列表");
     }
 

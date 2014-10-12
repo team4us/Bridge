@@ -19,10 +19,13 @@ public abstract class AbstractActivity extends Activity {
 
     private ActionBar actionBar;
 
-    public void initializeContentView(int layoutId, Object presentationModel) {
+    public void setContentView(int layoutId, Object presentationModel) {
+        setContentView(inflateView(layoutId, presentationModel));
+    }
+
+    public View inflateView(int layoutId, Object presentationModel) {
         ViewBinder viewBinder = createViewBinder();
-        View rootView = viewBinder.inflateAndBind(layoutId, presentationModel);
-        setContentView(rootView);
+        return viewBinder.inflateAndBind(layoutId, presentationModel);
     }
 
     public XhApplication getGlobalApplication() {

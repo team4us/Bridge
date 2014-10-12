@@ -26,11 +26,21 @@ public enum StoreManager {
         bridge.setBuilder("施工单位1");
         bridge.setLoad("汽车-超20级");
         bridge.setCount(2);
+
         ChildBridge childBridge = new ChildBridge("左幅桥");
         childBridge.setCategory("梁式桥");
+        childBridge.setCount("10");
+        childBridge.setCombination("10×80");
+        childBridge.setLength("800");
+        childBridge.setWidth("9");
         bridge.addChildBridge(childBridge);
+
         childBridge = new ChildBridge("右幅桥");
         childBridge.setCategory("梁式桥");
+        childBridge.setCount("15");
+        childBridge.setCombination("15×20");
+        childBridge.setLength("300");
+        childBridge.setWidth("8");
         bridge.addChildBridge(childBridge);
         bridges.add(bridge);
 
