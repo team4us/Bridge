@@ -12,7 +12,7 @@ public class ProjectDetailViewModel {
 
     private Project project;
 
-    public ProjectDetailViewModel(Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 
