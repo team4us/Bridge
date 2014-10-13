@@ -2,6 +2,7 @@ package com.xiaohui.bridge.viewmodel;
 
 import com.xiaohui.bridge.business.bean.Bridge;
 
+import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 
 /**
@@ -21,7 +22,7 @@ public class BridgeItemViewModel implements ItemPresentationModel<Bridge> {
     }
 
     @Override
-    public void updateData(int index, Bridge bridge) {
+    public void updateData(Bridge bridge, ItemContext itemContext) {
         title = bridge.getName();
         code = bridge.getCode();
     }

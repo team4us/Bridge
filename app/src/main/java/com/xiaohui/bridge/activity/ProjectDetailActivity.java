@@ -17,8 +17,7 @@ public class ProjectDetailActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ProjectDetailViewModel viewModel = new ProjectDetailViewModel();
-        viewModel.setProject((Project) getCookie().get(Keys.PROJECT));
+        ProjectDetailViewModel viewModel = new ProjectDetailViewModel((Project) getCookie().get(Keys.PROJECT));
         setContentView(R.layout.activity_project_detail, viewModel);
         setTitle("项目详情");
     }

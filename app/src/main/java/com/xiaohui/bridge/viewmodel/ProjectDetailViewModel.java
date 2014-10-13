@@ -2,7 +2,7 @@ package com.xiaohui.bridge.viewmodel;
 
 import com.xiaohui.bridge.business.bean.Project;
 
-import org.robobinding.aspects.PresentationModel;
+import org.robobinding.annotation.PresentationModel;
 
 /**
  * Created by xiaohui on 14-9-24.
@@ -12,10 +12,7 @@ public class ProjectDetailViewModel {
 
     private Project project;
 
-    public ProjectDetailViewModel() {
-    }
-
-    public void setProject(Project project) {
+    public ProjectDetailViewModel(Project project) {
         this.project = project;
     }
 

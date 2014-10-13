@@ -6,7 +6,7 @@ import com.xiaohui.bridge.model.BridgesModel;
 import com.xiaohui.bridge.view.IBridgeView;
 
 import org.robobinding.annotation.ItemPresentationModel;
-import org.robobinding.aspects.PresentationModel;
+import org.robobinding.annotation.PresentationModel;
 import org.robobinding.widget.adapterview.ItemClickEvent;
 
 import java.util.List;
