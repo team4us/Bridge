@@ -168,6 +168,18 @@
                     android:orientation="horizontal">
                 </LinearLayout>
 
+                <GridView
+                    android:id="@+id/noScrollgridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_5"
+                    android:horizontalSpacing="3dp"
+                    android:numColumns="4"
+                    android:scrollbars="none"
+                    android:verticalSpacing="5dp" >
+                </GridView>
+
+
                 <LinearLayout
                     android:id="@+id/ll_voice_records"
                     android:layout_width="match_parent"
