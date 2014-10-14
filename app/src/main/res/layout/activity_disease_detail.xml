@@ -169,7 +169,7 @@
                 </LinearLayout>
 
                 <com.xiaohui.bridge.view.MyGridView
-                    android:id="@+id/noScrollgridview"
+                    android:id="@+id/mgv_pictures"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_5"
