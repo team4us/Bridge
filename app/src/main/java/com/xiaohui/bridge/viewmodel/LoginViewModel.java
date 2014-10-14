@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.xiaohui.bridge.view.ILoginView;
 
-import org.robobinding.aspects.PresentationModel;
+import org.robobinding.annotation.PresentationModel;
 
 /**
  * Created by xhChen on 14/9/22.

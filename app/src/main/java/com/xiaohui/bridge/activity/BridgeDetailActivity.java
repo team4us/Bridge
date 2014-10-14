@@ -19,17 +19,13 @@ public class BridgeDetailActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BridgeDetailViewModel viewModel = new BridgeDetailViewModel();
         Bridge bridge = (Bridge) getCookie().get(Keys.BRIDGE);
-        viewModel.setBridge(bridge);
-        setContentView(R.layout.activity_bridge_detail, viewModel);
+        setContentView(R.layout.activity_bridge_detail, new BridgeDetailViewModel(bridge));
         setTitle("桥梁详情");
 
         for (ChildBridge childBridge : bridge.getChildBridges()) {
-            ChildBridgeDetailViewModel childViewModel = new ChildBridgeDetailViewModel();
-            childViewModel.setChildBridge(childBridge);
             LinearLayout llChild = (LinearLayout) findViewById(R.id.ll_child);
-            View view = inflateView(R.layout.view_child_bridge_detail, childViewModel);
+            View view = inflateView(R.layout.view_child_bridge_detail, new ChildBridgeDetailViewModel(childBridge));
             llChild.addView(view);
         }
     }

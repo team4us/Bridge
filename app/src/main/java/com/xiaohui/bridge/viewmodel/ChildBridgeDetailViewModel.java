@@ -2,7 +2,7 @@ package com.xiaohui.bridge.viewmodel;
 
 import com.xiaohui.bridge.business.bean.ChildBridge;
 
-import org.robobinding.aspects.PresentationModel;
+import org.robobinding.annotation.PresentationModel;
 
 /**
  * Created by xiaohui on 14-9-24.
@@ -12,7 +12,7 @@ public class ChildBridgeDetailViewModel {
 
     private ChildBridge childBridge;
 
-    public void setChildBridge(ChildBridge childBridge) {
+    public ChildBridgeDetailViewModel(ChildBridge childBridge) {
         this.childBridge = childBridge;
     }
 

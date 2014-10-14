@@ -248,6 +248,4 @@ public enum StoreManager {
 
     public String[] diseaseTypes = new String[]{"裂缝", "破损", "钢筋锈蚀", "其他"};
 
-    public String[] diseaseInputTypes = new String[]{"方法1", "方法2", "方法3", "方法4", "方法5"};
-
 }

@@ -161,30 +161,22 @@
                     android:text="多媒体："/>
 
                 <LinearLayout
-                    android:id="@+id/ll_pictures"
+                    android:id="@+id/ll_media_types"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
                     android:orientation="horizontal">
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll_voice_records"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_video_records"
+                <com.xiaohui.bridge.view.MyGridView
+                    android:id="@+id/mgv_pictures"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
+                    android:layout_margin="@dimen/margin_5"
+                    android:horizontalSpacing="3dp"
+                    android:numColumns="4"
+                    android:scrollbars="none"
+                    android:verticalSpacing="5dp" />
 
             </LinearLayout>
 
