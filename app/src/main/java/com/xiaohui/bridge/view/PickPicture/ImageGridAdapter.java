@@ -16,7 +16,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.testpic.BitmapCache.ImageCallback;
+import com.xiaohui.bridge.R;
+
 
 public class ImageGridAdapter extends BaseAdapter {
 
@@ -28,7 +29,7 @@ public class ImageGridAdapter extends BaseAdapter {
 	BitmapCache cache;
 	private Handler mHandler;
 	private int selectTotal = 0;
-	ImageCallback callback = new ImageCallback() {
+	BitmapCache.ImageCallback callback = new BitmapCache.ImageCallback() {
 		@Override
 		public void imageLoad(ImageView imageView, Bitmap bitmap,
 				Object... params) {
@@ -93,7 +94,7 @@ public class ImageGridAdapter extends BaseAdapter {
 
 		if (convertView == null) {
 			holder = new Holder();
-			convertView = View.inflate(act, R.layout.item_image_grid, null);
+			convertView = View.inflate(act, R .layout.item_image_grid, null);
 			holder.iv = (ImageView) convertView.findViewById(R.id.image);
 			holder.selected = (ImageView) convertView
 					.findViewById(R.id.isselected);
