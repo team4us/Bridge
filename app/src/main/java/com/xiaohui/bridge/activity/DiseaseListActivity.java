@@ -27,7 +27,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_list);
 
-        setTitle("病害列表");
+        setTitle(getIntent().getStringExtra("title") + "病害列表");
 
         diseaseListView = (ListView) findViewById(R.id.lv_disease);
         diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));

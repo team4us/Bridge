@@ -55,7 +55,9 @@ public class BridgeActivity extends AbstractActivity
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                startActivity(new Intent(BridgeActivity.this, DiseaseListActivity.class));
+                Intent intent = new Intent(BridgeActivity.this, DiseaseListActivity.class);
+                intent.putExtra("title", (String) adapter.getChild(groupPosition, childPosition));
+                startActivity(intent);
                 return false;
             }
         });
