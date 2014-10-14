@@ -221,7 +221,6 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
          * ListView Item设置
          */
         public View getView(int position, View convertView, ViewGroup parent) {
-            final int coord = position;
             ViewHolder holder = null;
             if (convertView == null) {
 
@@ -235,14 +234,11 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position == Bimp.bmp.size()) {
-                holder.image.setImageBitmap(BitmapFactory.decodeResource(
-                        getResources(), R.drawable.icon_addpic_unfocused));
-                if (position == 9) {
-                    holder.image.setVisibility(View.GONE);
-                }
-            } else {
+            if (position < Bimp.bmp.size() && null != Bimp.bmp && Bimp.bmp.size() > 0) {
+                holder.image.setVisibility(View.VISIBLE);
                 holder.image.setImageBitmap(Bimp.bmp.get(position));
+            } else {
+                holder.image.setVisibility(View.GONE);
             }
 
             return convertView;
@@ -311,7 +307,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
 
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
         ImageView addPhotoIcon = new ImageView(this);
-        addIconLP.setMargins(0,10,20,10);
+        addIconLP.setMargins(0, 10, 20, 10);
         addPhotoIcon.setLayoutParams(addIconLP);
         addPhotoIcon.setOnClickListener(this);
         addPhotoIcon.setTag(AddPhotoTag);
@@ -349,12 +345,6 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 if (Bimp.drr.size() < 9 && resultCode == -1) {
                     Bimp.drr.add(path);
                 }
-                break;
-            case KeyStore.RequestCodePickPicture:
-//                if (resultCode != RESULT_OK) {
-//                    return;
-//                }
-//                addPicture(data);
                 break;
             case KeyStore.RequestCodeTakeRecord:
                 if (null != data && null != data.getExtras()) {
@@ -418,62 +408,6 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         Intent intent = new Intent(BaseDiseaseDetailActivity.this,
                 TestPicActivity.class);
         startActivityForResult(intent, KeyStore.RequestCodePickPicture);
-//        // 打开相册
-//        try {
-//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-//            intent.setType("image/*");
-//            intent.putExtra("return-data", true);
-//            startActivityForResult(intent, KeyStore.RequestCodePickPicture);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    public static String getDataColumn(Context context, Uri uri) {
-        String[] projection = {MediaStore.MediaColumns.DATA};
-        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-        // 按我个人理解 这个是获得用户选择的图片的索引值
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        // 将光标移至开头 ，这个很重要，不小心很容易引起越界
-        cursor.moveToFirst();
-        String path = cursor.getString(column_index);
-        cursor.close();
-        // 最后根据索引值获取图片路径
-        return path;
-
-    }
-
-    private void addPicture(Intent data) {
-        if (null != data) {
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                addBitmapToView(bitmap, getDataColumn(this, data.getData()));
-                bitmap.recycle();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            String path = PicturePath + currentTakePictureName;
-            Bitmap bitmap = BitmapUtil.getBitmapFromFilePath(path, 400 * 400);
-            addBitmapToView(bitmap, path);
-            bitmap.recycle();
-        }
-    }
-
-    private void addBitmapToView(Bitmap bitmap, Object tag) {
-        try {
-            ImageView picView = new ImageView(this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
-            lp.setMargins(0, 0, (int) DeviceParamterUtil.getScreenDensity() * 5, 0);
-            picView.setImageBitmap(ThumbnailUtils.extractThumbnail(bitmap, 400, 400));
-            picView.setLayoutParams(lp);
-            picView.setClickable(true);
-            picView.setOnClickListener(this);
-            picView.setTag(tag);
-            llPictures.addView(picView, 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
