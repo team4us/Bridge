@@ -95,18 +95,23 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view$PickPicture.ImageGridActivity"
+            android:name=".view.PickPicture.ImageGridActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".view$PickPicture.PublishedActivity"
+            android:name=".view.PickPicture.PublishedActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".view$PickPicture.PhotoActivity"
+            android:name=".view.PickPicture.PhotoActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".view.PickPicture.TestPicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
