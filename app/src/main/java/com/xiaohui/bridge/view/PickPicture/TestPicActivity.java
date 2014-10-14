@@ -14,8 +14,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.activity.AbstractActivity;
+import com.xiaohui.bridge.business.store.KeyStore;
 
-public class TestPicActivity extends Activity {
+public class TestPicActivity extends AbstractActivity {
     // ArrayList<Entity> dataList;//用来装载数据源的列表
     List<ImageBucket> dataList;
     GridView gridView;
@@ -26,9 +28,9 @@ public class TestPicActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_bucket);
+        setTitle("相册");
 
         helper = AlbumHelper.getHelper();
         helper.init(getApplicationContext());
@@ -85,10 +87,19 @@ public class TestPicActivity extends Activity {
                         ImageGridActivity.class);
                 intent.putExtra(TestPicActivity.EXTRA_IMAGE_LIST,
                         (Serializable) dataList.get(position).imageList);
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent, KeyStore.RequestCodePickPicture);
             }
 
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == KeyStore.RequestCodePickPicture){
+            if(resultCode == KeyStore.ResultCodeSuccess) {
+                setResult(KeyStore.ResultCodeSuccess);
+            }
+        }
     }
 }

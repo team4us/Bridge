@@ -17,8 +17,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.activity.AbstractActivity;
 
-public class PhotoActivity extends Activity {
+public class PhotoActivity extends AbstractActivity {
 
     private ArrayList<View> listViews = null;
     private ViewPager pager;

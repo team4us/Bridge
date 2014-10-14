@@ -1,6 +1,5 @@
 package com.xiaohui.bridge.view.PickPicture;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,19 +15,20 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.activity.AbstractActivity;
+import com.xiaohui.bridge.business.store.KeyStore;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class ImageGridActivity extends Activity {
+public class ImageGridActivity extends AbstractActivity {
     public static final String EXTRA_IMAGE_LIST = "imagelist";
 
-    // ArrayList<Entity> dataList;//鐢ㄦ潵瑁呰浇鏁版嵁婧愮殑鍒楄〃
     List<ImageItem> dataList;
     GridView gridView;
-    ImageGridAdapter adapter;// 鑷畾涔夌殑閫傞厤鍣�
+    ImageGridAdapter adapter;
     AlbumHelper helper;
     Button bt;
 
@@ -52,6 +52,8 @@ public class ImageGridActivity extends Activity {
 
         setContentView(R.layout.activity_image_grid);
 
+        setTitle("相册");
+
         helper = AlbumHelper.getHelper();
         helper.init(getApplicationContext());
 
@@ -71,9 +73,7 @@ public class ImageGridActivity extends Activity {
                 }
 
                 if (Bimp.act_bool) {
-                    Intent intent = new Intent(ImageGridActivity.this,
-                            PublishedActivity.class);
-                    startActivity(intent);
+                    setResult(KeyStore.ResultCodeSuccess);
                     Bimp.act_bool = false;
                 }
                 for (int i = 0; i < list.size(); i++) {
@@ -81,15 +81,13 @@ public class ImageGridActivity extends Activity {
                         Bimp.drr.add(list.get(i));
                     }
                 }
+                setResult(KeyStore.ResultCodeSuccess);
                 finish();
             }
 
         });
     }
 
-    /**
-     * 鍒濆鍖杤iew瑙嗗浘
-     */
     private void initView() {
         gridView = (GridView) findViewById(R.id.gridview);
         gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -107,18 +105,11 @@ public class ImageGridActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                /**
-                 * 鏍规嵁position鍙傛暟锛屽彲浠ヨ幏寰楄窡GridView鐨勫瓙View鐩哥粦瀹氱殑瀹炰綋绫伙紝鐒跺悗鏍规嵁瀹冪殑isSelected鐘舵
-                 * �锛� 鏉ュ垽鏂槸鍚︽樉绀洪�涓晥鏋溿� 鑷充簬閫変腑鏁堟灉鐨勮鍒欙紝涓嬮潰閫傞厤鍣ㄧ殑浠ｇ爜涓細鏈夎鏄�
-                 */
                 // if(dataList.get(position).isSelected()){
                 // dataList.get(position).setSelected(false);
                 // }else{
                 // dataList.get(position).setSelected(true);
                 // }
-                /**
-                 * 閫氱煡閫傞厤鍣紝缁戝畾鐨勬暟鎹彂鐢熶簡鏀瑰彉锛屽簲褰撳埛鏂拌鍥�
-                 */
                 adapter.notifyDataSetChanged();
             }
 

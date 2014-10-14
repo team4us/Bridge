@@ -74,8 +74,6 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     protected boolean isHaveTag = false;
 
     private LinearLayout llPictures;
-    private LinearLayout llVoices;
-    private LinearLayout llVideos;
     private Spinner spChoosePosition;
     private Spinner spChooseDiseaseType;
     private EditText etDiseaseType;
@@ -99,8 +97,6 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         setTitle(isAdded ? "病害新增" : "病害编辑");
 
         llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
-        llVoices = (LinearLayout) findViewById(R.id.ll_voice_records);
-        llVideos = (LinearLayout) findViewById(R.id.ll_video_records);
         spChoosePosition = (Spinner) findViewById(R.id.sp_choose_position);
         spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
@@ -320,11 +316,10 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
 
         LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mediaLayoutHeight);
         llPictures.setLayoutParams(layoutLP);
-        llVoices.setLayoutParams(layoutLP);
-        llVideos.setLayoutParams(layoutLP);
 
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
         ImageView addPhotoIcon = new ImageView(this);
+        addIconLP.setMargins(0,10,20,10);
         addPhotoIcon.setLayoutParams(addIconLP);
         addPhotoIcon.setOnClickListener(this);
         addPhotoIcon.setTag(AddPhotoTag);
@@ -343,14 +338,14 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         addVoiceIcon.setOnClickListener(this);
         addVoiceIcon.setTag(AddVoiceTag);
         addVoiceIcon.setBackgroundResource(R.drawable.bg_add_voice);
-        llVoices.addView(addVoiceIcon);
+        llPictures.addView(addVoiceIcon);
 
         ImageView addVideoIcon = new ImageView(this);
         addVideoIcon.setLayoutParams(addIconLP);
         addVideoIcon.setOnClickListener(this);
         addVideoIcon.setTag(AddVideoTag);
         addVideoIcon.setBackgroundResource(R.drawable.bg_add_movie);
-        llVideos.addView(addVideoIcon);
+        llPictures.addView(addVideoIcon);
     }
 
     @Override
@@ -364,10 +359,10 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
                 }
                 break;
             case KeyStore.RequestCodePickPicture:
-                if (resultCode != RESULT_OK) {
-                    return;
-                }
-                addPicture(data);
+//                if (resultCode != RESULT_OK) {
+//                    return;
+//                }
+//                addPicture(data);
                 break;
             case KeyStore.RequestCodeTakeRecord:
                 if (null != data && null != data.getExtras()) {
@@ -430,7 +425,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     protected void pickPhotoFromGallery() {
         Intent intent = new Intent(BaseDiseaseDetailActivity.this,
                 TestPicActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, KeyStore.RequestCodePickPicture);
 //        // 打开相册
 //        try {
 //            Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);

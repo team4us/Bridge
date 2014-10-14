@@ -38,8 +38,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.activity.AbstractActivity;
 
-public class PublishedActivity extends Activity {
+public class PublishedActivity extends AbstractActivity {
 
     private GridView noScrollgridview;
     private GridAdapter adapter;
