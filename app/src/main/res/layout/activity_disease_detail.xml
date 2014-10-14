@@ -161,7 +161,7 @@
                     android:text="多媒体："/>
 
                 <LinearLayout
-                    android:id="@+id/ll_pictures"
+                    android:id="@+id/ll_media_types"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"

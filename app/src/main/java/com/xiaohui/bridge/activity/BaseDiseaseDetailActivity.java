@@ -3,12 +3,9 @@ package com.xiaohui.bridge.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,7 +28,6 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.business.store.StoreManager;
-import com.xiaohui.bridge.util.BitmapUtil;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate1;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate2;
@@ -65,7 +61,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
 
     protected boolean isHaveTag = false;
 
-    private LinearLayout llPictures;
+    private LinearLayout llMediaTypes;
     private Spinner spChoosePosition;
     private Spinner spChooseDiseaseType;
     private EditText etDiseaseType;
@@ -88,7 +84,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         boolean isAdded = getIntent().getBooleanExtra(Keys.FLAG, true);
         setTitle(isAdded ? "病害新增" : "病害编辑");
 
-        llPictures = (LinearLayout) findViewById(R.id.ll_pictures);
+        llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
         spChoosePosition = (Spinner) findViewById(R.id.sp_choose_position);
         spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
@@ -303,7 +299,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         mediaLayoutHeight = mediaLayoutWidth / 5;
 
         LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mediaLayoutHeight);
-        llPictures.setLayoutParams(layoutLP);
+        llMediaTypes.setLayoutParams(layoutLP);
 
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
         ImageView addPhotoIcon = new ImageView(this);
@@ -312,28 +308,28 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         addPhotoIcon.setOnClickListener(this);
         addPhotoIcon.setTag(AddPhotoTag);
         addPhotoIcon.setBackgroundResource(R.drawable.bg_photo);
-        llPictures.addView(addPhotoIcon);
+        llMediaTypes.addView(addPhotoIcon);
 
         ImageView addPicIcon = new ImageView(this);
         addPicIcon.setLayoutParams(addIconLP);
         addPicIcon.setOnClickListener(this);
         addPicIcon.setTag(AddPictureTag);
         addPicIcon.setBackgroundResource(R.drawable.bg_add_picture);
-        llPictures.addView(addPicIcon);
+        llMediaTypes.addView(addPicIcon);
 
         ImageView addVoiceIcon = new ImageView(this);
         addVoiceIcon.setLayoutParams(addIconLP);
         addVoiceIcon.setOnClickListener(this);
         addVoiceIcon.setTag(AddVoiceTag);
         addVoiceIcon.setBackgroundResource(R.drawable.bg_add_voice);
-        llPictures.addView(addVoiceIcon);
+        llMediaTypes.addView(addVoiceIcon);
 
         ImageView addVideoIcon = new ImageView(this);
         addVideoIcon.setLayoutParams(addIconLP);
         addVideoIcon.setOnClickListener(this);
         addVideoIcon.setTag(AddVideoTag);
         addVideoIcon.setBackgroundResource(R.drawable.bg_add_movie);
-        llPictures.addView(addVideoIcon);
+        llMediaTypes.addView(addVideoIcon);
     }
 
     @Override
@@ -372,10 +368,10 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     }
 
     private void llPicturesLayoutChange(String picturePath) {
-        for (int i = 0; i < llPictures.getChildCount(); i++) {
-            View view = llPictures.getChildAt(i);
+        for (int i = 0; i < llMediaTypes.getChildCount(); i++) {
+            View view = llMediaTypes.getChildAt(i);
             if (view.getTag().equals(picturePath)) {
-                llPictures.removeView(view);
+                llMediaTypes.removeView(view);
                 return;
             }
         }
