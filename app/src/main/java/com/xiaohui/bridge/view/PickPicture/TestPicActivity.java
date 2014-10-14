@@ -99,6 +99,7 @@ public class TestPicActivity extends AbstractActivity {
         if(requestCode == KeyStore.RequestCodePickPicture){
             if(resultCode == KeyStore.ResultCodeSuccess) {
                 setResult(KeyStore.ResultCodeSuccess);
+                this.finish();
             }
         }
     }

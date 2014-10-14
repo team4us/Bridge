@@ -40,7 +40,7 @@
         android:background="@null" >
     </EditText>
 
-    <GridView 
+    <com.xiaohui.bridge.view.MyGridView
         android:id="@+id/noScrollgridview"
         android:layout_width="290dp"
         android:layout_height="350dp"
@@ -48,7 +48,5 @@
         android:horizontalSpacing="3dp"        
         android:numColumns="4"
         android:scrollbars="none"
-        android:verticalSpacing="5dp" >
-    </GridView>
-
+        android:verticalSpacing="5dp" />
 </LinearLayout>

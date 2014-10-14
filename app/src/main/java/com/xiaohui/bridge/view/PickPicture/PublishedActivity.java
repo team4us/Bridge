@@ -1,12 +1,6 @@
 package com.xiaohui.bridge.view.PickPicture;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -39,6 +33,11 @@ import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.AbstractActivity;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PublishedActivity extends AbstractActivity {
 

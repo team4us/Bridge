@@ -168,16 +168,15 @@
                     android:orientation="horizontal">
                 </LinearLayout>
 
-                <GridView
+                <com.xiaohui.bridge.view.MyGridView
                     android:id="@+id/noScrollgridview"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_5"
                     android:horizontalSpacing="3dp"
                     android:numColumns="4"
                     android:scrollbars="none"
-                    android:verticalSpacing="5dp" >
-                </GridView>
+                    android:verticalSpacing="5dp" />
 
             </LinearLayout>
 

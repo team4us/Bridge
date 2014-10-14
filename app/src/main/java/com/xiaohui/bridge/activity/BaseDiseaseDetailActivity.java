@@ -7,33 +7,25 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
@@ -46,10 +38,10 @@ import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate2;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate3;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate4;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate5;
+import com.xiaohui.bridge.view.MyGridView;
 import com.xiaohui.bridge.view.PickPicture.Bimp;
 import com.xiaohui.bridge.view.PickPicture.FileUtils;
 import com.xiaohui.bridge.view.PickPicture.PhotoActivity;
-import com.xiaohui.bridge.view.PickPicture.PublishedActivity;
 import com.xiaohui.bridge.view.PickPicture.TestPicActivity;
 
 import java.io.File;
@@ -80,7 +72,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     private RadioGroup rgRadioGroup;
     private LinearLayout llInputTemplate;
 
-    private GridView noScrollgridview;
+    private MyGridView noScrollMyGridView;
     private GridAdapter adapter;
 
     private String currentTakePictureName = "";
@@ -164,12 +156,12 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
 
         initMediaLayout();
 
-        noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
-        noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        noScrollMyGridView = (MyGridView) findViewById(R.id.noScrollgridview);
+        noScrollMyGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         adapter = new GridAdapter(this);
         adapter.update();
-        noScrollgridview.setAdapter(adapter);
-        noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        noScrollMyGridView.setAdapter(adapter);
+        noScrollMyGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
@@ -506,5 +498,11 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         } else {
             isHaveTag = false;
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        Bimp.clearData();
     }
 }

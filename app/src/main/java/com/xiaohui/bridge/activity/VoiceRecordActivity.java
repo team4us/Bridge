@@ -75,7 +75,7 @@ public class VoiceRecordActivity extends AbstractActivity{
                 return;
             }
 
-            File myRecAudioFile = new File(currentRecordName);
+            File myRecAudioFile = new File(recordPath + currentRecordName);
 
             mVoiceRecorder = new MediaRecorder();
             mVoiceRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
