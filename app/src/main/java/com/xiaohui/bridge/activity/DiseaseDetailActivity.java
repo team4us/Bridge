@@ -226,20 +226,20 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void initMediaLayout() {
-        mediaLayoutWidth = (int) (DeviceParamterUtil.getScreenPixelsWidth() - DeviceParamterUtil.getScreenDensity() * 40);
+        mediaLayoutWidth = DeviceParamterUtil.dip2px(60);//(int) (DeviceParamterUtil.getScreenPixelsWidth() - DeviceParamterUtil.getScreenDensity() * 40);
         mediaLayoutHeight = mediaLayoutWidth / 6;
 
-        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mediaLayoutHeight);
+        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mediaLayoutWidth);
         llMediaTypes.setLayoutParams(layoutLP);
 
-        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutHeight, mediaLayoutHeight);
+        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutWidth, mediaLayoutWidth);
         ImageView addPhotoIcon = new ImageView(this);
-        addIconLP.setMargins(0, 10, 40, 20);
+        addIconLP.setMargins(5, 0, 5, 0);
         addPhotoIcon.setLayoutParams(addIconLP);
         addPhotoIcon.setOnClickListener(this);
         addPhotoIcon.setTag(AddPhotoTag);
         addPhotoIcon.setBackgroundResource(R.drawable.bg_photo);
-        llMediaTypes.addView(addPhotoIcon);
+        llMediaTypes.addView(addPhotoIcon, addIconLP);
 
         ImageView addPicIcon = new ImageView(this);
         addPicIcon.setLayoutParams(addIconLP);

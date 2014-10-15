@@ -9,10 +9,16 @@
     <style name="ActionBarStyle" parent="android:Widget.ActionBar">
         <item name="android:background">@color/color_099fde</item>
         <item name="android:titleTextStyle">@style/titleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/subtitleTextStyle</item>
     </style>
 
     <style name="titleTextStyle">
         <item name="android:textSize">@dimen/font_size_36</item>
+        <item name="android:textColor">@color/color_ffffff</item>
+    </style>
+
+    <style name="subtitleTextStyle">
+        <item name="android:textSize">@dimen/font_size_30</item>
         <item name="android:textColor">@color/color_ffffff</item>
     </style>
 

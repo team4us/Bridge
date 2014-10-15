@@ -19,7 +19,7 @@ import java.util.List;
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener{
+public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
     private ListView diseaseListView;
 
     @Override
@@ -61,7 +61,9 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
             Intent intent = new Intent(this, DiseaseDetailActivity.class);
             intent.putExtra(Keys.FLAG, true); //是否为新增
             startActivity(intent);
-            return true;
+        } else if (id == R.id.action_disease_statistics) {
+            Intent intent = new Intent(this, DiseaseStatisticsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

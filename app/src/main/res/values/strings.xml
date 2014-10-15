@@ -13,6 +13,7 @@
     <string name="action_project_detail">项目详情</string>
     <string name="action_disease_add">添加病害</string>
     <string name="action_delete_image">删除图片</string>
+    <string name="action_bridge_statistics">病害统计</string>
     <string name="action_upload">上传</string>
     <string name="action_download">下载</string>
     <string name="action_save">保存</string>

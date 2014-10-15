@@ -4,4 +4,10 @@
         android:icon="@drawable/icon_add"
         android:title="@string/action_disease_add"
         android:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_disease_statistics"
+        android:icon="@drawable/icon_detail"
+        android:title="@string/action_bridge_statistics"
+        android:showAsAction="ifRoom"/>
 </menu>
