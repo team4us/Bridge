@@ -69,6 +69,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private Spinner spChooseDiseaseType;
     private EditText etDiseaseType;
     private RadioGroup rgRadioGroup;
+    private RadioButton rbRadioButton1;
+    private RadioButton rbRadioButton2;
+    private RadioButton rbRadioButton3;
+    private RadioButton rbRadioButton4;
+    private RadioButton rbRadioButton5;
     private LinearLayout llInputTemplate;
 
     private MyGridView mgvPicturesGridView;
@@ -92,6 +97,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
         rgRadioGroup = (RadioGroup) findViewById(R.id.rg_radio_group);
+        rbRadioButton1 = (RadioButton) findViewById(R.id.rb_input_1);
+        rbRadioButton2 = (RadioButton) findViewById(R.id.rb_input_2);
+        rbRadioButton3 = (RadioButton) findViewById(R.id.rb_input_3);
+        rbRadioButton4 = (RadioButton) findViewById(R.id.rb_input_4);
+        rbRadioButton5 = (RadioButton) findViewById(R.id.rb_input_5);
         llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
 
         initDiseaseDetailView();
@@ -139,9 +149,26 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         spChooseDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if(position == 0){
+                    rbRadioButton1.setChecked(true);
+                    rbRadioButton1.setVisibility(View.VISIBLE);
+                    rbRadioButton3.setVisibility(View.VISIBLE);
+                    rbRadioButton5.setVisibility(View.VISIBLE);
+                    rbRadioButton2.setVisibility(View.GONE);
+                    rbRadioButton4.setVisibility(View.GONE);
+                } else {
+                    rbRadioButton2.setChecked(true);
+                    rbRadioButton1.setVisibility(View.GONE);
+                    rbRadioButton3.setVisibility(View.GONE);
+                    rbRadioButton5.setVisibility(View.VISIBLE);
+                    rbRadioButton2.setVisibility(View.VISIBLE);
+                    rbRadioButton4.setVisibility(View.VISIBLE);
+                }
+
                 if (position == 3) {
                     etDiseaseType.setVisibility(View.VISIBLE);
                     etDiseaseType.setText("");
+
                 } else {
                     etDiseaseType.setVisibility(View.GONE);
                 }
