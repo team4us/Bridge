@@ -100,12 +100,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".view.PickPicture.PublishedActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name=".view.PickPicture.PhotoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
