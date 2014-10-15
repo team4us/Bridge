@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_disease_save"
+        android:title="@string/action_save"
+        android:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_disease_cancel"
+        android:title="@string/action_cancel"
+        android:showAsAction="ifRoom"/>
+</menu>

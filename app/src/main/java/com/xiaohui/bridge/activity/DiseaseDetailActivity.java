@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
@@ -51,7 +54,7 @@ import java.util.Locale;
  * 多种病害输入模板基类
  * Created by Administrator on 2014/10/9.
  */
-public class BaseDiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
+public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
 
     private static String PicturePath = "/mnt/sdcard/IBridge/Picture/";
     private static String AddPhotoTag = "AddPhoto";
@@ -96,6 +99,26 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
         initGridView();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.disease_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_disease_save) {
+            Toast.makeText(this,"保存", Toast.LENGTH_SHORT).show();
+        } else if(id == R.id.action_disease_cancel){
+            // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
+            Toast.makeText(this,"取消", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initDiseaseDetailView(){
         ArrayAdapter<String> positions = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.generalsTypes);
         positions.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
@@ -129,28 +152,28 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
             }
         });
 
-        llInputTemplate.addView(new DiseaseInputTemplate1(BaseDiseaseDetailActivity.this));
+        llInputTemplate.addView(new DiseaseInputTemplate1(DiseaseDetailActivity.this));
         rgRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int radioButtonId = radioGroup.getCheckedRadioButtonId();
-                RadioButton rb = (RadioButton) BaseDiseaseDetailActivity.this.findViewById(radioButtonId);
+                RadioButton rb = (RadioButton) DiseaseDetailActivity.this.findViewById(radioButtonId);
                 llInputTemplate.removeAllViews();
                 switch (Integer.valueOf((String) rb.getTag())) {
                     case 1:
-                        llInputTemplate.addView(new DiseaseInputTemplate1(BaseDiseaseDetailActivity.this));
+                        llInputTemplate.addView(new DiseaseInputTemplate1(DiseaseDetailActivity.this));
                         break;
                     case 2:
-                        llInputTemplate.addView(new DiseaseInputTemplate2(BaseDiseaseDetailActivity.this));
+                        llInputTemplate.addView(new DiseaseInputTemplate2(DiseaseDetailActivity.this));
                         break;
                     case 3:
-                        llInputTemplate.addView(new DiseaseInputTemplate3(BaseDiseaseDetailActivity.this));
+                        llInputTemplate.addView(new DiseaseInputTemplate3(DiseaseDetailActivity.this));
                         break;
                     case 4:
-                        llInputTemplate.addView(new DiseaseInputTemplate4(BaseDiseaseDetailActivity.this));
+                        llInputTemplate.addView(new DiseaseInputTemplate4(DiseaseDetailActivity.this));
                         break;
                     case 5:
-                        llInputTemplate.addView(new DiseaseInputTemplate5(BaseDiseaseDetailActivity.this));
+                        llInputTemplate.addView(new DiseaseInputTemplate5(DiseaseDetailActivity.this));
                         break;
                 }
             }
@@ -167,7 +190,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
 
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
                                     long arg3) {
-                Intent intent = new Intent(BaseDiseaseDetailActivity.this,
+                Intent intent = new Intent(DiseaseDetailActivity.this,
                         PhotoActivity.class);
                 intent.putExtra("ID", arg2);
                 startActivity(intent);
@@ -288,7 +311,7 @@ public class BaseDiseaseDetailActivity extends AbstractActivity implements View.
     }
 
     protected void pickPhotoFromGallery() {
-        Intent intent = new Intent(BaseDiseaseDetailActivity.this,
+        Intent intent = new Intent(DiseaseDetailActivity.this,
                 TestPicActivity.class);
         startActivityForResult(intent, KeyStore.RequestCodePickPicture);
     }
