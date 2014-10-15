@@ -82,9 +82,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private String currentTakePictureName = "";
     private String path = "";
 
-    private int mediaLayoutWidth = 0;
-    private int mediaLayoutHeight = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,16 +117,16 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         int id = item.getItemId();
 
         if (id == R.id.action_disease_save) {
-            Toast.makeText(this,"保存", Toast.LENGTH_SHORT).show();
-        } else if(id == R.id.action_disease_cancel){
+            Toast.makeText(this, "保存", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.action_disease_cancel) {
             // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
-            Toast.makeText(this,"取消", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void initDiseaseDetailView(){
+    private void initDiseaseDetailView() {
         ArrayAdapter<String> positions = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.generalsTypes);
         positions.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
         spChoosePosition.setAdapter(positions);
@@ -149,7 +146,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         spChooseDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if(position == 0){
+                if (position == 0) {
                     rbRadioButton1.setChecked(true);
                     rbRadioButton1.setVisibility(View.VISIBLE);
                     rbRadioButton3.setVisibility(View.VISIBLE);
@@ -207,7 +204,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         });
     }
 
-    private void initGridView(){
+    private void initGridView() {
         mgvPicturesGridView = (MyGridView) findViewById(R.id.mgv_pictures);
         mgvPicturesGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         mgvPicturesAdapter = new GridAdapter(this);
@@ -226,13 +223,12 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void initMediaLayout() {
-        mediaLayoutWidth = DeviceParamterUtil.dip2px(60);//(int) (DeviceParamterUtil.getScreenPixelsWidth() - DeviceParamterUtil.getScreenDensity() * 40);
-        mediaLayoutHeight = mediaLayoutWidth / 6;
-
-        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mediaLayoutWidth);
+        int width = DeviceParamterUtil.dip2px(60);
+        int height = width;
+        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
         llMediaTypes.setLayoutParams(layoutLP);
 
-        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(mediaLayoutWidth, mediaLayoutWidth);
+        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(width, height);
         ImageView addPhotoIcon = new ImageView(this);
         addIconLP.setMargins(5, 0, 5, 0);
         addPhotoIcon.setLayoutParams(addIconLP);
