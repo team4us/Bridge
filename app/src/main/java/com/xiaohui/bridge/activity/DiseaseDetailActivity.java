@@ -149,17 +149,23 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 if (position == 0) {
                     rbRadioButton1.setChecked(true);
                     rbRadioButton1.setVisibility(View.VISIBLE);
+                    rbRadioButton1.setText("详细记录");
                     rbRadioButton3.setVisibility(View.VISIBLE);
+                    rbRadioButton3.setText("统计记录");
                     rbRadioButton5.setVisibility(View.VISIBLE);
+                    rbRadioButton5.setText("描述记录");
                     rbRadioButton2.setVisibility(View.GONE);
                     rbRadioButton4.setVisibility(View.GONE);
                 } else {
                     rbRadioButton2.setChecked(true);
+                    rbRadioButton2.setVisibility(View.VISIBLE);
+                    rbRadioButton2.setText("详细记录");
+                    rbRadioButton4.setVisibility(View.VISIBLE);
+                    rbRadioButton4.setText("统计记录");
+                    rbRadioButton5.setVisibility(View.VISIBLE);
+                    rbRadioButton5.setText("描述记录");
                     rbRadioButton1.setVisibility(View.GONE);
                     rbRadioButton3.setVisibility(View.GONE);
-                    rbRadioButton5.setVisibility(View.VISIBLE);
-                    rbRadioButton2.setVisibility(View.VISIBLE);
-                    rbRadioButton4.setVisibility(View.VISIBLE);
                 }
 
                 if (position == 3) {
