@@ -8,9 +8,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +58,7 @@ import java.util.Locale;
  */
 public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
 
-    private static String PicturePath = "/mnt/sdcard/IBridge/Picture/";
+    public static String PicturePath =  Environment.getExternalStorageDirectory() +"/IBridge/Picture/";
     private static String AddPhotoTag = "AddPhoto";
     private static String AddPictureTag = "AddPicture";
     private static String AddVoiceTag = "AddVoice";
@@ -65,6 +67,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     protected boolean isHaveTag = false;
 
     private LinearLayout llMediaTypes;
+    private LinearLayout llVoiceRecrds;
+    private LinearLayout llVideoRecrds;
     private Spinner spChoosePosition;
     private Spinner spChooseDiseaseType;
     private EditText etDiseaseType;
@@ -76,10 +80,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private RadioButton rbRadioButton5;
     private LinearLayout llInputTemplate;
 
-    private MyGridView mgvPicturesGridView;
     private GridAdapter mgvPicturesAdapter;
+    private int iconWidth = DeviceParamterUtil.dip2px(60);
 
-    private String currentTakePictureName = "";
     private String path = "";
 
     @Override
@@ -90,6 +93,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         setTitle(isAdded ? "病害新增" : "病害编辑");
 
         llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
+        llVoiceRecrds = (LinearLayout) findViewById(R.id.ll_voice_record);
+        llVideoRecrds = (LinearLayout) findViewById(R.id.ll_video_record);
         spChoosePosition = (Spinner) findViewById(R.id.sp_choose_position);
         spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
@@ -149,17 +154,23 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 if (position == 0) {
                     rbRadioButton1.setChecked(true);
                     rbRadioButton1.setVisibility(View.VISIBLE);
+                    rbRadioButton1.setText("详细记录");
                     rbRadioButton3.setVisibility(View.VISIBLE);
+                    rbRadioButton3.setText("统计记录");
                     rbRadioButton5.setVisibility(View.VISIBLE);
+                    rbRadioButton5.setText("描述记录");
                     rbRadioButton2.setVisibility(View.GONE);
                     rbRadioButton4.setVisibility(View.GONE);
                 } else {
                     rbRadioButton2.setChecked(true);
+                    rbRadioButton2.setVisibility(View.VISIBLE);
+                    rbRadioButton2.setText("详细记录");
+                    rbRadioButton4.setVisibility(View.VISIBLE);
+                    rbRadioButton4.setText("统计记录");
+                    rbRadioButton5.setVisibility(View.VISIBLE);
+                    rbRadioButton5.setText("描述记录");
                     rbRadioButton1.setVisibility(View.GONE);
                     rbRadioButton3.setVisibility(View.GONE);
-                    rbRadioButton5.setVisibility(View.VISIBLE);
-                    rbRadioButton2.setVisibility(View.VISIBLE);
-                    rbRadioButton4.setVisibility(View.VISIBLE);
                 }
 
                 if (position == 3) {
@@ -205,7 +216,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void initGridView() {
-        mgvPicturesGridView = (MyGridView) findViewById(R.id.mgv_pictures);
+        MyGridView mgvPicturesGridView = (MyGridView) findViewById(R.id.mgv_pictures);
         mgvPicturesGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         mgvPicturesAdapter = new GridAdapter(this);
         mgvPicturesAdapter.update();
@@ -223,12 +234,10 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void initMediaLayout() {
-        int width = DeviceParamterUtil.dip2px(60);
-        int height = width;
-        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, iconWidth);
         llMediaTypes.setLayoutParams(layoutLP);
 
-        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(width, height);
+        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(iconWidth, iconWidth);
         ImageView addPhotoIcon = new ImageView(this);
         addIconLP.setMargins(5, 0, 5, 0);
         addPhotoIcon.setLayoutParams(addIconLP);
@@ -277,9 +286,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 break;
             case KeyStore.RequestCodeTakeRecord:
                 if (null != data && null != data.getExtras()) {
-                    ArrayList<String> recordList = data.getExtras().getStringArrayList(KeyStore.KeyContent);
-                    if (!recordList.isEmpty()) {
-                        // TODO 这里显示录音文件的名字
+                    String recordPath = data.getExtras().getString(KeyStore.KeyContent);
+                    if (!TextUtils.isEmpty(recordPath)) {
+                        addVoiceFile(recordPath);
                     }
                 }
                 break;
@@ -316,6 +325,19 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         startActivityForResult(intent, KeyStore.RequestCodeTakeRecord);
     }
 
+    private void addVoiceFile(String filePath){
+        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, iconWidth);
+        llVoiceRecrds.setLayoutParams(layoutLP);
+        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(iconWidth, iconWidth);
+        ImageView addPhotoIcon = new ImageView(this);
+        addIconLP.setMargins(5, 0, 10, 0);
+        addPhotoIcon.setLayoutParams(addIconLP);
+        addPhotoIcon.setOnClickListener(this);
+        addPhotoIcon.setTag(filePath);
+        addPhotoIcon.setBackgroundResource(R.drawable.icon_voice);
+        llVoiceRecrds.addView(addPhotoIcon, addIconLP);
+    }
+
     private void addMovie() {
         Intent intent = new Intent();
         intent.setClass(this, MovieRecordActivity.class);
@@ -324,7 +346,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
     protected void takePhotoFromCamera() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        currentTakePictureName = "Picture-" + df.format(new Date()) + ".jpg";
+        String currentTakePictureName = "Picture-" + df.format(new Date()) + ".jpg";
         File file = new File(PicturePath + currentTakePictureName);
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         path = file.getPath();
@@ -352,11 +374,14 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             } else if (v.getTag().equals(AddVideoTag)) {
                 addMovie();
             } else {
-                String picPath = (String) v.getTag();
-                Intent intent = new Intent();
-                intent.setClass(this, ShowImageActivity.class);
-                intent.putExtra(KeyStore.KeyContent, picPath);
-                startActivityForResult(intent, KeyStore.RequestCodeShowImage);
+                // 这里都是录音和视频文件的路径了
+                String mediaPath = (String) v.getTag();
+                Toast.makeText(this, "文件地址为" + mediaPath, Toast.LENGTH_SHORT).show();
+
+//                Intent intent = new Intent();
+//                intent.setClass(this, ShowImageActivity.class);
+//                intent.putExtra(KeyStore.KeyContent, picPath);
+//                startActivityForResult(intent, KeyStore.RequestCodeShowImage);
             }
         } else {
             isHaveTag = false;

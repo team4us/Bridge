@@ -9,10 +9,9 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 
-public class FileUtils {
+import com.xiaohui.bridge.activity.DiseaseDetailActivity;
 
-    public static String SDPATH = Environment.getExternalStorageDirectory()
-            + "/formats/";
+public class FileUtils {
 
     public static void saveBitmap(Bitmap bm, String picName) {
         Log.e("", "保存图片");
@@ -20,7 +19,7 @@ public class FileUtils {
             if (!isFileExist("")) {
                 File tempf = createSDDir("");
             }
-            File f = new File(SDPATH, picName + ".JPEG");
+            File f = new File(DiseaseDetailActivity.PicturePath, picName + ".JPEG");
             if (f.exists()) {
                 f.delete();
             }
@@ -37,7 +36,7 @@ public class FileUtils {
     }
 
     public static File createSDDir(String dirName) throws IOException {
-        File dir = new File(SDPATH + dirName);
+        File dir = new File(DiseaseDetailActivity.PicturePath + dirName);
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
 
@@ -48,13 +47,13 @@ public class FileUtils {
     }
 
     public static boolean isFileExist(String fileName) {
-        File file = new File(SDPATH + fileName);
+        File file = new File(DiseaseDetailActivity.PicturePath + fileName);
         file.isFile();
         return file.exists();
     }
 
     public static void delFile(String fileName) {
-        File file = new File(SDPATH + fileName);
+        File file = new File(DiseaseDetailActivity.PicturePath + fileName);
         if (file.isFile()) {
             file.delete();
         }
@@ -62,7 +61,7 @@ public class FileUtils {
     }
 
     public static void deleteDir() {
-        File dir = new File(SDPATH);
+        File dir = new File(DiseaseDetailActivity.PicturePath);
         if (dir == null || !dir.exists() || !dir.isDirectory())
             return;
 

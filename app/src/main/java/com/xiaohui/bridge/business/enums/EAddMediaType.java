@@ -10,7 +10,7 @@ public enum EAddMediaType implements Serializable {
     Take(0, "拍照"),
     pick(1, "从相册选择"),
     Record(2, "录音"),
-    Movie(3, "摄像");
+    Movie(3, "摄像"), ;
 
     private int id;
     private String title;

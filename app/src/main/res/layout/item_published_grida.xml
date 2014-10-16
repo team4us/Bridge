@@ -9,7 +9,8 @@
         android:layout_width="68dp"
         android:layout_height="68dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher" >
+        android:src="@drawable/ic_launcher"
+        android:visibility="gone">
     </ImageView>
 
 </LinearLayout>

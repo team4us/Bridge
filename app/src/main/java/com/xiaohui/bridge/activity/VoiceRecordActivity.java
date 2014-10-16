@@ -16,7 +16,6 @@ import com.xiaohui.bridge.business.store.KeyStore;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
@@ -26,25 +25,21 @@ import java.util.TimerTask;
  * 录音管理界面
  * Created by Administrator on 2014/10/7.
  */
-public class VoiceRecordActivity extends AbstractActivity{
+public class VoiceRecordActivity extends AbstractActivity {
     private TextView tvVoiceTime;
     private Button btnStart;
 
     private static String recordPath = Environment.getExternalStorageDirectory() + "/IBridge/Record/";
     private MediaRecorder mVoiceRecorder;
     private String currentRecordName = "";
-    private ArrayList<String> recordedList = new ArrayList<String>();
-    private Timer timer  = new Timer();
+    private Timer timer = new Timer();
     private int time = 0;
-    private boolean canRecording = true;
 
     private TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
-            if(canRecording) {
-                time++;
-                timeHandler.sendEmptyMessage(0);
-            }
+            time++;
+            timeHandler.sendEmptyMessage(0);
         }
     };
 
@@ -57,7 +52,7 @@ public class VoiceRecordActivity extends AbstractActivity{
         btnStart = (Button) findViewById(R.id.btn_start);
     }
 
-    public void onStart(View v){
+    public void onStart(View v) {
         try {
             File recordSaveDir = new File(recordPath);
 
@@ -71,10 +66,6 @@ public class VoiceRecordActivity extends AbstractActivity{
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
             currentRecordName = "Voice" + df.format(new Date()) + ".amr";
 
-            if(recordedList.contains(recordPath + currentRecordName)) {
-                return;
-            }
-
             File myRecAudioFile = new File(recordPath + currentRecordName);
 
             mVoiceRecorder = new MediaRecorder();
@@ -87,7 +78,6 @@ public class VoiceRecordActivity extends AbstractActivity{
 
             btnStart.setTextColor(getResources().getColor(R.color.color_999999));
             btnStart.setEnabled(false);
-            canRecording = true;
 
             timer.schedule(timerTask, 0, 1000);
 
@@ -104,31 +94,19 @@ public class VoiceRecordActivity extends AbstractActivity{
         }
     };
 
-    public void onStop(View v){
-        if(null != mVoiceRecorder) {
+    public void onStop(View v) {
+        if (null != mVoiceRecorder) {
             mVoiceRecorder.stop();
             mVoiceRecorder.release();
             mVoiceRecorder = null;
-            if(!recordedList.contains(currentRecordName)) {
-                recordedList.add(currentRecordName);
-            }
-            initStatus();
+            finish();
         }
-    }
-
-    private void initStatus(){
-        canRecording = false;
-        time = 0;
-        currentRecordName = "";
-        btnStart.setTextColor(getResources().getColor(R.color.color_333333));
-        btnStart.setEnabled(true);
-        timeHandler.sendEmptyMessage(0);
     }
 
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putStringArrayListExtra(KeyStore.KeyContent, recordedList);
+        intent.putExtra(KeyStore.KeyContent, recordPath + currentRecordName);
         setResult(KeyStore.ResultCodeSuccess, intent);
         super.finish();
     }

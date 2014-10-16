@@ -5,11 +5,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -29,7 +29,6 @@ public class ImageGridActivity extends AbstractActivity {
     GridView gridView;
     ImageGridAdapter adapter;
     AlbumHelper helper;
-    Button bt;
 
     Handler mHandler = new Handler() {
         @Override
@@ -60,31 +59,40 @@ public class ImageGridActivity extends AbstractActivity {
                 EXTRA_IMAGE_LIST);
 
         initView();
-        bt = (Button) findViewById(R.id.bt);
-        bt.setOnClickListener(new OnClickListener() {
+    }
 
-            public void onClick(View v) {
-                ArrayList<String> list = new ArrayList<String>();
-                Collection<String> c = adapter.map.values();
-                Iterator<String> it = c.iterator();
-                for (; it.hasNext(); ) {
-                    list.add(it.next());
-                }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.picture_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-                if (Bimp.act_bool) {
-                    setResult(KeyStore.ResultCodeSuccess);
-                    Bimp.act_bool = false;
-                }
-                for (int i = 0; i < list.size(); i++) {
-                    if (Bimp.drr.size() < 9) {
-                        Bimp.drr.add(list.get(i));
-                    }
-                }
-                setResult(KeyStore.ResultCodeSuccess);
-                finish();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_add_picture_done) {
+            ArrayList<String> list = new ArrayList<String>();
+            Collection<String> c = adapter.map.values();
+            Iterator<String> it = c.iterator();
+            for (; it.hasNext(); ) {
+                list.add(it.next());
             }
 
-        });
+            if (Bimp.act_bool) {
+                setResult(KeyStore.ResultCodeSuccess);
+                Bimp.act_bool = false;
+            }
+            for (int i = 0; i < list.size(); i++) {
+                if (Bimp.drr.size() < 9) {
+                    Bimp.drr.add(list.get(i));
+                }
+            }
+            setResult(KeyStore.ResultCodeSuccess);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initView() {
@@ -93,11 +101,6 @@ public class ImageGridActivity extends AbstractActivity {
         adapter = new ImageGridAdapter(ImageGridActivity.this, dataList,
                 mHandler);
         gridView.setAdapter(adapter);
-        adapter.setTextCallback(new ImageGridAdapter.TextCallback() {
-            public void onListen(int count) {
-                bt.setText("完成" + "(" + count + ")");
-            }
-        });
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
 
