@@ -18,7 +18,7 @@
     </style>
 
     <style name="MenuTextStyle">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/color_ffffff</item>
         <item name="android:textSize">@dimen/font_size_30</item>
     </style>
 
