@@ -16,20 +16,9 @@ public enum EDiseaseInputMethod implements Serializable {
     private int id;
     private String title;
 
-    public final static ArrayList<EDiseaseInputMethod> takeDiseaseInputMethodList
-            = new ArrayList<EDiseaseInputMethod>(Arrays.asList(One, Two, Three, Four, Five));
-
-    public static ArrayList<EDiseaseInputMethod> getDiseaseInputMethodList() {
-        return takeDiseaseInputMethodList;
-    }
-
     private EDiseaseInputMethod(int id, String title) {
         this.id = id;
         this.title = title;
-    }
-
-    public static EDiseaseInputMethod get(int pos) {
-        return takeDiseaseInputMethodList.get(pos);
     }
 
     public String getTitle() {
