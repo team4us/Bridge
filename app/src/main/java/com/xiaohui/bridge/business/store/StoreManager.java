@@ -259,6 +259,7 @@ public enum StoreManager {
     public void initDiseasesModelList(String componentName, String position){
         diseasesList.clear();
 
+        // TODO 这里的positionName两边的测试数据都不一致，为了达到效果都写死成上面generalsTypes中的内容
         DiseasesModel disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition("左腹板");
