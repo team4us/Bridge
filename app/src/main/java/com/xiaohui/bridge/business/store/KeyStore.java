@@ -5,6 +5,8 @@ package com.xiaohui.bridge.business.store;
 public class KeyStore {
     public static final String KeyContent = "K_Content";
     public static final String KeySelectedIndex = "K_SelectedIndex";
+    public static final String KeySelectedComponentName = "K_SelectedComponentName";
+    public static final String KeySelectedPositionName = "K_SelectedPositionName";
 
     public static final int RequestCodePicture = 1;
     public static final int RequestCodeTakePicture = 2;

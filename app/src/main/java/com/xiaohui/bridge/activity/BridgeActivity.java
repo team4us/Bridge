@@ -21,6 +21,7 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
+import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 
 
@@ -57,6 +58,8 @@ public class BridgeActivity extends AbstractActivity
                                         int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(BridgeActivity.this, DiseaseListActivity.class);
                 intent.putExtra("title", (String) adapter.getChild(groupPosition, childPosition));
+                intent.putExtra(KeyStore.KeySelectedComponentName, (String)adapter.getGroup(groupPosition));
+                intent.putExtra(KeyStore.KeySelectedPositionName, (String)adapter.getChild(groupPosition, childPosition));
                 startActivity(intent);
                 return false;
             }

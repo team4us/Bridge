@@ -11,6 +11,8 @@ import android.widget.ListView;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.business.store.StoreManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +23,16 @@ import java.util.List;
  */
 public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
     private ListView diseaseListView;
+    private String componentName;
+    private String positionName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_list);
+
+        componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
+        positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
 
         setTitle(getIntent().getStringExtra("title") + "病害列表");
 
@@ -37,13 +44,10 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     private List<String> getData() {
 
         List<String> data = new ArrayList<String>();
-        data.add("1 裂缝");
-        data.add("2 破损");
-        data.add("3 裂缝");
-        data.add("4 钢筋锈蚀");
-        data.add("5 破损");
-        data.add("6 钢筋锈蚀");
-
+        StoreManager.Instance.initDiseasesModelList(componentName, positionName);
+        for(int i = 0; i < StoreManager.Instance.getDiseasesList().size(); i ++){
+            data.add((i + 1) + " " + StoreManager.Instance.getDiseasesList().get(i).getDiseaseType());
+        }
         return data;
     }
 
@@ -73,6 +77,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, DiseaseDetailActivity.class);
         intent.putExtra(Keys.FLAG, false); //是否为新增
+        intent.putExtra(KeyStore.KeySelectedIndex, position);
         startActivity(intent);
     }
 }

@@ -12,7 +12,7 @@ public class DiseasesModel {
     private String componentName;
     private String position;
     private String diseaseType;
-    private EDiseaseInputMethod diseaseInputMethod;
+    private BaseInputModel diseaseInputMethod;
     private ArrayList<String> pictureList = new ArrayList<String>();
     private ArrayList<String> recordList = new ArrayList<String>();
     private ArrayList<String> videoList = new ArrayList<String>();
@@ -29,7 +29,7 @@ public class DiseasesModel {
         this.diseaseType = diseaseType;
     }
 
-    public void setDiseaseInputMethod(EDiseaseInputMethod diseaseInputMethod) {
+    public void setDiseaseInputMethod(BaseInputModel diseaseInputMethod) {
         this.diseaseInputMethod = diseaseInputMethod;
     }
 
@@ -57,7 +57,7 @@ public class DiseasesModel {
         return diseaseType;
     }
 
-    public EDiseaseInputMethod getDiseaseInputMethod() {
+    public BaseInputModel getDiseaseInputMethod() {
         return diseaseInputMethod;
     }
 

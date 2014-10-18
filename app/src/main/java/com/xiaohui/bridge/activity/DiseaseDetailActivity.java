@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
@@ -45,6 +46,8 @@ import com.xiaohui.bridge.view.PickPicture.Bimp;
 import com.xiaohui.bridge.view.PickPicture.FileUtils;
 import com.xiaohui.bridge.view.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.view.PickPicture.TestPicActivity;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,17 +83,22 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private RadioButton rbRadioButton5;
     private LinearLayout llInputTemplate;
 
+    private TextView tvComponentName;
+
     private GridAdapter mgvPicturesAdapter;
     private int iconWidth = DeviceParamterUtil.dip2px(60);
 
     private String path = "";
     private MediaPlayer mPlayer = null;
 
+    private int selectIndex = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_detail);
         boolean isAdded = getIntent().getBooleanExtra(Keys.FLAG, true);
+        selectIndex = getIntent().getIntExtra(KeyStore.KeySelectedIndex, -1);
         setTitle(isAdded ? "病害新增" : "病害编辑");
 
         llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
@@ -106,6 +114,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         rbRadioButton4 = (RadioButton) findViewById(R.id.rb_input_4);
         rbRadioButton5 = (RadioButton) findViewById(R.id.rb_input_5);
         llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
+
+        tvComponentName = (TextView) findViewById(R.id.tv_component_name);
 
         initDiseaseDetailView();
         initMediaLayout();
@@ -133,6 +143,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void initDiseaseDetailView() {
+        tvComponentName.setText(StoreManager.Instance.getDiseasesList().get(selectIndex).getComponentName());
+
         ArrayAdapter<String> positions = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.generalsTypes);
         positions.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
         spChoosePosition.setAdapter(positions);
@@ -145,6 +157,13 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        for (int i = 0; i < StoreManager.Instance.generalsTypes.length; i++) {
+            if (StoreManager.Instance.getDiseasesList().get(selectIndex).getPosition().equals(StoreManager.Instance.generalsTypes[i])) {
+                spChoosePosition.setSelection(i);
+                break;
+            }
+        }
 
         ArrayAdapter<String> diseases = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.diseaseTypes);
         diseases.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
@@ -187,6 +206,13 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        for (int i = 0; i < StoreManager.Instance.diseaseTypes.length; i++) {
+            if (StoreManager.Instance.getDiseasesList().get(selectIndex).getDiseaseType().equals(StoreManager.Instance.diseaseTypes[i])) {
+                spChooseDiseaseType.setSelection(i);
+                break;
+            }
+        }
 
         llInputTemplate.addView(new DiseaseInputTemplate1(DiseaseDetailActivity.this));
         rgRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
