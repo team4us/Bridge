@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -48,7 +49,6 @@ import com.xiaohui.bridge.view.PickPicture.TestPicActivity;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -58,7 +58,7 @@ import java.util.Locale;
  */
 public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
 
-    public static String PicturePath =  Environment.getExternalStorageDirectory() +"/IBridge/Picture/";
+    public static String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
     private static String AddPhotoTag = "AddPhoto";
     private static String AddPictureTag = "AddPicture";
     private static String AddVoiceTag = "AddVoice";
@@ -84,6 +84,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private int iconWidth = DeviceParamterUtil.dip2px(60);
 
     private String path = "";
+    private MediaPlayer mPlayer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -287,34 +288,20 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 if (null != data && null != data.getExtras()) {
                     String recordPath = data.getExtras().getString(KeyStore.KeyContent);
                     if (!TextUtils.isEmpty(recordPath)) {
-                        addVoiceFile(recordPath);
+                        addMediaFile(recordPath, true);
                     }
                 }
                 break;
 
-            case KeyStore.RequestCodeShowImage:
-                if (resultCode != KeyStore.ResultCodeDelete) {
+            case KeyStore.RequestCodeTakeMovie:
+                if (resultCode != KeyStore.ResultCodeSuccess || null == data.getExtras()) {
                     return;
                 }
-                if (null != data && null != data.getExtras()) {
-                    String picPath = data.getExtras().getString(KeyStore.KeyContent);
-                    if (picPath.isEmpty()) {
-                        return;
-                    } else {
-                        llPicturesLayoutChange(picPath);
-                    }
+                String videoPath = data.getExtras().getString(KeyStore.KeyContent);
+                if (!TextUtils.isEmpty(videoPath)) {
+                    addMediaFile(videoPath, false);
                 }
                 break;
-        }
-    }
-
-    private void llPicturesLayoutChange(String picturePath) {
-        for (int i = 0; i < llMediaTypes.getChildCount(); i++) {
-            View view = llMediaTypes.getChildAt(i);
-            if (view.getTag().equals(picturePath)) {
-                llMediaTypes.removeView(view);
-                return;
-            }
         }
     }
 
@@ -324,17 +311,27 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         startActivityForResult(intent, KeyStore.RequestCodeTakeRecord);
     }
 
-    private void addVoiceFile(String filePath){
+    /**
+     * isVoice = true 表示是增加语音文件
+     * isVoice = false 表示是增加视频文件
+     */
+    private void addMediaFile(String filePath, boolean isVoice) {
         LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, iconWidth);
-        llVoiceRecrds.setLayoutParams(layoutLP);
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(iconWidth, iconWidth);
         ImageView addPhotoIcon = new ImageView(this);
         addIconLP.setMargins(5, 0, 10, 0);
         addPhotoIcon.setLayoutParams(addIconLP);
         addPhotoIcon.setOnClickListener(this);
         addPhotoIcon.setTag(filePath);
-        addPhotoIcon.setBackgroundResource(R.drawable.icon_voice);
-        llVoiceRecrds.addView(addPhotoIcon, addIconLP);
+        if (isVoice) {
+            llVoiceRecrds.setLayoutParams(layoutLP);
+            addPhotoIcon.setBackgroundResource(R.drawable.icon_voice);
+            llVoiceRecrds.addView(addPhotoIcon, addIconLP);
+        } else {
+            llVideoRecrds.setLayoutParams(layoutLP);
+            addPhotoIcon.setBackgroundResource(R.drawable.icon_vedio);
+            llVideoRecrds.addView(addPhotoIcon, addIconLP);
+        }
     }
 
     private void addMovie() {
@@ -373,14 +370,24 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             } else if (v.getTag().equals(AddVideoTag)) {
                 addMovie();
             } else {
-                // 这里都是录音和视频文件的路径了
                 String mediaPath = (String) v.getTag();
-                Toast.makeText(this, "文件地址为" + mediaPath, Toast.LENGTH_SHORT).show();
-
-//                Intent intent = new Intent();
-//                intent.setClass(this, ShowImageActivity.class);
-//                intent.putExtra(KeyStore.KeyContent, picPath);
-//                startActivityForResult(intent, KeyStore.RequestCodeShowImage);
+                // 这里不是视频就是音频文件了
+                if (mediaPath.contains("Video")) {
+                    Uri uri = Uri.parse("file://" + mediaPath);
+                    //调用系统自带的播放器
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "video/3gpp");
+                    startActivity(intent);
+                } else {
+                    mPlayer = new MediaPlayer();
+                    try {
+                        mPlayer.setDataSource(mediaPath);
+                        mPlayer.prepare();
+                        mPlayer.start();
+                    } catch (IOException e) {
+                        Toast.makeText(this, "播放录音失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         } else {
             isHaveTag = false;
