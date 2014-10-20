@@ -10,7 +10,19 @@ public class InputType1 extends BaseInputModel{
         this.length = length;
         this.typicalWidth = typicalWidth;
         this.imageNumber = imageNumber;
+        this.more = "";
     }
+
+    public InputType1(String startPosition, String endPosition, String length, String typicalWidth, String imageNumber, String more){
+        this.startPosition = startPosition;
+        this.endPosition = endPosition;
+        this.length = length;
+        this.typicalWidth = typicalWidth;
+        this.imageNumber = imageNumber;
+        this.more = more;
+    }
+
+
     public String getStartPosition() {
         return startPosition;
     }

@@ -257,8 +257,6 @@ public enum StoreManager {
     private List<DiseasesModel> diseasesList = new ArrayList<DiseasesModel>();
 
     public void initDiseasesModelList(String componentName, String position){
-        diseasesList.clear();
-
         // TODO 这里的positionName两边的测试数据都不一致，为了达到效果都写死成上面generalsTypes中的内容
         DiseasesModel disease = new DiseasesModel();
         disease.setComponentName(componentName);
@@ -294,6 +292,10 @@ public enum StoreManager {
         disease.setDiseaseType("其他");
         disease.setDiseaseInputMethod(new InputType5("右侧腹", "严重的破损", "image004"));
         diseasesList.add(disease);
+    }
+
+    public void clearDiseasesList(){
+        diseasesList.clear();
     }
 
     public void addDiseaseModel(DiseasesModel model){

@@ -21,6 +21,7 @@ public class DiseaseInputTemplate2 extends DiseaseBaseInputTemplate implements V
     private EditText etLength;
     private EditText etWidth;
     private EditText etImageNumber;
+    private EditText etMore;
 
     public DiseaseInputTemplate2(Context context) {
         super(context);
@@ -44,6 +45,7 @@ public class DiseaseInputTemplate2 extends DiseaseBaseInputTemplate implements V
         etLength = (EditText) view.findViewById(R.id.et_length);
         etWidth = (EditText) view.findViewById(R.id.et_width);
         etImageNumber = (EditText) view.findViewById(R.id.et_image_number);
+        etMore = (EditText) view.findViewById(R.id.et_more);
         view.findViewById(R.id.btn_add_position_from_screen).setOnClickListener(this);
     }
 
@@ -67,7 +69,7 @@ public class DiseaseInputTemplate2 extends DiseaseBaseInputTemplate implements V
     @Override
     public BaseInputModel getInputModel() {
         return new InputType2(getEditTextString(position), getEditTextString(etLength),
-                getEditTextString(etWidth), getEditTextString(etImageNumber));
+                getEditTextString(etWidth), getEditTextString(etImageNumber), getEditTextString(etMore));
     }
 
     @Override

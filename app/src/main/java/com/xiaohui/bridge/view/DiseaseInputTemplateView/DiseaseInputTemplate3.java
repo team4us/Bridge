@@ -20,6 +20,7 @@ public class DiseaseInputTemplate3 extends DiseaseBaseInputTemplate{
     private EditText etLength;
     private EditText etWidth;
     private EditText etImageNumber;
+    private EditText etMore;
 
     public DiseaseInputTemplate3(Context context) {
         super(context);
@@ -44,12 +45,13 @@ public class DiseaseInputTemplate3 extends DiseaseBaseInputTemplate{
         etLength = (EditText) view.findViewById(R.id.et_length);
         etWidth = (EditText) view.findViewById(R.id.et_width);
         etImageNumber = (EditText) view.findViewById(R.id.et_image_number);
+        etMore = (EditText) view.findViewById(R.id.et_more);
     }
 
     @Override
     public BaseInputModel getInputModel() {
         return new InputType3(getEditTextString(position), getEditTextString(etLength),
-                getEditTextString(etWidth), getEditTextString(etImageNumber));
+                getEditTextString(etWidth), getEditTextString(etImageNumber), getEditTextString(etMore));
     }
 
     @Override

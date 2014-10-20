@@ -8,6 +8,8 @@ import java.io.Serializable;
 public class BaseInputModel implements Serializable{
     protected String imageNumber;
 
+    protected String more;
+
     public void setImageNumber(String imageNumber){
         this.imageNumber = imageNumber;
     };
@@ -15,4 +17,12 @@ public class BaseInputModel implements Serializable{
     public String getImageNumber(){
         return imageNumber;
     };
+
+    public String getMore() {
+        return more;
+    }
+
+    public void setMore(String more) {
+        this.more = more;
+    }
 }

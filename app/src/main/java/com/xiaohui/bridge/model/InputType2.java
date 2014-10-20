@@ -9,6 +9,15 @@ public class InputType2 extends BaseInputModel{
         this.length = length;
         this.width = width;
         this.imageNumber = imageNumber;
+        this.more = "";
+    }
+
+    public InputType2(String positionCoordinate, String length, String width, String imageNumber, String more){
+        this.positionCoordinate = positionCoordinate;
+        this.length = length;
+        this.width = width;
+        this.imageNumber = imageNumber;
+        this.more = more;
     }
 
     public String getPositionCoordinate() {

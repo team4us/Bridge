@@ -8,6 +8,14 @@ public class InputType5 extends BaseInputModel{
         this.position = position;
         this.description = description;
         this.imageNumber = imageNumber;
+        this.more = "";
+    }
+
+    public InputType5(String position, String description, String imageNumber, String more){
+        this.position = position;
+        this.description = description;
+        this.imageNumber = imageNumber;
+        this.more = more;
     }
 
     public String getPosition() {

@@ -96,15 +96,22 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private int selectIndex = -1;
     private ArrayList<String> picturesList = new ArrayList<String>();
     private ArrayList<String> recordsList = new ArrayList<String>();
-    private ArrayList<String> vediosList = new ArrayList<String>();
+    private ArrayList<String> videosList = new ArrayList<String>();
+
+    private boolean isNewDisease = false;
+    private String componentName;
+    private String positionName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_detail);
-        boolean isAdded = getIntent().getBooleanExtra(Keys.FLAG, true);
+        isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
         selectIndex = getIntent().getIntExtra(KeyStore.KeySelectedIndex, -1);
-        setTitle(isAdded ? "病害新增" : "病害编辑");
+        setTitle(isNewDisease ? "病害新增" : "病害编辑");
+
+        componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
+        positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
 
         llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
         llVoiceRecrds = (LinearLayout) findViewById(R.id.ll_voice_record);
@@ -138,7 +145,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
         if (id == R.id.action_disease_save) {
             saveDiseaseDetail();
-            Toast.makeText(this, "保存", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_disease_cancel) {
             // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
             Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
@@ -148,7 +154,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void initDiseaseDetailView() {
-        tvComponentName.setText(StoreManager.Instance.getDiseasesList().get(selectIndex).getComponentName());
+        tvComponentName.setText(componentName);
 
         ArrayAdapter<String> positions = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.generalsTypes);
         positions.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
@@ -164,7 +170,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         });
 
         for (int i = 0; i < StoreManager.Instance.generalsTypes.length; i++) {
-            if (StoreManager.Instance.getDiseasesList().get(selectIndex).getPosition().equals(StoreManager.Instance.generalsTypes[i])) {
+            if (positionName.equals(StoreManager.Instance.generalsTypes[i])) {
                 spChoosePosition.setSelection(i);
                 break;
             }
@@ -177,6 +183,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
+                    inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
                     rbRadioButton1.setChecked(true);
                     rbRadioButton1.setVisibility(View.VISIBLE);
                     rbRadioButton1.setText("详细记录");
@@ -187,6 +194,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     rbRadioButton2.setVisibility(View.GONE);
                     rbRadioButton4.setVisibility(View.GONE);
                 } else {
+                    inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
                     rbRadioButton2.setChecked(true);
                     rbRadioButton2.setVisibility(View.VISIBLE);
                     rbRadioButton2.setText("详细记录");
@@ -212,10 +220,12 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             }
         });
 
-        for (int i = 0; i < StoreManager.Instance.diseaseTypes.length; i++) {
-            if (StoreManager.Instance.getDiseasesList().get(selectIndex).getDiseaseType().equals(StoreManager.Instance.diseaseTypes[i])) {
-                spChooseDiseaseType.setSelection(i);
-                break;
+        if(!isNewDisease) {
+            for (int i = 0; i < StoreManager.Instance.diseaseTypes.length; i++) {
+                if (StoreManager.Instance.getDiseasesList().get(selectIndex).getDiseaseType().equals(StoreManager.Instance.diseaseTypes[i])) {
+                    spChooseDiseaseType.setSelection(i);
+                    break;
+                }
             }
         }
 
@@ -309,14 +319,15 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
 
         DiseasesModel diseasesModel = new DiseasesModel();
-        diseasesModel.setComponentName(StoreManager.Instance.getDiseasesList().get(selectIndex).getComponentName());
-        diseasesModel.setPosition(StoreManager.Instance.getDiseasesList().get(selectIndex).getPosition());
-        diseasesModel.setDiseaseType(StoreManager.Instance.getDiseasesList().get(selectIndex).getDiseaseType());
+        diseasesModel.setComponentName(componentName);
+        diseasesModel.setPosition(positionName);
+        diseasesModel.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
         diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
         diseasesModel.setPictureList(picturesList);
         diseasesModel.setRecordList(recordsList);
-        diseasesModel.setVideoList(vediosList);
+        diseasesModel.setVideoList(videosList);
         StoreManager.Instance.addDiseaseModel(diseasesModel);
+        this.finish();
     }
 
     protected void onRestart() {

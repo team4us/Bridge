@@ -19,6 +19,7 @@ public class DiseaseInputTemplate5 extends DiseaseBaseInputTemplate{
     private EditText position;
     private EditText etDescription;
     private EditText etImageNumber;
+    private EditText etMore;
 
     public DiseaseInputTemplate5(Context context) {
         super(context);
@@ -42,6 +43,7 @@ public class DiseaseInputTemplate5 extends DiseaseBaseInputTemplate{
         position = (EditText) view.findViewById(R.id.et_point);
         etDescription = (EditText) view.findViewById(R.id.et_description);
         etImageNumber = (EditText) view.findViewById(R.id.et_image_number);
+        etMore = (EditText) view.findViewById(R.id.et_more);
     }
 
     @Override
@@ -60,7 +62,8 @@ public class DiseaseInputTemplate5 extends DiseaseBaseInputTemplate{
 
     @Override
     public BaseInputModel getInputModel() {
-        return new InputType5(getEditTextString(position), getEditTextString(etDescription), getEditTextString(etImageNumber));
+        return new InputType5(getEditTextString(position), getEditTextString(etDescription),
+                getEditTextString(etImageNumber), getEditTextString(etMore));
     }
 
 }

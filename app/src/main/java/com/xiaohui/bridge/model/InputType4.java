@@ -9,6 +9,15 @@ public class InputType4 extends BaseInputModel{
         this.length = length;
         this.width = width;
         this.imageNumber = imageNumber;
+        this.more = "";
+    }
+
+    public InputType4(String position, String length, String width, String imageNumber, String more){
+        this.position = position;
+        this.length = length;
+        this.width = width;
+        this.imageNumber = imageNumber;
+        this.more = more;
     }
 
     public String getPosition() {

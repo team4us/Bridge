@@ -18,20 +18,15 @@ import com.xiaohui.bridge.model.BaseInputModel;
 public abstract class DiseaseBaseInputTemplate extends LinearLayout{
     public DiseaseBaseInputTemplate(Context context) {
         super(context);
-        initView(context);
     }
 
     public DiseaseBaseInputTemplate(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView(context);
     }
 
     public DiseaseBaseInputTemplate(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        initView(context);
     }
-
-    public abstract void initView(Context context);
 
     public abstract boolean isHasEmptyData();
 

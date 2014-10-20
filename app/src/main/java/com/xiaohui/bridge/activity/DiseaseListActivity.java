@@ -30,6 +30,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_list);
+        StoreManager.Instance.initDiseasesModelList(componentName, positionName);
 
         componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
         positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
@@ -44,11 +45,16 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     private List<String> getData() {
 
         List<String> data = new ArrayList<String>();
-        StoreManager.Instance.initDiseasesModelList(componentName, positionName);
         for(int i = 0; i < StoreManager.Instance.getDiseasesList().size(); i ++){
             data.add((i + 1) + " " + StoreManager.Instance.getDiseasesList().get(i).getDiseaseType());
         }
         return data;
+    }
+
+    @Override
+    public void finish() {
+        StoreManager.Instance.clearDiseasesList();
+        super.finish();
     }
 
     @Override
@@ -64,6 +70,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         if (id == R.id.action_disease_add) {
             Intent intent = new Intent(this, DiseaseDetailActivity.class);
             intent.putExtra(Keys.FLAG, true); //是否为新增
+            intent.putExtras(getIntent().getExtras());
             startActivity(intent);
         } else if (id == R.id.action_disease_statistics) {
             Intent intent = new Intent(this, DiseaseStatisticsActivity.class);
@@ -74,10 +81,17 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, DiseaseDetailActivity.class);
         intent.putExtra(Keys.FLAG, false); //是否为新增
         intent.putExtra(KeyStore.KeySelectedIndex, position);
+        intent.putExtras(getIntent().getExtras());
         startActivity(intent);
     }
 }
