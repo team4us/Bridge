@@ -114,7 +114,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         rbRadioButton4 = (RadioButton) findViewById(R.id.rb_input_4);
         rbRadioButton5 = (RadioButton) findViewById(R.id.rb_input_5);
         llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
-
         tvComponentName = (TextView) findViewById(R.id.tv_component_name);
 
         initDiseaseDetailView();
@@ -133,6 +132,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         int id = item.getItemId();
 
         if (id == R.id.action_disease_save) {
+            saveDiseaseDetail();
             Toast.makeText(this, "保存", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_disease_cancel) {
             // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
@@ -293,6 +293,36 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         addVideoIcon.setTag(AddVideoTag);
         addVideoIcon.setBackgroundResource(R.drawable.bg_add_movie);
         llMediaTypes.addView(addVideoIcon);
+    }
+
+    private void saveDiseaseDetail(){
+        if(hasEmptyData()){
+            Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
+            return ;
+        }
+
+        if(spChooseDiseaseType.getSelectedItemPosition() == 0){
+            if(rbRadioButton1.isChecked()){
+
+            } else if(rbRadioButton3.isChecked()) {
+
+            } else if (rbRadioButton5.isChecked()){
+
+            }
+        } else {
+            if(rbRadioButton2.isChecked()){
+
+            } else if(rbRadioButton4.isChecked()) {
+
+            } else if (rbRadioButton5.isChecked()){
+
+            }
+        }
+    }
+
+    private boolean hasEmptyData(){
+        // TODO 判断是否已输入全部需输入内容
+        return false;
     }
 
     protected void onRestart() {
