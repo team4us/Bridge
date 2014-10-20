@@ -1,7 +1,5 @@
 package com.xiaohui.bridge.model;
 
-import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
-
 import java.util.ArrayList;
 
 /**

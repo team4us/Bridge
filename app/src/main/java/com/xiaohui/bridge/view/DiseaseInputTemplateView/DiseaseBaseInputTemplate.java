@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.CoordinateActivity;
+import com.xiaohui.bridge.model.BaseInputModel;
 
 /**
  * 病害录入模板2
@@ -32,4 +34,10 @@ public abstract class DiseaseBaseInputTemplate extends LinearLayout{
     public abstract void initView(Context context);
 
     public abstract boolean isHasEmptyData();
+
+    public abstract BaseInputModel getInputModel();
+
+    public String getEditTextString(EditText et){
+        return et.getText().toString().trim();
+    }
 }

@@ -35,7 +35,9 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.business.store.StoreManager;
+import com.xiaohui.bridge.model.DiseasesModel;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseBaseInputTemplate;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate1;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate2;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate3;
@@ -47,11 +49,10 @@ import com.xiaohui.bridge.view.PickPicture.FileUtils;
 import com.xiaohui.bridge.view.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.view.PickPicture.TestPicActivity;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -82,8 +83,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private RadioButton rbRadioButton4;
     private RadioButton rbRadioButton5;
     private LinearLayout llInputTemplate;
-
     private TextView tvComponentName;
+
+    private DiseaseBaseInputTemplate inputTemplate;
 
     private GridAdapter mgvPicturesAdapter;
     private int iconWidth = DeviceParamterUtil.dip2px(60);
@@ -92,6 +94,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private MediaPlayer mPlayer = null;
 
     private int selectIndex = -1;
+    private ArrayList<String> picturesList = new ArrayList<String>();
+    private ArrayList<String> recordsList = new ArrayList<String>();
+    private ArrayList<String> vediosList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,21 +228,23 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 llInputTemplate.removeAllViews();
                 switch (Integer.valueOf((String) rb.getTag())) {
                     case 1:
-                        llInputTemplate.addView(new DiseaseInputTemplate1(DiseaseDetailActivity.this));
+                        inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
                         break;
                     case 2:
-                        llInputTemplate.addView(new DiseaseInputTemplate2(DiseaseDetailActivity.this));
+                        inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
                         break;
                     case 3:
-                        llInputTemplate.addView(new DiseaseInputTemplate3(DiseaseDetailActivity.this));
+                        inputTemplate = new DiseaseInputTemplate3(DiseaseDetailActivity.this);
                         break;
                     case 4:
-                        llInputTemplate.addView(new DiseaseInputTemplate4(DiseaseDetailActivity.this));
+                        inputTemplate = new DiseaseInputTemplate4(DiseaseDetailActivity.this);
                         break;
                     case 5:
-                        llInputTemplate.addView(new DiseaseInputTemplate5(DiseaseDetailActivity.this));
+                        inputTemplate = new DiseaseInputTemplate5(DiseaseDetailActivity.this);
                         break;
                 }
+
+                llInputTemplate.addView(inputTemplate);
             }
         });
     }
@@ -296,33 +303,20 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void saveDiseaseDetail(){
-        if(hasEmptyData()){
+        if(inputTemplate.isHasEmptyData()){
             Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
             return ;
         }
 
-        if(spChooseDiseaseType.getSelectedItemPosition() == 0){
-            if(rbRadioButton1.isChecked()){
-
-            } else if(rbRadioButton3.isChecked()) {
-
-            } else if (rbRadioButton5.isChecked()){
-
-            }
-        } else {
-            if(rbRadioButton2.isChecked()){
-
-            } else if(rbRadioButton4.isChecked()) {
-
-            } else if (rbRadioButton5.isChecked()){
-
-            }
-        }
-    }
-
-    private boolean hasEmptyData(){
-        // TODO 判断是否已输入全部需输入内容
-        return false;
+        DiseasesModel diseasesModel = new DiseasesModel();
+        diseasesModel.setComponentName(StoreManager.Instance.getDiseasesList().get(selectIndex).getComponentName());
+        diseasesModel.setPosition(StoreManager.Instance.getDiseasesList().get(selectIndex).getPosition());
+        diseasesModel.setDiseaseType(StoreManager.Instance.getDiseasesList().get(selectIndex).getDiseaseType());
+        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
+        diseasesModel.setPictureList(picturesList);
+        diseasesModel.setRecordList(recordsList);
+        diseasesModel.setVideoList(vediosList);
+        StoreManager.Instance.addDiseaseModel(diseasesModel);
     }
 
     protected void onRestart() {

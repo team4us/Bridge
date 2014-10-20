@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.CoordinateActivity;
+import com.xiaohui.bridge.model.BaseInputModel;
+import com.xiaohui.bridge.model.InputType1;
 
 /**
  * 病害录入模板1
@@ -20,7 +20,7 @@ public class DiseaseInputTemplate1 extends DiseaseBaseInputTemplate implements V
     private Context context;
     private EditText etStartPoint;
     private EditText etEndPoint;
-    private EditText etLenght;
+    private EditText etLength;
     private EditText etWidth;
     private EditText etImageNumber;
 
@@ -45,7 +45,7 @@ public class DiseaseInputTemplate1 extends DiseaseBaseInputTemplate implements V
         View view = inflater.inflate(R.layout.view_disease_input_1, this);
         etStartPoint = (EditText) view.findViewById(R.id.et_startpoint);
         etEndPoint = (EditText) view.findViewById(R.id.et_endpoint);
-        etLenght = (EditText) view.findViewById(R.id.et_length);
+        etLength = (EditText) view.findViewById(R.id.et_length);
         etWidth = (EditText) view.findViewById(R.id.et_width);
         etImageNumber = (EditText) view.findViewById(R.id.et_image_number);
         view.findViewById(R.id.btn_add_position_from_screen).setOnClickListener(this);
@@ -59,7 +59,7 @@ public class DiseaseInputTemplate1 extends DiseaseBaseInputTemplate implements V
         if(etEndPoint.getText().toString().trim().length() < 1){
             return true;
         }
-        if(etLenght.getText().toString().trim().length() < 1){
+        if(etLength.getText().toString().trim().length() < 1){
             return true;
         }
         if(etWidth.getText().toString().trim().length() < 1){
@@ -69,6 +69,12 @@ public class DiseaseInputTemplate1 extends DiseaseBaseInputTemplate implements V
             return true;
         }
         return false;
+    }
+
+    @Override
+    public BaseInputModel getInputModel() {
+        return new InputType1(getEditTextString(etStartPoint), getEditTextString(etEndPoint), getEditTextString(etLength),
+                getEditTextString(etWidth), getEditTextString(etImageNumber));
     }
 
     @Override

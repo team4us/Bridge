@@ -37,7 +37,7 @@
             android:text="特征描述："/>
 
         <EditText
-            android:id="@+id/et_length"
+            android:id="@+id/et_description"
             style="@style/disease_input_edittext"/>
 
     </LinearLayout>
