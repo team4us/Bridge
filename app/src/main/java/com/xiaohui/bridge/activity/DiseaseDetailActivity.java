@@ -1,7 +1,9 @@
 package com.xiaohui.bridge.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -84,7 +86,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private RadioButton rbRadioButton5;
     private LinearLayout llInputTemplate;
     private TextView tvComponentName;
-
+    private View viewPictureDivider;
+    private View viewVoiceDivider;
+    private View viewVideoDivider;
     private DiseaseBaseInputTemplate inputTemplate;
 
     private GridAdapter mgvPicturesAdapter;
@@ -126,6 +130,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         rbRadioButton4 = (RadioButton) findViewById(R.id.rb_input_4);
         rbRadioButton5 = (RadioButton) findViewById(R.id.rb_input_5);
         llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
+        viewPictureDivider = findViewById(R.id.view_picture_divider);
+        viewVoiceDivider = findViewById(R.id.view_voice_divider);
+        viewVideoDivider = findViewById(R.id.view_video_divider);
         tvComponentName = (TextView) findViewById(R.id.tv_component_name);
 
         initDiseaseDetailView();
@@ -331,6 +338,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     protected void onRestart() {
+        if(Bimp.drr.size() > 0){
+            viewPictureDivider.setVisibility(View.VISIBLE);
+        } else {
+            viewPictureDivider.setVisibility(View.GONE);
+        }
         mgvPicturesAdapter.update();
         super.onRestart();
     }
@@ -384,14 +396,50 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         addPhotoIcon.setLayoutParams(addIconLP);
         addPhotoIcon.setOnClickListener(this);
         addPhotoIcon.setTag(filePath);
+        addPhotoIcon.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseDetailActivity.this);
+                builder.setMessage("确认删除该多媒体文件吗？");
+                builder.setTitle("提示");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(v.getTag().toString().contains("Voice")){
+                            llVoiceRecrds.removeView(v);
+                        } else {
+                            llVideoRecrds.removeView(v);
+                        }
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                return false;
+            }
+        });
         if (isVoice) {
             llVoiceRecrds.setLayoutParams(layoutLP);
             addPhotoIcon.setBackgroundResource(R.drawable.icon_voice);
             llVoiceRecrds.addView(addPhotoIcon, addIconLP);
+            if(llVoiceRecrds.getChildCount() > 0){
+                viewVoiceDivider.setVisibility(View.VISIBLE);
+            } else {
+                viewVoiceDivider.setVisibility(View.GONE);
+            }
         } else {
             llVideoRecrds.setLayoutParams(layoutLP);
             addPhotoIcon.setBackgroundResource(R.drawable.icon_vedio);
             llVideoRecrds.addView(addPhotoIcon, addIconLP);
+            if(llVideoRecrds.getChildCount() > 0){
+                viewVideoDivider.setVisibility(View.VISIBLE);
+            } else {
+                viewVideoDivider.setVisibility(View.GONE);
+            }
         }
     }
 

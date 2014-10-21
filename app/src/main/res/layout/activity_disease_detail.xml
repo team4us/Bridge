@@ -153,6 +153,12 @@
                     android:orientation="horizontal">
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/view_picture_divider"
+                    style="@style/line_h"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"/>
+
                 <com.xiaohui.bridge.view.MyGridView
                     android:id="@+id/mgv_pictures"
                     android:layout_width="match_parent"
@@ -163,6 +169,13 @@
                     android:scrollbars="none"
                     android:verticalSpacing="5dp" />
 
+                <View
+                    android:id="@+id/view_voice_divider"
+                    style="@style/line_h"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"/>
+
                 <LinearLayout
                     android:id="@+id/ll_voice_record"
                     android:layout_width="match_parent"
@@ -170,6 +183,13 @@
                     android:layout_marginTop="@dimen/margin_5"
                     android:orientation="horizontal">
                 </LinearLayout>
+
+                <View
+                    android:id="@+id/view_video_divider"
+                    style="@style/line_h"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:id="@+id/ll_video_record"
