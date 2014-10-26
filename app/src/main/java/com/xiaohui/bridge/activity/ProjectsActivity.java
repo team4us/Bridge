@@ -19,10 +19,13 @@ import com.xiaohui.bridge.viewmodel.ProjectsViewModel;
  */
 public class ProjectsActivity extends AbstractActivity implements IProjectView {
 
+    private ProjectsViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projects, new ProjectsViewModel(this));
+        viewModel = new ProjectsViewModel(this, getDatabase());
+        setContentView(R.layout.activity_projects, viewModel);
         setTitle("项目列表");
     }
 
@@ -43,10 +46,10 @@ public class ProjectsActivity extends AbstractActivity implements IProjectView {
         int id = item.getItemId();
 
         if (id == R.id.action_download) {
-            Toast.makeText(this, R.string.action_download, Toast.LENGTH_SHORT).show();
+            viewModel.download();
             return true;
         } else if (id == R.id.action_upload) {
-            Toast.makeText(this, R.string.action_upload, Toast.LENGTH_SHORT).show();
+            viewModel.upload();
             return true;
         }
 

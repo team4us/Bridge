@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
+import com.couchbase.lite.Database;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.XhApplication;
 import com.xiaohui.bridge.business.store.Cookie;
@@ -28,12 +29,16 @@ public abstract class AbstractActivity extends Activity {
         return viewBinder.inflateAndBind(layoutId, presentationModel);
     }
 
-    public XhApplication getGlobalApplication() {
+    protected XhApplication getGlobalApplication() {
         return (XhApplication) getApplication();
     }
 
-    public Cookie getCookie() {
+    protected Cookie getCookie() {
         return getGlobalApplication().getCookie();
+    }
+
+    protected Database getDatabase() {
+        return getGlobalApplication().getDatabase();
     }
 
     private ViewBinder createViewBinder() {

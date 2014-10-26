@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.couchbase.lite.Database;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.XhApplication;
 import com.xiaohui.bridge.business.store.Cookie;
@@ -26,12 +27,16 @@ public abstract class AbstractFragment extends Fragment {
         return getGlobalApplication().getBinderFactory().createViewBinder(getActivity());
     }
 
-    public XhApplication getGlobalApplication() {
+    protected XhApplication getGlobalApplication() {
         return (XhApplication) getActivity().getApplicationContext();
     }
 
-    public Cookie getCookie() {
+    protected Cookie getCookie() {
         return getGlobalApplication().getCookie();
+    }
+
+    protected Database getDatabase() {
+        return getGlobalApplication().getDatabase();
     }
 
     protected MenuBinder createMenuBinder(Menu menu, MenuInflater menuInflater) {

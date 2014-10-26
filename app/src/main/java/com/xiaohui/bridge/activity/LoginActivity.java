@@ -3,6 +3,7 @@ package com.xiaohui.bridge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.view.ILoginView;
 import com.xiaohui.bridge.viewmodel.LoginViewModel;
@@ -20,6 +21,7 @@ public class LoginActivity extends AbstractActivity implements ILoginView {
 
     @Override
     public void onClickLogin() {
+        getCookie().put(Keys.USER_NAME, "default");
         startActivity(new Intent(this, ProjectsActivity.class));
         finish();
     }

@@ -1,5 +1,6 @@
 package com.xiaohui.bridge.viewmodel;
 
+import com.couchbase.lite.Database;
 import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.ProjectsModel;
@@ -19,10 +20,12 @@ public class ProjectsViewModel {
 
     private IProjectView projectView;
     private ProjectsModel model;
+    private Database database;
 
-    public ProjectsViewModel(IProjectView view) {
+    public ProjectsViewModel(IProjectView view, Database database) {
         projectView = view;
         model = new ProjectsModel(StoreManager.Instance.getProjects());
+        this.database = database;
     }
 
     @ItemPresentationModel(ProjectItemViewModel.class)
@@ -40,5 +43,13 @@ public class ProjectsViewModel {
         if (projectView != null) {
             projectView.onItemSelect(pos, model.getProject(pos));
         }
+    }
+
+    public void download() {
+        this.database.
+    }
+
+    public void upload() {
+
     }
 }

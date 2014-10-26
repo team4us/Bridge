@@ -40,13 +40,13 @@ android {
     lintOptions {
         abortOnError false
     }
-}
 
-repositories {
-    mavenCentral()
-    maven() {
-        name 'SonaType snapshot repository'
-        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    // workaround for "duplicate files during packaging of APK" issue
+// see https://groups.google.com/d/msg/adt-dev/bl5Rc4Szpzg/wC8cylTWuIEJ
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
     }
 }
 
@@ -64,4 +64,5 @@ dependencies {
 
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'joda-time:joda-time:2.3'
+    compile 'com.couchbase.lite:couchbase-lite-android:1.0.2'
 }
