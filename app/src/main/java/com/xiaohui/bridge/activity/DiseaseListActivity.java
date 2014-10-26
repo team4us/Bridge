@@ -1,5 +1,7 @@
 package com.xiaohui.bridge.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,7 +23,7 @@ import java.util.List;
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener {
+public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     private ListView diseaseListView;
     private String componentName;
     private String positionName;
@@ -40,6 +42,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         diseaseListView = (ListView) findViewById(R.id.lv_disease);
         diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
         diseaseListView.setOnItemClickListener(this);
+        diseaseListView.setOnItemLongClickListener(this);
     }
 
     private List<String> getData() {
@@ -94,4 +97,25 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         intent.putExtras(getIntent().getExtras());
         startActivity(intent);
     }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseListActivity.this);
+        builder.setMessage("你想做什么操作？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("复制", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.create().show();
+        return true;
+    }
+
 }
