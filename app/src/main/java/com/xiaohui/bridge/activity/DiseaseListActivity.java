@@ -1,9 +1,8 @@
 package com.xiaohui.bridge.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +14,7 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.business.store.StoreManager;
+import com.xiaohui.bridge.model.ProjectModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import java.util.List;
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener{
     private ListView diseaseListView;
     private String componentName;
     private String positionName;
@@ -42,7 +42,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         diseaseListView = (ListView) findViewById(R.id.lv_disease);
         diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
         diseaseListView.setOnItemClickListener(this);
-        diseaseListView.setOnItemLongClickListener(this);
+        registerForContextMenu(diseaseListView);
     }
 
     private List<String> getData() {
@@ -52,6 +52,24 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
             data.add((i + 1) + " " + StoreManager.Instance.getDiseasesList().get(i).getDiseaseType());
         }
         return data;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_copy:
+                break;
+            case R.id.action_delete:
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle(getString(R.string.action_operate_tips));
+        getMenuInflater().inflate(R.menu.diseaselist_menu, menu);
     }
 
     @Override
@@ -96,26 +114,6 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         intent.putExtra(KeyStore.KeySelectedIndex, position);
         intent.putExtras(getIntent().getExtras());
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseListActivity.this);
-        builder.setMessage("你想做什么操作？");
-        builder.setTitle("提示");
-        builder.setPositiveButton("复制", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.create().show();
-        return true;
     }
 
 }

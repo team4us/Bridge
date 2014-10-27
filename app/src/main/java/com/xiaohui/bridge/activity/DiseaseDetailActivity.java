@@ -41,9 +41,6 @@ import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.DiseasesModel;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseBaseInputTemplate;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate1;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate2;
 import com.xiaohui.bridge.view.MyGridView;
 import com.xiaohui.bridge.view.PickPicture.Bimp;
 import com.xiaohui.bridge.view.PickPicture.FileUtils;
@@ -88,7 +85,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private View viewPictureDivider;
     private View viewVoiceDivider;
     private View viewVideoDivider;
-    private DiseaseBaseInputTemplate inputTemplate;
 
     private GridAdapter mgvPicturesAdapter;
     private int iconWidth = DeviceParamterUtil.dip2px(60);
@@ -118,7 +114,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
         componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
         positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
-        diseaseDetail = StoreManager.Instance.getDiseasesList().get(selectIndex);
+        if(!isNewDisease) {
+            diseaseDetail = StoreManager.Instance.getDiseasesList().get(selectIndex);
+        }
 
         if(isNewDisease){
             initInputTemplateView(0);
@@ -209,7 +207,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
                     if(isNewDisease) {
                         rbRadioButton1.setChecked(true);
                     }
@@ -222,7 +219,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     rbRadioButton2.setVisibility(View.GONE);
                     rbRadioButton4.setVisibility(View.GONE);
                 } else {
-                    inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
                     if(isNewDisease) {
                         rbRadioButton2.setChecked(true);
                     }
@@ -272,7 +268,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 llInputTemplate.addView(inputTemplateView);
 
                 // 匹配当前的录入模板是否和原本的数据模板相同，如果相同，那么初始化视图中的数据，如果不同，什么都不做
-                if(nowInputMethod.getId() == diseaseDetail.getInputMethod().getId()){
+                if(!isNewDisease && null != diseaseDetail && nowInputMethod.getId() == diseaseDetail.getInputMethod().getId()){
                     String[] keys = nowInputMethod.getInputTitles();
                     for(int j = 0; j< keys.length ; j ++){
                         StringBuilder builder = new StringBuilder("et_");
@@ -281,32 +277,15 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                         et.setText((String)diseaseDetail.getInputMethodValues().get(keys[j]));
                     }
                 }
-
-//                switch (id) {
-//                    case 1:
-//                        inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
-//                        break;
-//                    case 2:
-//                        inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
-//                        break;
-//                    case 3:
-//                        inputTemplate = new DiseaseInputTemplate3(DiseaseDetailActivity.this);
-//                        break;
-//                    case 4:
-//                        inputTemplate = new DiseaseInputTemplate4(DiseaseDetailActivity.this);
-//                        break;
-//                    case 5:
-//                        inputTemplate = new DiseaseInputTemplate5(DiseaseDetailActivity.this);
-//                        break;
-//                }
-
-//                llInputTemplate.addView(inputTemplate);
             }
         });
-        StringBuilder builder = new StringBuilder("rb_input_");
-        builder.append(diseaseDetail.getInputMethod().getId());
-        int xx = getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME);
-        rgRadioGroup.check(xx);
+
+        if(!isNewDisease) {
+            StringBuilder builder = new StringBuilder("rb_input_");
+            builder.append(diseaseDetail.getInputMethod().getId());
+            int xx = getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME);
+            rgRadioGroup.check(xx);
+        }
     }
 
     private void initGridView() {
@@ -363,7 +342,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void saveDiseaseDetail(){
-        if(inputTemplate.isHasEmptyData()){
+        if(null == diseaseDetail || diseaseDetail.getInputMethodValues().isEmpty()){
             Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
             return ;
         }
