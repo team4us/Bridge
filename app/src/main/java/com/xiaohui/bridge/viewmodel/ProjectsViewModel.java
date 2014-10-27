@@ -3,10 +3,8 @@ package com.xiaohui.bridge.viewmodel;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.xiaohui.bridge.business.BusinessManager;
-import com.xiaohui.bridge.business.bean.Project;
-import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.ProjectModel;
-import com.xiaohui.bridge.model.ProjectsModel;
+import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IProjectView;
 
 import org.robobinding.annotation.ItemPresentationModel;
@@ -27,15 +25,14 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
 
     private final PresentationModelChangeSupport changeSupport;
     private IProjectView projectView;
-    private Dao<ProjectModel, Integer> dao;
+    private DatabaseHelper helper;
     private String userName;
     private BusinessManager businessManager;
     private List<ProjectModel> projects;
 
-
-    public ProjectsViewModel(IProjectView view, Dao<ProjectModel, Integer> dao, String userName) {
+    public ProjectsViewModel(IProjectView view, DatabaseHelper helper, String userName) {
         projectView = view;
-        this.dao = dao;
+        this.helper = helper;
         this.userName = userName;
         this.changeSupport = new PresentationModelChangeSupport(this);
         this.businessManager = new BusinessManager();
@@ -45,7 +42,8 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
     public List<ProjectModel> getProjects() {
         if (projects == null) {
             try {
-                QueryBuilder<ProjectModel, Integer> builder = dao.queryBuilder();
+                QueryBuilder<ProjectModel, Integer> builder = helper.getProjectDao().queryBuilder();
+                builder.where().eq("userName", userName);
                 builder.orderBy("Id", false);
                 projects = builder.query();
             } catch (SQLException e) {
@@ -57,6 +55,10 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
         return projects;
     }
 
+    public ProjectModel getProject(int index) {
+        return projects.get(index);
+    }
+
     public void onItemClick(ItemClickEvent event) {
         int pos = event.getPosition();
         if (projectView != null) {
@@ -65,7 +67,7 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
     }
 
     public void download() {
-        businessManager.download(dao, userName);
+        businessManager.download(helper, userName);
         projects = null;
         changeSupport.firePropertyChange("projects");
     }

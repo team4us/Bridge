@@ -1,9 +1,11 @@
 package com.xiaohui.bridge.business.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by xiaohui on 14-9-26.
  */
-public class ChildBridge {
+public class ChildBridge implements Serializable {
 
     private String name; //桥梁名称
     private String category; //按跨径分类

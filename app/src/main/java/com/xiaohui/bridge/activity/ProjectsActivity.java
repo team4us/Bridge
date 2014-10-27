@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.model.ProjectModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IProjectView;
@@ -25,9 +28,11 @@ public class ProjectsActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ProjectsViewModel(this, getHelper().getProjectsDao(), getGlobalApplication().getCurrentUserName());
+        viewModel = new ProjectsViewModel(this, getHelper(), getGlobalApplication().getCurrentUserName());
         setContentView(R.layout.activity_projects, viewModel);
         setTitle("项目列表");
+        ListView lv = (ListView) findViewById(R.id.lv_projects);
+        registerForContextMenu(lv);
     }
 
     @Override
@@ -55,6 +60,28 @@ public class ProjectsActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        ProjectModel projectModel = viewModel.getProject((int) info.id);
+        menu.setHeaderTitle(projectModel.getProject().getName());
+        getMenuInflater().inflate(R.menu.projects_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        ProjectModel projectModel = viewModel.getProject((int) info.id);
+        switch (item.getItemId()) {
+            case R.id.action_upload:
+                break;
+            case R.id.action_download:
+                break;
+        }
+        return true;
     }
 
     @Override

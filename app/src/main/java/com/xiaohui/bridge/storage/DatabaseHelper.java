@@ -9,6 +9,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.TableUtils;
+import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.model.ProjectModel;
 
 import java.sql.SQLException;
@@ -20,21 +21,28 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "Store.db";
     private static final int DATABASE_VERSION = 1;
 
-    private DatabaseTableConfig<ProjectModel> projectsConfig = new DatabaseTableConfig<ProjectModel>();
-    private Dao<ProjectModel, Integer> projectsDao = null;
+    private DatabaseTableConfig<ProjectModel> projectConfig = new DatabaseTableConfig<ProjectModel>();
+    private DatabaseTableConfig<BridgeModel> bridgeConfig = new DatabaseTableConfig<BridgeModel>();
+    private Dao<ProjectModel, Integer> projectDao = null;
+    private Dao<BridgeModel, Integer> bridgeDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
-        projectsConfig.setDataClass(ProjectModel.class);
-        projectsConfig.setTableName("Projects");
-        projectsConfig.initialize();
+        projectConfig.setDataClass(ProjectModel.class);
+        projectConfig.setTableName("Project");
+        projectConfig.initialize();
+
+        bridgeConfig.setDataClass(BridgeModel.class);
+        bridgeConfig.setTableName("Bridge");
+        bridgeConfig.initialize();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, projectsConfig);
+            TableUtils.createTable(connectionSource, projectConfig);
+            TableUtils.createTable(connectionSource, bridgeConfig);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -43,7 +51,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, projectsConfig, true);
+            TableUtils.dropTable(connectionSource, projectConfig, true);
+            TableUtils.dropTable(connectionSource, bridgeConfig, true);
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -53,17 +62,29 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
-        projectsDao = null;
+        projectDao = null;
+        bridgeDao = null;
     }
 
-    public Dao<ProjectModel, Integer> getProjectsDao() {
-        if (projectsDao == null) {
+    public Dao<ProjectModel, Integer> getProjectDao() {
+        if (projectDao == null) {
             try {
-                projectsDao = DaoManager.createDao(getConnectionSource(), projectsConfig);
+                projectDao = DaoManager.createDao(getConnectionSource(), projectConfig);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return projectsDao;
+        return projectDao;
+    }
+
+    public Dao<BridgeModel, Integer> getBridgeDao() {
+        if (bridgeDao == null) {
+            try {
+                bridgeDao = DaoManager.createDao(getConnectionSource(), bridgeConfig);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return bridgeDao;
     }
 }

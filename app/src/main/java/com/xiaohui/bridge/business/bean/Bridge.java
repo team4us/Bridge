@@ -1,12 +1,13 @@
 package com.xiaohui.bridge.business.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by xiaohui on 14-9-26.
  */
-public class Bridge {
+public class Bridge implements Serializable {
 
     private String code; //桥梁编号
     private String name; //桥梁名称
