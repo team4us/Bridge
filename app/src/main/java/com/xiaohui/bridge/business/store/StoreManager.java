@@ -5,11 +5,6 @@ import com.xiaohui.bridge.business.bean.ChildBridge;
 import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.model.DiseasesModel;
-import com.xiaohui.bridge.model.InputType1;
-import com.xiaohui.bridge.model.InputType2;
-import com.xiaohui.bridge.model.InputType3;
-import com.xiaohui.bridge.model.InputType4;
-import com.xiaohui.bridge.model.InputType5;
 
 import java.util.ArrayList;
 import java.util.HashMap;
