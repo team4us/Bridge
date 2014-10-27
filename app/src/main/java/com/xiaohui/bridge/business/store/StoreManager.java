@@ -262,35 +262,35 @@ public enum StoreManager {
         disease.setComponentName(componentName);
         disease.setPosition("左腹板");
         disease.setDiseaseType("裂缝");
-        disease.setDiseaseInputMethod(new InputType1("10.2", "12.3", "10", "12", "image001"));
+//        disease.setDiseaseInputMethod(new InputType1("10.2", "12.3", "10", "12", "image001"));
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition("底板");
         disease.setDiseaseType("裂缝");
-        disease.setDiseaseInputMethod(new InputType3("中央支架", "10", "12", "image001"));
+//        disease.setDiseaseInputMethod(new InputType3("中央支架", "10", "12", "image001"));
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition("右腹板");
         disease.setDiseaseType("破损");
-        disease.setDiseaseInputMethod(new InputType2("左侧腹", "14.5", "9", "image002"));
+//        disease.setDiseaseInputMethod(new InputType2("左侧腹", "14.5", "9", "image002"));
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition("右翼缘板");
         disease.setDiseaseType("钢筋锈蚀");
-        disease.setDiseaseInputMethod(new InputType4("左腹底", "9.4", "19", "image003"));
+//        disease.setDiseaseInputMethod(new InputType4("左腹底", "9.4", "19", "image003"));
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition(position);
         disease.setDiseaseType("其他");
-        disease.setDiseaseInputMethod(new InputType5("右侧腹", "严重的破损", "image004"));
+//        disease.setDiseaseInputMethod(new InputType5("右侧腹", "严重的破损", "image004"));
         diseasesList.add(disease);
     }
 
