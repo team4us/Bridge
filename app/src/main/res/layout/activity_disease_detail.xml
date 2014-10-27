@@ -93,35 +93,30 @@
                     style="@style/base_radio_button"
                     android:text="方法1"
                     android:textSize="@dimen/font_size_36"
-                    android:tag="1"
                     android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_2"
                     style="@style/base_radio_button"
                     android:textSize="@dimen/font_size_36"
-                    android:tag="2"
                     android:text="方法2"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_3"
                     style="@style/base_radio_button"
                     android:textSize="@dimen/font_size_36"
-                    android:tag="3"
                     android:text="方法3"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_4"
                     style="@style/base_radio_button"
                     android:textSize="@dimen/font_size_36"
-                    android:tag="4"
                     android:text="方法4"/>
 
                 <RadioButton
                     android:id="@+id/rb_input_5"
                     style="@style/base_radio_button"
                     android:textSize="@dimen/font_size_36"
-                    android:tag="5"
                     android:text="方法5"/>
 
             </RadioGroup>

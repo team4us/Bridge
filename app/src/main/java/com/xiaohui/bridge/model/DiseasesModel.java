@@ -1,6 +1,9 @@
 package com.xiaohui.bridge.model;
 
+import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * 病害类
@@ -10,7 +13,9 @@ public class DiseasesModel {
     private String componentName;
     private String position;
     private String diseaseType;
-    private BaseInputModel diseaseInputMethod;
+    private EDiseaseInputMethod inputMethod;
+    private Map<String, Object> inputMethodValues;
+//    private BaseInputModel diseaseInputMethod;
     private ArrayList<String> pictureList = new ArrayList<String>();
     private ArrayList<String> recordList = new ArrayList<String>();
     private ArrayList<String> videoList = new ArrayList<String>();
@@ -27,9 +32,9 @@ public class DiseasesModel {
         this.diseaseType = diseaseType;
     }
 
-    public void setDiseaseInputMethod(BaseInputModel diseaseInputMethod) {
-        this.diseaseInputMethod = diseaseInputMethod;
-    }
+//    public void setDiseaseInputMethod(BaseInputModel diseaseInputMethod) {
+//        this.diseaseInputMethod = diseaseInputMethod;
+//    }
 
     public void setPictureList(ArrayList<String> pictureList) {
         this.pictureList = pictureList;
@@ -55,8 +60,24 @@ public class DiseasesModel {
         return diseaseType;
     }
 
-    public BaseInputModel getDiseaseInputMethod() {
-        return diseaseInputMethod;
+//    public BaseInputModel getDiseaseInputMethod() {
+//        return diseaseInputMethod;
+//    }
+
+    public Map<String, Object> getInputMethodValues() {
+        return inputMethodValues;
+    }
+
+    public void setInputMethodValues(Map<String, Object> inputMethodValues) {
+        this.inputMethodValues = inputMethodValues;
+    }
+
+    public EDiseaseInputMethod getInputMethod() {
+        return inputMethod;
+    }
+
+    public void setInputMethod(EDiseaseInputMethod inputMethod) {
+        this.inputMethod = inputMethod;
     }
 
     public ArrayList<String> getPictureList() {

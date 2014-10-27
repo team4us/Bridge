@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.business.store.KeyStore;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.DiseasesModel;
@@ -125,10 +126,15 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
         rgRadioGroup = (RadioGroup) findViewById(R.id.rg_radio_group);
         rbRadioButton1 = (RadioButton) findViewById(R.id.rb_input_1);
+        rbRadioButton1.setTag(EDiseaseInputMethod.One);
         rbRadioButton2 = (RadioButton) findViewById(R.id.rb_input_2);
+        rbRadioButton2.setTag(EDiseaseInputMethod.Two);
         rbRadioButton3 = (RadioButton) findViewById(R.id.rb_input_3);
+        rbRadioButton3.setTag(EDiseaseInputMethod.Three);
         rbRadioButton4 = (RadioButton) findViewById(R.id.rb_input_4);
+        rbRadioButton4.setTag(EDiseaseInputMethod.Four);
         rbRadioButton5 = (RadioButton) findViewById(R.id.rb_input_5);
+        rbRadioButton5.setTag(EDiseaseInputMethod.Five);
         llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
         viewPictureDivider = findViewById(R.id.view_picture_divider);
         viewVoiceDivider = findViewById(R.id.view_voice_divider);
@@ -243,27 +249,45 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 int radioButtonId = radioGroup.getCheckedRadioButtonId();
                 RadioButton rb = (RadioButton) DiseaseDetailActivity.this.findViewById(radioButtonId);
                 llInputTemplate.removeAllViews();
-                switch (Integer.valueOf((String) rb.getTag())) {
-                    case 1:
-                        inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
-                        break;
-                    case 2:
-                        inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
-                        break;
-                    case 3:
-                        inputTemplate = new DiseaseInputTemplate3(DiseaseDetailActivity.this);
-                        break;
-                    case 4:
-                        inputTemplate = new DiseaseInputTemplate4(DiseaseDetailActivity.this);
-                        break;
-                    case 5:
-                        inputTemplate = new DiseaseInputTemplate5(DiseaseDetailActivity.this);
-                        break;
-                }
+
+                String[] keys = ((EDiseaseInputMethod) rb.getTag()).getInputTitles();
+
+
+
+
+
+//                switch (id) {
+//                    case 1:
+//                        inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
+//                        break;
+//                    case 2:
+//                        inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
+//                        break;
+//                    case 3:
+//                        inputTemplate = new DiseaseInputTemplate3(DiseaseDetailActivity.this);
+//                        break;
+//                    case 4:
+//                        inputTemplate = new DiseaseInputTemplate4(DiseaseDetailActivity.this);
+//                        break;
+//                    case 5:
+//                        inputTemplate = new DiseaseInputTemplate5(DiseaseDetailActivity.this);
+//                        break;
+//                }
 
                 llInputTemplate.addView(inputTemplate);
             }
         });
+    }
+
+    private LinearLayout getInputView(String key, String value) {
+        LinearLayout ll = new LinearLayout(this);
+        TextView tv = new TextView(this);
+        tv.setText(key);
+        EditText et = new EditText(this);
+        et.setText(value);
+        ll.addView(tv);
+        ll.addView(et);
+        return ll;
     }
 
     private void initGridView() {
@@ -329,7 +353,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         diseasesModel.setComponentName(componentName);
         diseasesModel.setPosition(positionName);
         diseasesModel.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
-        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
+//        diseasesModel.set
+//        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
         diseasesModel.setPictureList(picturesList);
         diseasesModel.setRecordList(recordsList);
         diseasesModel.setVideoList(videosList);
