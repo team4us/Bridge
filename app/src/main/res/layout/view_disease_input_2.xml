@@ -18,7 +18,7 @@
             android:text="位置坐标："/>
 
         <EditText
-            android:id="@+id/et_startpoint"
+            android:id="@+id/et_position"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_marginRight="@dimen/margin_15"
@@ -82,7 +82,7 @@
             android:text="照片编号："/>
 
         <EditText
-            android:id="@+id/et_image_number"
+            android:id="@+id/et_imagenumber"
             style="@style/disease_input_edittext"
             android:inputType="number"/>
 
@@ -100,7 +100,7 @@
             android:text="备注："/>
 
         <EditText
-            android:id="@+id/et_more"
+            android:id="@+id/et_moreinfo"
             style="@style/disease_input_edittext"/>
 
     </LinearLayout>

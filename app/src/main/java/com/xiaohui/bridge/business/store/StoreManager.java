@@ -3,6 +3,7 @@ package com.xiaohui.bridge.business.store;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
 import com.xiaohui.bridge.business.bean.Project;
+import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.model.DiseasesModel;
 import com.xiaohui.bridge.model.InputType1;
 import com.xiaohui.bridge.model.InputType2;
@@ -11,7 +12,9 @@ import com.xiaohui.bridge.model.InputType4;
 import com.xiaohui.bridge.model.InputType5;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xhChen on 14/9/27.
@@ -262,35 +265,60 @@ public enum StoreManager {
         disease.setComponentName(componentName);
         disease.setPosition("左腹板");
         disease.setDiseaseType("裂缝");
-//        disease.setDiseaseInputMethod(new InputType1("10.2", "12.3", "10", "12", "image001"));
+        disease.setInputMethod(EDiseaseInputMethod.One);
+        Map<String, Object> values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.One.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.One.getInputTitles()[i], "demo1");
+        }
+        disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition("底板");
         disease.setDiseaseType("裂缝");
-//        disease.setDiseaseInputMethod(new InputType3("中央支架", "10", "12", "image001"));
+        disease.setInputMethod(EDiseaseInputMethod.Three);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Three.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Three.getInputTitles()[i], "demo3");
+        }
+        disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition("右腹板");
         disease.setDiseaseType("破损");
-//        disease.setDiseaseInputMethod(new InputType2("左侧腹", "14.5", "9", "image002"));
+        disease.setInputMethod(EDiseaseInputMethod.Two);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Two.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Two.getInputTitles()[i], "demo2");
+        }
+        disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition("右翼缘板");
         disease.setDiseaseType("钢筋锈蚀");
-//        disease.setDiseaseInputMethod(new InputType4("左腹底", "9.4", "19", "image003"));
+        disease.setInputMethod(EDiseaseInputMethod.Four);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Four.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Four.getInputTitles()[i], "demo4");
+        }
+        disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
         disease.setPosition(position);
         disease.setDiseaseType("其他");
-//        disease.setDiseaseInputMethod(new InputType5("右侧腹", "严重的破损", "image004"));
+        disease.setInputMethod(EDiseaseInputMethod.Five);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Five.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Five.getInputTitles()[i], "demo5");
+        }
+        disease.setInputMethodValues(values);
         diseasesList.add(disease);
     }
 

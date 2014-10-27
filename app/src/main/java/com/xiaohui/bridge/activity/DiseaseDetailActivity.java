@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
@@ -43,9 +44,6 @@ import com.xiaohui.bridge.util.DeviceParamterUtil;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseBaseInputTemplate;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate1;
 import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate2;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate3;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate4;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate5;
 import com.xiaohui.bridge.view.MyGridView;
 import com.xiaohui.bridge.view.PickPicture.Bimp;
 import com.xiaohui.bridge.view.PickPicture.FileUtils;
@@ -107,6 +105,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private String componentName;
     private String positionName;
 
+    private DiseasesModel diseaseDetail;
+    private View inputTemplateView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +118,13 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
         componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
         positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
+        diseaseDetail = StoreManager.Instance.getDiseasesList().get(selectIndex);
+
+        if(isNewDisease){
+            initInputTemplateView(0);
+        } else {
+            initInputTemplateView(diseaseDetail.getInputMethod().getResID());
+        }
 
         llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
         llVoiceRecrds = (LinearLayout) findViewById(R.id.ll_voice_record);
@@ -144,6 +152,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         initDiseaseDetailView();
         initMediaLayout();
         initGridView();
+    }
+
+    private void initInputTemplateView(int resid){
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inputTemplateView = inflater.inflate(resid == 0 ? R.layout.view_disease_input_1 : resid, null);
     }
 
     @Override
@@ -197,7 +210,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
                     inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
-                    rbRadioButton1.setChecked(true);
+                    if(isNewDisease) {
+                        rbRadioButton1.setChecked(true);
+                    }
                     rbRadioButton1.setVisibility(View.VISIBLE);
                     rbRadioButton1.setText("详细记录");
                     rbRadioButton3.setVisibility(View.VISIBLE);
@@ -208,7 +223,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     rbRadioButton4.setVisibility(View.GONE);
                 } else {
                     inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
-                    rbRadioButton2.setChecked(true);
+                    if(isNewDisease) {
+                        rbRadioButton2.setChecked(true);
+                    }
                     rbRadioButton2.setVisibility(View.VISIBLE);
                     rbRadioButton2.setText("详细记录");
                     rbRadioButton4.setVisibility(View.VISIBLE);
@@ -242,19 +259,28 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             }
         }
 
-        llInputTemplate.addView(new DiseaseInputTemplate1(DiseaseDetailActivity.this));
+        llInputTemplate.addView(inputTemplateView);
         rgRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int radioButtonId = radioGroup.getCheckedRadioButtonId();
                 RadioButton rb = (RadioButton) DiseaseDetailActivity.this.findViewById(radioButtonId);
                 llInputTemplate.removeAllViews();
+                // 初始化成相应的录入模板
+                EDiseaseInputMethod nowInputMethod = (EDiseaseInputMethod) rb.getTag();
+                initInputTemplateView(nowInputMethod.getResID());
+                llInputTemplate.addView(inputTemplateView);
 
-                String[] keys = ((EDiseaseInputMethod) rb.getTag()).getInputTitles();
-
-
-
-
+                // 匹配当前的录入模板是否和原本的数据模板相同，如果相同，那么初始化视图中的数据，如果不同，什么都不做
+                if(nowInputMethod.getId() == diseaseDetail.getInputMethod().getId()){
+                    String[] keys = nowInputMethod.getInputTitles();
+                    for(int j = 0; j< keys.length ; j ++){
+                        StringBuilder builder = new StringBuilder("et_");
+                        builder.append(keys[j]);
+                        EditText et = (EditText) inputTemplateView.findViewById(getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME));
+                        et.setText((String)diseaseDetail.getInputMethodValues().get(keys[j]));
+                    }
+                }
 
 //                switch (id) {
 //                    case 1:
@@ -274,20 +300,13 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 //                        break;
 //                }
 
-                llInputTemplate.addView(inputTemplate);
+//                llInputTemplate.addView(inputTemplate);
             }
         });
-    }
-
-    private LinearLayout getInputView(String key, String value) {
-        LinearLayout ll = new LinearLayout(this);
-        TextView tv = new TextView(this);
-        tv.setText(key);
-        EditText et = new EditText(this);
-        et.setText(value);
-        ll.addView(tv);
-        ll.addView(et);
-        return ll;
+        StringBuilder builder = new StringBuilder("rb_input_");
+        builder.append(diseaseDetail.getInputMethod().getId());
+        int xx = getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME);
+        rgRadioGroup.check(xx);
     }
 
     private void initGridView() {

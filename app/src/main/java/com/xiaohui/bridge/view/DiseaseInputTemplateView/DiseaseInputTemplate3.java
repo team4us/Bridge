@@ -41,7 +41,7 @@ public class DiseaseInputTemplate3 extends DiseaseBaseInputTemplate{
         this.context = context;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.view_disease_input_3, this);
-        position = (EditText) view.findViewById(R.id.et_point);
+        position = (EditText) view.findViewById(R.id.et_position);
         etLength = (EditText) view.findViewById(R.id.et_length);
         etWidth = (EditText) view.findViewById(R.id.et_width);
         etImageNumber = (EditText) view.findViewById(R.id.et_image_number);
