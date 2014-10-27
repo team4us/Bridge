@@ -5,6 +5,8 @@ package com.xiaohui.bridge.view;
  */
 public interface ILoginView {
 
-    public void onClickLogin();
+    public void loginSuccess();
+
+    public void loginFailed();
 
 }
