@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.AbstractActivity;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +80,7 @@ public class ImageGridActivity extends AbstractActivity {
             }
 
             if (Bimp.act_bool) {
-                setResult(KeyStore.ResultCodeSuccess);
+                setResult(Keys.ResultCodeSuccess);
                 Bimp.act_bool = false;
             }
             for (int i = 0; i < list.size(); i++) {
@@ -88,7 +88,7 @@ public class ImageGridActivity extends AbstractActivity {
                     Bimp.drr.add(list.get(i));
                 }
             }
-            setResult(KeyStore.ResultCodeSuccess);
+            setResult(Keys.ResultCodeSuccess);
             finish();
         }
 

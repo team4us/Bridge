@@ -37,7 +37,7 @@ import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.DiseasesModel;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
@@ -109,11 +109,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_detail);
         isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
-        selectIndex = getIntent().getIntExtra(KeyStore.KeySelectedIndex, -1);
+        selectIndex = getIntent().getIntExtra(Keys.KeySelectedIndex, -1);
         setTitle(isNewDisease ? "病害新增" : "病害编辑");
 
-        componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
-        positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
+        componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
+        positionName = getIntent().getExtras().getString(Keys.KeySelectedPositionName);
         if(!isNewDisease) {
             diseaseDetail = StoreManager.Instance.getDiseasesList().get(selectIndex);
         }
@@ -375,25 +375,25 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case KeyStore.RequestCodeTakePicture:
+            case Keys.RequestCodeTakePicture:
                 if (Bimp.drr.size() < 9 && resultCode == -1) {
                     Bimp.drr.add(path);
                 }
                 break;
-            case KeyStore.RequestCodeTakeRecord:
+            case Keys.RequestCodeTakeRecord:
                 if (null != data && null != data.getExtras()) {
-                    String recordPath = data.getExtras().getString(KeyStore.KeyContent);
+                    String recordPath = data.getExtras().getString(Keys.KeyContent);
                     if (!TextUtils.isEmpty(recordPath)) {
                         addMediaFile(recordPath, true);
                     }
                 }
                 break;
 
-            case KeyStore.RequestCodeTakeMovie:
-                if (resultCode != KeyStore.ResultCodeSuccess || null == data.getExtras()) {
+            case Keys.RequestCodeTakeMovie:
+                if (resultCode != Keys.ResultCodeSuccess || null == data.getExtras()) {
                     return;
                 }
-                String videoPath = data.getExtras().getString(KeyStore.KeyContent);
+                String videoPath = data.getExtras().getString(Keys.KeyContent);
                 if (!TextUtils.isEmpty(videoPath)) {
                     addMediaFile(videoPath, false);
                 }
@@ -404,7 +404,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private void addVoiceRecord() {
         Intent intent = new Intent();
         intent.setClass(this, VoiceRecordActivity.class);
-        startActivityForResult(intent, KeyStore.RequestCodeTakeRecord);
+        startActivityForResult(intent, Keys.RequestCodeTakeRecord);
     }
 
     /**
@@ -469,7 +469,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private void addMovie() {
         Intent intent = new Intent();
         intent.setClass(this, MovieRecordActivity.class);
-        startActivityForResult(intent, KeyStore.RequestCodeTakeMovie);
+        startActivityForResult(intent, Keys.RequestCodeTakeMovie);
     }
 
     protected void takePhotoFromCamera() {
@@ -480,13 +480,13 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         path = file.getPath();
         Uri imageUri = Uri.fromFile(file);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(openCameraIntent, KeyStore.RequestCodeTakePicture);
+        startActivityForResult(openCameraIntent, Keys.RequestCodeTakePicture);
     }
 
     protected void pickPhotoFromGallery() {
         Intent intent = new Intent(DiseaseDetailActivity.this,
                 TestPicActivity.class);
-        startActivityForResult(intent, KeyStore.RequestCodePickPicture);
+        startActivityForResult(intent, Keys.RequestCodePickPicture);
     }
 
     @Override

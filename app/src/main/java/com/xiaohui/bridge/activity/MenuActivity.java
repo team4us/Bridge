@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
 
     @SuppressWarnings("unchecked")
     private void initView() {
-        ArrayList<MenuItem> menuItems = (ArrayList<MenuItem>) getIntent().getSerializableExtra(KeyStore.KeyContent);
+        ArrayList<MenuItem> menuItems = (ArrayList<MenuItem>) getIntent().getSerializableExtra(Keys.KeyContent);
         int size = menuItems.size();
         for (int i = 0; i < size; i++) {
             View view = getViewWithData(menuItems.get(i));
@@ -70,8 +70,8 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
     public void onClick(View v) {
         Intent intent = new Intent();
         int selectedIndex = (Integer) v.getTag();
-        intent.putExtra(KeyStore.KeySelectedIndex, selectedIndex);
-        setResult(KeyStore.ResultCodeSuccess, intent);
+        intent.putExtra(Keys.KeySelectedIndex, selectedIndex);
+        setResult(Keys.ResultCodeSuccess, intent);
         onBackPressed();
     }
 

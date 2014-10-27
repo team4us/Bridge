@@ -12,9 +12,8 @@ import android.widget.ListView;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
-import com.xiaohui.bridge.model.ProjectModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +33,8 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         setContentView(R.layout.activity_disease_list);
         StoreManager.Instance.initDiseasesModelList(componentName, positionName);
 
-        componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
-        positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
+        componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
+        positionName = getIntent().getExtras().getString(Keys.KeySelectedPositionName);
 
         setTitle(getIntent().getStringExtra("title") + "病害列表");
 
@@ -111,7 +110,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, DiseaseDetailActivity.class);
         intent.putExtra(Keys.FLAG, false); //是否为新增
-        intent.putExtra(KeyStore.KeySelectedIndex, position);
+        intent.putExtra(Keys.KeySelectedIndex, position);
         intent.putExtras(getIntent().getExtras());
         startActivity(intent);
     }

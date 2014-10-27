@@ -3,7 +3,6 @@ package com.xiaohui.bridge.view.PickPicture;
 import java.io.Serializable;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +14,7 @@ import android.widget.GridView;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.AbstractActivity;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 
 public class TestPicActivity extends AbstractActivity {
     // ArrayList<Entity> dataList;//用来装载数据源的列表
@@ -87,7 +86,7 @@ public class TestPicActivity extends AbstractActivity {
                         ImageGridActivity.class);
                 intent.putExtra(TestPicActivity.EXTRA_IMAGE_LIST,
                         (Serializable) dataList.get(position).imageList);
-                startActivityForResult(intent, KeyStore.RequestCodePickPicture);
+                startActivityForResult(intent, Keys.RequestCodePickPicture);
             }
 
         });
@@ -96,9 +95,9 @@ public class TestPicActivity extends AbstractActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == KeyStore.RequestCodePickPicture){
-            if(resultCode == KeyStore.ResultCodeSuccess) {
-                setResult(KeyStore.ResultCodeSuccess);
+        if(requestCode == Keys.RequestCodePickPicture){
+            if(resultCode == Keys.ResultCodeSuccess) {
+                setResult(Keys.ResultCodeSuccess);
                 this.finish();
             }
         }

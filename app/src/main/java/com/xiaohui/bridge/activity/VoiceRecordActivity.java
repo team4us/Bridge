@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -106,8 +106,8 @@ public class VoiceRecordActivity extends AbstractActivity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra(KeyStore.KeyContent, recordPath + currentRecordName);
-        setResult(KeyStore.ResultCodeSuccess, intent);
+        intent.putExtra(Keys.KeyContent, recordPath + currentRecordName);
+        setResult(Keys.ResultCodeSuccess, intent);
         super.finish();
     }
 }
