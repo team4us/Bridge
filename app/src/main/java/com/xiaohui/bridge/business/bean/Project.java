@@ -1,9 +1,11 @@
 package com.xiaohui.bridge.business.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by xhChen on 14/9/27.
  */
-public class Project {
+public class Project implements Serializable {
 
     private String code; //项目编号
     private String name; //项目名称

@@ -43,11 +43,11 @@ android {
 
     // workaround for "duplicate files during packaging of APK" issue
 // see https://groups.google.com/d/msg/adt-dev/bl5Rc4Szpzg/wC8cylTWuIEJ
-    packagingOptions {
-        exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
-    }
+//    packagingOptions {
+//        exclude 'META-INF/ASL2.0'
+//        exclude 'META-INF/LICENSE'
+//        exclude 'META-INF/NOTICE'
+//    }
 }
 
 ext {
@@ -64,5 +64,7 @@ dependencies {
 
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'joda-time:joda-time:2.3'
-    compile 'com.couchbase.lite:couchbase-lite-android:1.0.2'
+    compile 'com.google.code.gson:gson:1.7.1'
+    compile 'org.roboguice:roboguice:2.0'
+//    compile 'com.couchbase.lite:couchbase-lite-android:1.0.2'
 }

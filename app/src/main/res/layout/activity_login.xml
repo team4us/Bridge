@@ -34,13 +34,15 @@
         <EditText
             android:layout_width="match_parent"
             android:hint="@string/user_name"
-            style="@style/BaseInput"/>
+            style="@style/BaseInput"
+            bind:text="${name}"/>
 
         <EditText
             android:layout_width="match_parent"
             android:hint="@string/password"
             android:inputType="textPassword"
-            style="@style/BaseInput"/>
+            style="@style/BaseInput"
+            bind:text="${password}"/>
 
         <CheckBox
             android:layout_width="match_parent"

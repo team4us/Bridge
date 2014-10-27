@@ -1,6 +1,6 @@
 package com.xiaohui.bridge.viewmodel;
 
-import com.xiaohui.bridge.business.bean.Project;
+import com.xiaohui.bridge.model.ProjectModel;
 
 import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
@@ -8,7 +8,7 @@ import org.robobinding.itempresentationmodel.ItemPresentationModel;
 /**
  * Created by xiaohui on 14-9-24.
  */
-public class ProjectItemViewModel implements ItemPresentationModel<Project> {
+public class ProjectItemViewModel implements ItemPresentationModel<ProjectModel> {
 
     private String title;
     private String code;
@@ -22,8 +22,8 @@ public class ProjectItemViewModel implements ItemPresentationModel<Project> {
     }
 
     @Override
-    public void updateData(Project project, ItemContext itemContext) {
-        title = project.getName();
-        code = project.getCode();
+    public void updateData(ProjectModel project, ItemContext itemContext) {
+        title = project.getProject().getName();
+        code = project.getProject().getCode();
     }
 }

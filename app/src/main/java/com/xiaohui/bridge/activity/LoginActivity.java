@@ -16,12 +16,11 @@ public class LoginActivity extends AbstractActivity implements ILoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login, new LoginViewModel(this));
+        setContentView(R.layout.activity_login, new LoginViewModel(this, getStore()));
     }
 
     @Override
     public void onClickLogin() {
-        getCookie().put(Keys.USER_NAME, "default");
         startActivity(new Intent(this, ProjectsActivity.class));
         finish();
     }

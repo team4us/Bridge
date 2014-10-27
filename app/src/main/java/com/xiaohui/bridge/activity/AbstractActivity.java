@@ -5,10 +5,10 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 
-import com.couchbase.lite.Database;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.XhApplication;
 import com.xiaohui.bridge.business.store.Cookie;
+import com.xiaohui.bridge.storage.Store;
 
 import org.robobinding.ViewBinder;
 import org.robobinding.binder.BinderFactory;
@@ -37,8 +37,8 @@ public abstract class AbstractActivity extends Activity {
         return getGlobalApplication().getCookie();
     }
 
-    protected Database getDatabase() {
-        return getGlobalApplication().getDatabase();
+    protected Store getStore() {
+        return getGlobalApplication().getStore();
     }
 
     private ViewBinder createViewBinder() {

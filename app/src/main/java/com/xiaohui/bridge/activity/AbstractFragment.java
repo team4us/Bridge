@@ -3,17 +3,15 @@ package com.xiaohui.bridge.activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.couchbase.lite.Database;
-import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.XhApplication;
 import com.xiaohui.bridge.business.store.Cookie;
+import com.xiaohui.bridge.storage.Store;
 
 import org.robobinding.MenuBinder;
 import org.robobinding.ViewBinder;
@@ -35,8 +33,8 @@ public abstract class AbstractFragment extends Fragment {
         return getGlobalApplication().getCookie();
     }
 
-    protected Database getDatabase() {
-        return getGlobalApplication().getDatabase();
+    protected Store getStore() {
+        return getGlobalApplication().getStore();
     }
 
     protected MenuBinder createMenuBinder(Menu menu, MenuInflater menuInflater) {

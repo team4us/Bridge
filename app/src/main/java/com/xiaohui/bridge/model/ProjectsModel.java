@@ -12,7 +12,7 @@ public class ProjectsModel {
     private List<Project> projects;
     private int position;
 
-    public ProjectsModel(List<Project> projects) {
+    public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
 
