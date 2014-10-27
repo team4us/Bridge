@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaohui.bridge.XhApplication;
-import com.xiaohui.bridge.business.store.Cookie;
+import com.xiaohui.bridge.storage.Cookie;
 import com.xiaohui.bridge.storage.Store;
 
 import org.robobinding.MenuBinder;

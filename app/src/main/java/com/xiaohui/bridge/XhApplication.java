@@ -2,7 +2,7 @@ package com.xiaohui.bridge;
 
 import android.app.Application;
 
-import com.xiaohui.bridge.business.store.Cookie;
+import com.xiaohui.bridge.storage.Cookie;
 import com.xiaohui.bridge.storage.DesEncrypt;
 import com.xiaohui.bridge.storage.Store;
 

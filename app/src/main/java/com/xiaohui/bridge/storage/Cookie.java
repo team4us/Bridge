@@ -1,4 +1,4 @@
-package com.xiaohui.bridge.business.store;
+package com.xiaohui.bridge.storage;
 
 import java.util.HashMap;
 import java.util.Map;
