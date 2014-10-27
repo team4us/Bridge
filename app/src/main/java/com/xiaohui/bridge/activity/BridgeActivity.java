@@ -22,11 +22,13 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
 import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.view.IProjectView;
 
 
-public class BridgeActivity extends AbstractActivity
-        implements BridgesFragment.OnBridgeSelectListener {
+public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
+    implements BridgesFragment.OnBridgeSelectListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.

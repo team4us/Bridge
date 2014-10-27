@@ -1,6 +1,5 @@
 package com.xiaohui.bridge.business;
 
-import com.j256.ormlite.dao.Dao;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.business.store.StoreManager;
@@ -25,13 +24,13 @@ public class BusinessManager {
                 projectModel.setProject(project);
                 projectModel.setUserName(userName);
                 helper.getProjectDao().create(projectModel);
-            }
 
-            for (Bridge bridge : bridges) {
-                BridgeModel bridgeModel = new BridgeModel();
-                bridgeModel.setProjectCode("20140057");
-                bridgeModel.setBridge(bridge);
-                helper.getBridgeDao().create(bridgeModel);
+                for (Bridge bridge : bridges) {
+                    BridgeModel bridgeModel = new BridgeModel();
+                    bridgeModel.setProjectCode(project.getCode());
+                    bridgeModel.setBridge(bridge);
+                    helper.getBridgeDao().create(bridgeModel);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

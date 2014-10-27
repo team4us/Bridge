@@ -17,6 +17,7 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.Project;
+import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IBridgeView;
 import com.xiaohui.bridge.viewmodel.BridgesViewModel;
 
@@ -33,9 +34,17 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     private View mFragmentContainerView;
 
     private BridgesViewModel viewModel;
-    private Project project;
 
     public BridgesFragment() {
+    }
+
+    public DatabaseHelper getDatabaseHelper() {
+        Activity activity = getActivity();
+        if (activity instanceof BridgeActivity) {
+            return ((BridgeActivity) activity).getHelper();
+        }
+
+        return null;
     }
 
     @Override
@@ -52,7 +61,9 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     @Override
     protected BridgesViewModel getViewModel() {
         if (viewModel == null) {
-            viewModel = new BridgesViewModel(this);
+            Project project = (Project) getCookie().get(Keys.PROJECT);
+            viewModel = new BridgesViewModel(this,
+                    getDatabaseHelper().getBridgeDao(), project.getCode());
         }
         return viewModel;
     }
@@ -79,7 +90,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        project = (Project) getCookie().get(Keys.PROJECT);
+        final Project project = (Project) getCookie().get(Keys.PROJECT);
         setTitle(project.getName());
 
         // ActionBarDrawerToggle ties together the the proper interactions
