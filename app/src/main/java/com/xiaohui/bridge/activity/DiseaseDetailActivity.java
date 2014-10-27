@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -157,26 +158,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         inputTemplateView = inflater.inflate(resid == 0 ? R.layout.view_disease_input_1 : resid, null);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.disease_detail_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_disease_save) {
-            saveDiseaseDetail();
-        } else if (id == R.id.action_disease_cancel) {
-            // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
-            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void initDiseaseDetailView() {
         tvComponentName.setText(componentName);
 
@@ -277,6 +258,20 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                         et.setText((String)diseaseDetail.getInputMethodValues().get(keys[j]));
                     }
                 }
+                int imageid = getResources().getIdentifier("btn_add_position_from_screen", "id", BuildConfig.PACKAGE_NAME);
+                if(imageid > 0){
+                    ImageView iv = (ImageView) inputTemplateView.findViewById(imageid);
+                    if(null != iv) {
+                        iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setClass(DiseaseDetailActivity.this, CoordinateActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }
             }
         });
 
@@ -286,6 +281,66 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             int xx = getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME);
             rgRadioGroup.check(xx);
         }
+    }
+
+    private void saveDiseaseDetail(){
+//        if(isNewDisease){
+//            diseaseDetail = new DiseasesModel();
+//            diseaseDetail.setComponentName(componentName);
+//            diseaseDetail.setPosition(positionName);
+//            diseaseDetail.setInputMethod((EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag());
+//        }
+
+        if(diseaseDetail.isHaveEmptyData()){
+            Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
+            return ;
+        }
+
+        DiseasesModel diseasesModel = new DiseasesModel();
+        diseasesModel.setComponentName(componentName);
+        diseasesModel.setPosition(positionName);
+        diseasesModel.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
+//        diseasesModel.set
+//        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
+        diseasesModel.setPictureList(picturesList);
+        diseasesModel.setRecordList(recordsList);
+        diseasesModel.setVideoList(videosList);
+        StoreManager.Instance.addDiseaseModel(diseasesModel);
+        this.finish();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.disease_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_disease_save) {
+            saveDiseaseDetail();
+        } else if (id == R.id.action_disease_cancel) {
+            // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
+            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initGridView() {
@@ -341,25 +396,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         llMediaTypes.addView(addVideoIcon);
     }
 
-    private void saveDiseaseDetail(){
-        if(null == diseaseDetail || diseaseDetail.getInputMethodValues().isEmpty()){
-            Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
-            return ;
-        }
-
-        DiseasesModel diseasesModel = new DiseasesModel();
-        diseasesModel.setComponentName(componentName);
-        diseasesModel.setPosition(positionName);
-        diseasesModel.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
-//        diseasesModel.set
-//        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
-        diseasesModel.setPictureList(picturesList);
-        diseasesModel.setRecordList(recordsList);
-        diseasesModel.setVideoList(videosList);
-        StoreManager.Instance.addDiseaseModel(diseasesModel);
-        this.finish();
-    }
-
     protected void onRestart() {
         if(Bimp.drr.size() > 0){
             viewPictureDivider.setVisibility(View.VISIBLE);
@@ -381,7 +417,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                 }
                 break;
             case Keys.RequestCodeTakeRecord:
-                if (null != data && null != data.getExtras()) {
+                if (resultCode == Keys.ResultCodeSuccess && null != data && null != data.getExtras()) {
                     String recordPath = data.getExtras().getString(Keys.KeyContent);
                     if (!TextUtils.isEmpty(recordPath)) {
                         addMediaFile(recordPath, true);

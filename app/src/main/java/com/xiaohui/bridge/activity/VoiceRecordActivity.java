@@ -107,7 +107,9 @@ public class VoiceRecordActivity extends AbstractActivity {
     public void finish() {
         Intent intent = new Intent();
         intent.putExtra(Keys.KeyContent, recordPath + currentRecordName);
-        setResult(Keys.ResultCodeSuccess, intent);
+        if(currentRecordName.length() > 0){
+            setResult(Keys.ResultCodeSuccess, intent);
+        }
         super.finish();
     }
 }

@@ -91,4 +91,14 @@ public class DiseasesModel {
     public ArrayList<String> getVideoList() {
         return videoList;
     }
+
+    public boolean isHaveEmptyData(){
+        for(int i = 0; i < getInputMethod().getInputTitles().length; i ++){
+            if(!getInputMethod().getInputTitles()[i].equals("moreinfo") &&
+                    ((String)getInputMethodValues().get(getInputMethod().getInputTitles()[i])).isEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
 }
