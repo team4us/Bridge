@@ -254,6 +254,71 @@ public enum StoreManager {
 
     private List<Disease> diseasesList = new ArrayList<Disease>();
 
+    public List<Disease> getDiseases(){
+        List<Disease> diseaseList = new ArrayList<Disease>();
+        Disease disease = new Disease();
+        disease.setComponentName("上部一般构件");
+        disease.setPosition("横隔板");
+        disease.setDiseaseType("裂缝");
+        disease.setInputMethod(EDiseaseInputMethod.One);
+        Map<String, Object> values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.One.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.One.getInputTitles()[i], "demo1");
+        }
+        disease.setInputMethodValues(values);
+        diseaseList.add(disease);
+
+        disease = new Disease();
+        disease.setComponentName("支座");
+        disease.setPosition("支座");
+        disease.setDiseaseType("裂缝");
+        disease.setInputMethod(EDiseaseInputMethod.Three);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Three.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Three.getInputTitles()[i], "demo3");
+        }
+        disease.setInputMethodValues(values);
+        diseaseList.add(disease);
+
+        disease = new Disease();
+        disease.setComponentName("桥墩");
+        disease.setPosition("墩身");
+        disease.setDiseaseType("破损");
+        disease.setInputMethod(EDiseaseInputMethod.Two);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Two.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Two.getInputTitles()[i], "demo2");
+        }
+        disease.setInputMethodValues(values);
+        diseaseList.add(disease);
+
+        disease = new Disease();
+        disease.setComponentName("桥台");
+        disease.setPosition("台身");
+        disease.setDiseaseType("钢筋锈蚀");
+        disease.setInputMethod(EDiseaseInputMethod.Four);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Four.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Four.getInputTitles()[i], "demo4");
+        }
+        disease.setInputMethodValues(values);
+        diseaseList.add(disease);
+
+        disease = new Disease();
+        disease.setComponentName("河床");
+        disease.setPosition("支座");
+        disease.setDiseaseType("其他");
+        disease.setInputMethod(EDiseaseInputMethod.Five);
+        values = new HashMap<String, Object>();
+        for(int i =0; i < EDiseaseInputMethod.Five.getInputTitles().length; i++){
+            values.put(EDiseaseInputMethod.Five.getInputTitles()[i], "demo5");
+        }
+        disease.setInputMethodValues(values);
+        diseaseList.add(disease);
+
+        return diseaseList;
+    }
+
     public void initDiseasesModelList(String componentName, String position){
         Disease disease = new Disease();
         disease.setComponentName(componentName);
