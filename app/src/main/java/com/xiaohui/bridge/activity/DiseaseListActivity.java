@@ -14,6 +14,7 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
+import com.xiaohui.bridge.storage.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener{
+public class DiseaseListActivity extends AbstractOrmLiteActivity implements AdapterView.OnItemClickListener{
     private ListView diseaseListView;
     private String componentName;
     private String positionName;

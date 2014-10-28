@@ -39,6 +39,8 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.business.store.StoreManager;
+import com.xiaohui.bridge.model.DiseaseModel;
+import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 import com.xiaohui.bridge.view.MyGridView;
 import com.xiaohui.bridge.view.PickPicture.Bimp;
@@ -48,17 +50,19 @@ import com.xiaohui.bridge.view.PickPicture.TestPicActivity;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * 多种病害输入模板基类
  * Created by Administrator on 2014/10/9.
  */
-public class DiseaseDetailActivity extends AbstractActivity implements View.OnClickListener {
+public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements View.OnClickListener {
 
     public static String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
     private static String AddPhotoTag = "AddPhoto";
@@ -69,8 +73,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     protected boolean isHaveTag = false;
 
     private LinearLayout llMediaTypes;
-    private LinearLayout llVoiceRecrds;
-    private LinearLayout llVideoRecrds;
+    private LinearLayout llVoiceRecords;
+    private LinearLayout llVideoRecords;
     private Spinner spChoosePosition;
     private Spinner spChooseDiseaseType;
     private EditText etDiseaseType;
@@ -90,7 +94,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private int iconWidth = DeviceParamterUtil.dip2px(60);
 
     private String path = "";
-    private MediaPlayer mPlayer = null;
 
     private int selectIndex = -1;
     private ArrayList<String> picturesList = new ArrayList<String>();
@@ -125,8 +128,8 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
 
         llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
-        llVoiceRecrds = (LinearLayout) findViewById(R.id.ll_voice_record);
-        llVideoRecrds = (LinearLayout) findViewById(R.id.ll_video_record);
+        llVoiceRecords = (LinearLayout) findViewById(R.id.ll_voice_record);
+        llVideoRecords = (LinearLayout) findViewById(R.id.ll_video_record);
         spChoosePosition = (Spinner) findViewById(R.id.sp_choose_position);
         spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
@@ -147,6 +150,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         viewVideoDivider = findViewById(R.id.view_video_divider);
         tvComponentName = (TextView) findViewById(R.id.tv_component_name);
 
+        initMediaResource();
         initDiseaseDetailView();
         initMediaLayout();
         initGridView();
@@ -160,12 +164,13 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private void initDiseaseDetailView() {
         tvComponentName.setText(componentName);
 
-        ArrayAdapter<String> positions = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.generalsTypes);
+        final ArrayAdapter<String> positions = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.generalsTypes);
         positions.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
         spChoosePosition.setAdapter(positions);
         spChoosePosition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                positionName = positions.getItem(position);
             }
 
             @Override
@@ -257,6 +262,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                         et.setText((String)diseaseDetail.getInputMethodValues().get(keys[j]));
                     }
                 }
+                // 初始化方法一和方法二的点击图片选择坐标点的图标点击事件
                 int imageid = getResources().getIdentifier("btn_add_position_from_screen", "id", BuildConfig.PACKAGE_NAME);
                 if(imageid > 0){
                     ImageView iv = (ImageView) inputTemplateView.findViewById(imageid);
@@ -282,43 +288,94 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
     }
 
-    private void saveDiseaseDetail(){
-        if(null == diseaseDetail){
-            diseaseDetail = new Disease();
+    private Map<String, Object> getCurrentValues(){
+        String[] keys = ((EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag()).getInputTitles();
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        for(int j = 0; j< keys.length ; j ++){
+            StringBuilder builder = new StringBuilder("et_");
+            builder.append(keys[j]);
+            EditText et = (EditText) inputTemplateView.findViewById(getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME));
+            values.put(keys[j], et.getText().toString());
         }
-        diseaseDetail.setComponentName(componentName);
-        diseaseDetail.setPosition(positionName);
-        diseaseDetail.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
+        return values;
+    }
+
+    private void saveDiseaseDetail(){
         EDiseaseInputMethod type = (EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag();
-        diseaseDetail.setInputMethod(type);
+        Map<String, Object> values = getCurrentValues();
 
-        diseaseDetail.setInputMethodValues(new HashMap<String, Object>());
-
-        if(diseaseDetail.isHaveEmptyData()){
+        if(isHaveEmptyData(values, type)){
             Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
             return ;
         }
 
-        diseaseDetail.setPictureList(picturesList);
-        diseaseDetail.setRecordList(recordsList);
-        diseaseDetail.setVideoList(videosList);
-        StoreManager.Instance.addDiseaseModel(diseaseDetail);
-        this.finish();
+        Disease newDisease = new Disease();
+        newDisease.setComponentName(componentName);
+        newDisease.setPosition(positionName);
+        newDisease.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
+        newDisease.setInputMethod(type);
+        newDisease.setInputMethodValues(values);
+        newDisease.setPictureList(picturesList);
+        newDisease.setRecordList(recordsList);
+        newDisease.setVideoList(videosList);
+
+        DiseaseModel diseaseModel = new DiseaseModel();
+        diseaseModel.setDisease(newDisease);
+        // TODO 这里的这个组件需要添加
+        diseaseModel.setComponent(null);
+
+        // 新增
+        if(isNewDisease){
+            try {
+                ((DatabaseHelper) getHelper()).getDiseaseDao().create(diseaseModel);
+                Toast.makeText(this, "新增成功", Toast.LENGTH_SHORT).show();
+                this.finish();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "新增失败", Toast.LENGTH_SHORT).show();
+            }
+            // 修改
+        } else {
+            try {
+                ((DatabaseHelper) getHelper()).getDiseaseDao().update(diseaseModel);
+                Toast.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
+                this.finish();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "更新失败", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
 
 
 
+    private void initMediaResource(){
+        if(!isNewDisease){
+            picturesList = diseaseDetail.getPictureList();
+            Bimp.drr = picturesList;
+            for(int i =0 ; i < diseaseDetail.getRecordList().size(); i ++){
+                addMediaFile(diseaseDetail.getRecordList().get(i), true);
+            }
+            for(int i =0 ; i < diseaseDetail.getVideoList().size(); i ++){
+                addMediaFile(diseaseDetail.getVideoList().get(i), false);
+            }
+        }
+    }
 
-
-
-
-
-
-
-
-
+    public boolean isHaveEmptyData(Map<String, Object> values, EDiseaseInputMethod method){
+        if(null == values || values.size() == 0){
+            return true;
+        }
+        for(int i = 0; i < method.getInputTitles().length; i ++){
+            if(!method.getInputTitles()[i].equals("moreinfo") &&
+                    ((String)values.get(method.getInputTitles()[i])).isEmpty()){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -410,7 +467,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         switch (requestCode) {
             case Keys.RequestCodeTakePicture:
                 if (Bimp.drr.size() < 9 && resultCode == -1) {
+                    picturesList.clear();
                     Bimp.drr.add(path);
+                    for(int i =0; i < Bimp.drr.size(); i ++){
+                        picturesList.add(Bimp.drr.get(i));
+                    }
                 }
                 break;
             case Keys.RequestCodeTakeRecord:
@@ -444,7 +505,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
      * isVoice = true 表示是增加语音文件
      * isVoice = false 表示是增加视频文件
      */
-    private void addMediaFile(String filePath, boolean isVoice) {
+    private void addMediaFile(final String filePath, boolean isVoice) {
         LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, iconWidth);
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(iconWidth, iconWidth);
         ImageView addPhotoIcon = new ImageView(this);
@@ -462,9 +523,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(v.getTag().toString().contains("Voice")){
-                            llVoiceRecrds.removeView(v);
+                            llVoiceRecords.removeView(v);
+                            recordsList.remove(filePath);
                         } else {
-                            llVideoRecrds.removeView(v);
+                            llVideoRecords.removeView(v);
+                            videosList.remove(filePath);
                         }
                     }
                 });
@@ -479,23 +542,25 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             }
         });
         if (isVoice) {
-            llVoiceRecrds.setLayoutParams(layoutLP);
+            llVoiceRecords.setLayoutParams(layoutLP);
             addPhotoIcon.setBackgroundResource(R.drawable.icon_voice);
-            llVoiceRecrds.addView(addPhotoIcon, addIconLP);
-            if(llVoiceRecrds.getChildCount() > 0){
+            llVoiceRecords.addView(addPhotoIcon, addIconLP);
+            if(llVoiceRecords.getChildCount() > 0){
                 viewVoiceDivider.setVisibility(View.VISIBLE);
             } else {
                 viewVoiceDivider.setVisibility(View.GONE);
             }
+            recordsList.add(filePath);
         } else {
-            llVideoRecrds.setLayoutParams(layoutLP);
+            llVideoRecords.setLayoutParams(layoutLP);
             addPhotoIcon.setBackgroundResource(R.drawable.icon_vedio);
-            llVideoRecrds.addView(addPhotoIcon, addIconLP);
-            if(llVideoRecrds.getChildCount() > 0){
+            llVideoRecords.addView(addPhotoIcon, addIconLP);
+            if(llVideoRecords.getChildCount() > 0){
                 viewVideoDivider.setVisibility(View.VISIBLE);
             } else {
                 viewVideoDivider.setVisibility(View.GONE);
             }
+            videosList.add(filePath);
         }
     }
 
@@ -544,7 +609,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     intent.setDataAndType(uri, "video/3gpp");
                     startActivity(intent);
                 } else {
-                    mPlayer = new MediaPlayer();
+                    MediaPlayer mPlayer = new MediaPlayer();
                     try {
                         mPlayer.setDataSource(mediaPath);
                         mPlayer.prepare();
