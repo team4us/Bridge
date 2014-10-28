@@ -13,6 +13,7 @@ import com.xiaohui.bridge.business.bean.Component;
 import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.model.ChildBridgeModel;
 import com.xiaohui.bridge.model.ComponentModel;
+import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.model.ProjectModel;
 import com.xiaohui.bridge.model.UserModel;
 
@@ -30,12 +31,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private DatabaseTableConfig<BridgeModel> bridgeConfig = new DatabaseTableConfig<BridgeModel>();
     private DatabaseTableConfig<ChildBridgeModel> childBridgeConfig = new DatabaseTableConfig<ChildBridgeModel>();
     private DatabaseTableConfig<ComponentModel> componentConfig = new DatabaseTableConfig<ComponentModel>();
+    private DatabaseTableConfig<DiseaseModel> diseaseConfig = new DatabaseTableConfig<DiseaseModel>();
 
     private Dao<UserModel, Integer> userDao = null;
     private Dao<ProjectModel, Integer> projectDao = null;
     private Dao<BridgeModel, Integer> bridgeDao = null;
     private Dao<ChildBridgeModel, Integer> childBridgeDao = null;
     private Dao<ComponentModel, Integer> componentDao = null;
+    private Dao<DiseaseModel, Integer> diseaseDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -54,6 +57,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         componentConfig.setDataClass(ComponentModel.class);
         componentConfig.initialize();
+
+        diseaseConfig.setDataClass(DiseaseModel.class);
+        diseaseConfig.initialize();
     }
 
     @Override
@@ -64,6 +70,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, bridgeConfig);
             TableUtils.createTable(connectionSource, childBridgeConfig);
             TableUtils.createTable(connectionSource, componentConfig);
+            TableUtils.createTable(connectionSource, diseaseConfig);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -77,6 +84,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, bridgeConfig, true);
             TableUtils.dropTable(connectionSource, childBridgeConfig, true);
             TableUtils.dropTable(connectionSource, componentConfig, true);
+            TableUtils.dropTable(connectionSource, diseaseConfig, true);
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -91,6 +99,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         userDao = null;
         childBridgeDao = null;
         componentDao = null;
+        diseaseDao = null;
     }
 
     public Dao<UserModel, Integer> getUserDao() {
@@ -146,5 +155,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return componentDao;
+    }
+
+    public Dao<DiseaseModel, Integer> getDiseaseDao() {
+        if (diseaseDao == null) {
+            try {
+                diseaseDao = DaoManager.createDao(getConnectionSource(), diseaseConfig);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return diseaseDao;
     }
 }

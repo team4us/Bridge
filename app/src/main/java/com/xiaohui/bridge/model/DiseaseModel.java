@@ -1,34 +1,38 @@
 package com.xiaohui.bridge.model;
 
-import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Disease;
-import com.xiaohui.bridge.business.bean.Project;
 
 /**
+ * Created by xiaohui on 14-10-28.
  */
 @DatabaseTable(tableName = "Disease")
 public class DiseaseModel {
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    @DatabaseField
     private Disease disease;
-    @ForeignCollectionField(eager = true)
-    private ForeignCollection<BridgeModel> bridges;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName="component_id")
+    private ComponentModel component;
 
     public int getId() {
         return id;
     }
 
+    public Disease getDisease() {
+        return disease;
+    }
 
-    public void setProject(Disease disease) {
+    public void setDisease(Disease disease) {
         this.disease = disease;
     }
 
-    public Disease getProject() {
-        return disease;
+    public ComponentModel getComponent() {
+        return component;
+    }
+
+    public void setComponent(ComponentModel component) {
+        this.component = component;
     }
 }

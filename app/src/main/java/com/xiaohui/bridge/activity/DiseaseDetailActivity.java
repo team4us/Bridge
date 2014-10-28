@@ -152,6 +152,11 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         initGridView();
     }
 
+    private void initInputTemplateView(int resid){
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inputTemplateView = inflater.inflate(resid == 0 ? R.layout.view_disease_input_1 : resid, null);
+    }
+
     private void initDiseaseDetailView() {
         tvComponentName.setText(componentName);
 
@@ -277,11 +282,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         }
     }
 
-    private void initInputTemplateView(int resid){
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inputTemplateView = inflater.inflate(resid == 0 ? R.layout.view_disease_input_1 : resid, null);
-    }
-
     private void saveDiseaseDetail(){
         if(null == diseaseDetail){
             diseaseDetail = new Disease();
@@ -292,16 +292,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         EDiseaseInputMethod type = (EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag();
         diseaseDetail.setInputMethod(type);
 
-        String[] keys = type.getInputTitles();
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        for(int j = 0; j< keys.length ; j ++){
-            StringBuilder builder = new StringBuilder("et_");
-            builder.append(keys[j]);
-            EditText et = (EditText) inputTemplateView.findViewById(getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME));
-            values.put(keys[j], et.getText().toString());
-        }
-
-        diseaseDetail.setInputMethodValues(values);
+        diseaseDetail.setInputMethodValues(new HashMap<String, Object>());
 
         if(diseaseDetail.isHaveEmptyData()){
             Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();

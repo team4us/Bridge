@@ -1,7 +1,9 @@
 package com.xiaohui.bridge.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Component;
 
@@ -16,6 +18,8 @@ public class ComponentModel {
     private Component component;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "child_bridge_id")
     private ChildBridgeModel childBridge;
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<DiseaseModel> diseases;
 
     public int getId() {
         return id;
