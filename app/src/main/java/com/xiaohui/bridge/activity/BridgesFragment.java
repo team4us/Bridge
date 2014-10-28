@@ -132,7 +132,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     @Override
-    public void notifyChange() {
+    public void onItemSelect(int position, BridgeModel object) {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }

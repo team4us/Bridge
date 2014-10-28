@@ -30,7 +30,6 @@ public class BridgesViewModel {
     private IBridgeView bridgeView;
     private List<BridgeModel> bridges;
     private Cookie cookie;
-    private BridgeModel currentBridgeModel;
 
     public BridgesViewModel(IBridgeView view, Cookie cookie) {
         bridgeView = view;
@@ -56,17 +55,10 @@ public class BridgesViewModel {
     }
 
     public void onItemClick(int position) {
-        currentBridgeModel = bridges.get(position);
-        cookie.put(Keys.BRIDGE, currentBridgeModel);
+        BridgeModel bridgeModel = bridges.get(position);
+        cookie.put(Keys.BRIDGE, bridgeModel);
         if (bridgeView != null) {
-            bridgeView.notifyChange();
+            bridgeView.onItemSelect(position, bridgeModel);
         }
-    }
-
-    public BridgeModel getCurrentBridgeModel() {
-        if (currentBridgeModel == null) {
-            currentBridgeModel = getBridges().get(0);
-        }
-        return currentBridgeModel;
     }
 }

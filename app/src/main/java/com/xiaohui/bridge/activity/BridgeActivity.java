@@ -108,7 +108,6 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
             rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    childBridgeModel = null;
                     if (isChecked) {
                         childBridgeModel = (ChildBridgeModel) buttonView.getTag();
                     }
