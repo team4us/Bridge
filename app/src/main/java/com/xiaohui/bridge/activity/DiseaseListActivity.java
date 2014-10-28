@@ -7,22 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseasesViewModel;
-import com.xiaohui.bridge.viewmodel.ProjectsViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 病害列表界面
@@ -30,18 +24,16 @@ import java.util.List;
  */
 public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements IDiseaseView {
     private int longClickPosition;
-    private ComponentModel componentModel;
     private DiseasesViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        componentModel = (ComponentModel) getCookie().get(Keys.COMPONENT);
-        viewModel = new DiseasesViewModel(this, getCookie(), componentModel);
+        ComponentModel componentModel = (ComponentModel) getCookie().get(Keys.COMPONENT);
+        viewModel = new DiseasesViewModel(this, getCookie(), componentModel, getHelper().getComponentDao());
         setContentView(R.layout.activity_disease_list, viewModel);
         setTitle(componentModel.getComponent().getName() + "病害列表");
-        ListView diseaseListView = (ListView) findViewById(R.id.lv_disease);
-        registerForContextMenu(diseaseListView);
+        registerForContextMenu(findViewById(R.id.lv_disease));
     }
 
     @Override
@@ -92,6 +84,12 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper>
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.updateData();
     }
 
     @Override
