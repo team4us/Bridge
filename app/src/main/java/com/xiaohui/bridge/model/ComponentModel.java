@@ -7,6 +7,10 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Component;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by xhChen on 14/10/28.
  */
@@ -41,7 +45,12 @@ public class ComponentModel {
         this.block = block;
     }
 
-    public ForeignCollection<DiseaseModel> getDiseases() {
-        return diseases;
+    public List<DiseaseModel> getDiseases() {
+        List<DiseaseModel> list = new ArrayList<DiseaseModel>();
+        Iterator<DiseaseModel> iterator = diseases.iterator();
+        while (iterator.hasNext()) {
+            list.add(iterator.next());
+        }
+        return list;
     }
 }

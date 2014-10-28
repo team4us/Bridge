@@ -37,7 +37,7 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity implements Adap
         setContentView(R.layout.activity_disease_list);
 
         componentModel = (ComponentModel) getCookie().get(Keys.COMPONENT);
-        
+
         StoreManager.Instance.initDiseasesModelList(componentName, positionName);
 
         componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
