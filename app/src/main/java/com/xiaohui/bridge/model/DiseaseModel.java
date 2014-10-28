@@ -1,5 +1,6 @@
 package com.xiaohui.bridge.model;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Disease;
@@ -11,7 +12,7 @@ import com.xiaohui.bridge.business.bean.Disease;
 public class DiseaseModel {
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Disease disease;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName="component_id")
     private ComponentModel component;

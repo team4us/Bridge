@@ -26,6 +26,7 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     private ListView diseaseListView;
     private String componentName;
     private String positionName;
+    private int longClickPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +58,21 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_copy:
+                StoreManager.Instance.addDiseaseModel(StoreManager.Instance.getDiseasesList().get(longClickPosition));
                 break;
             case R.id.action_delete:
+                StoreManager.Instance.getDiseasesList().remove(longClickPosition);
                 break;
         }
+        diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
         return true;
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        longClickPosition = (int) info.id;
         menu.setHeaderTitle(getString(R.string.action_operate_tips));
         getMenuInflater().inflate(R.menu.diseaselist_menu, menu);
     }
