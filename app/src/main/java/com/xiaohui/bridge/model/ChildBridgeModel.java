@@ -7,6 +7,10 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.ChildBridge;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by xhChen on 14/10/28.
  */
@@ -16,10 +20,10 @@ public class ChildBridgeModel {
     private int id;
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private ChildBridge childBridge;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName="bridge_id")
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "bridge_id")
     private BridgeModel bridge;
     @ForeignCollectionField(eager = true)
-    private ForeignCollection<ComponentModel> componentModels;
+    private ForeignCollection<BlockModel> blocks;
 
     public int getId() {
         return id;
@@ -41,7 +45,12 @@ public class ChildBridgeModel {
         this.bridge = bridge;
     }
 
-    public ForeignCollection<ComponentModel> getComponentModels() {
-        return componentModels;
+    public List<BlockModel> getBlocks() {
+        List<BlockModel> list = new ArrayList<BlockModel>();
+        Iterator<BlockModel> iterator = blocks.iterator();
+        while (iterator.hasNext()) {
+            list.add(iterator.next());
+        }
+        return list;
     }
 }

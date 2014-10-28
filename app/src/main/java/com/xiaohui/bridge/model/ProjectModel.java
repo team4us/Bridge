@@ -7,6 +7,10 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Project;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by xiaohui on 14-10-27.
  */
@@ -47,7 +51,12 @@ public class ProjectModel {
         this.user = user;
     }
 
-    public ForeignCollection<BridgeModel> getBridges() {
-        return bridges;
+    public List<BridgeModel> getBridges() {
+        List<BridgeModel> list = new ArrayList<BridgeModel>();
+        Iterator<BridgeModel> iterator = bridges.iterator();
+        while (iterator.hasNext()) {
+            list.add(iterator.next());
+        }
+        return list;
     }
 }

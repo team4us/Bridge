@@ -5,9 +5,10 @@ package com.xiaohui.bridge;
  */
 public final class Keys {
 
+    public static final String USER = "USER";
     public static final String PROJECT = "PROJECT";
     public static final String BRIDGE = "BRIDGE";
-    public static final String USER = "USER";
+    public static final String COMPONENT = "COMPONENT";
 
     public static final String FLAG = "FLAG";
 

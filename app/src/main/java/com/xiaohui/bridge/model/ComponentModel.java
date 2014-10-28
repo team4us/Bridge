@@ -16,8 +16,8 @@ public class ComponentModel {
     private int id;
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Component component;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "child_bridge_id")
-    private ChildBridgeModel childBridge;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "block_id")
+    private BlockModel block;
     @ForeignCollectionField(eager = true)
     private ForeignCollection<DiseaseModel> diseases;
 
@@ -33,12 +33,12 @@ public class ComponentModel {
         this.component = component;
     }
 
-    public ChildBridgeModel getChildBridge() {
-        return childBridge;
+    public BlockModel getBlock() {
+        return block;
     }
 
-    public void setChildBridge(ChildBridgeModel childBridge) {
-        this.childBridge = childBridge;
+    public void setBlock(BlockModel block) {
+        this.block = block;
     }
 
     public ForeignCollection<DiseaseModel> getDiseases() {

@@ -7,6 +7,8 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Bridge;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -53,7 +55,12 @@ public class BridgeModel {
         this.project = project;
     }
 
-    public ForeignCollection<ChildBridgeModel> getChildBridges() {
-        return childBridges;
+    public List<ChildBridgeModel> getChildBridges() {
+        List<ChildBridgeModel> list = new ArrayList<ChildBridgeModel>();
+        Iterator<ChildBridgeModel> iterator = childBridges.iterator();
+        while (iterator.hasNext()) {
+            list.add(iterator.next());
+        }
+        return list;
     }
 }

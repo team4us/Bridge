@@ -1,10 +1,12 @@
 package com.xiaohui.bridge.business;
 
+import com.xiaohui.bridge.business.bean.Block;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
 import com.xiaohui.bridge.business.bean.Component;
 import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.business.store.StoreManager;
+import com.xiaohui.bridge.model.BlockModel;
 import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.model.ChildBridgeModel;
 import com.xiaohui.bridge.model.ComponentModel;
@@ -19,6 +21,23 @@ import java.util.List;
  * Created by xiaohui on 14-10-27.
  */
 public class BusinessManager {
+
+    private String[] generalsTypes = {"上部承重构件",
+            "上部一般构件",
+            "支座",
+            "翼墙、耳墙",
+            "锥坡、护坡",
+            "桥墩",
+            "桥台",
+            "墩台基础",
+            "河床",
+            "调治构造物",
+            "桥面铺装",
+            "伸缩缝装置",
+            "人行道",
+            "栏杆、护栏",
+            "排水系统",
+            "照明、标志"};
 
     private String[][] generals = new String[][]{
             {"主梁"},
@@ -69,7 +88,15 @@ public class BusinessManager {
                         childBridgeModel.setChildBridge(childBridge);
                         childBridgeModel.setBridge(bridgeModel);
                         helper.getChildBridgeDao().create(childBridgeModel);
-                        for (int j = 0; j < generals.length; j++) {
+                        for (int j = 0; j < generalsTypes.length; j++) {
+                            String type = generalsTypes[j];
+                            BlockModel blockModel = new BlockModel();
+                            Block block = new Block();
+                            block.setId(j);
+                            block.setName(type);
+                            blockModel.setBlock(block);
+                            blockModel.setChildBridge(childBridgeModel);
+                            helper.getBlockDao().create(blockModel);
                             String[] componentNames = generals[j];
                             for (int k = 0; k < componentNames.length; k++) {
                                 ComponentModel componentModel = new ComponentModel();
@@ -77,7 +104,8 @@ public class BusinessManager {
                                 component.setType(j);
                                 component.setName(componentNames[k]);
                                 componentModel.setComponent(component);
-                                componentModel.setChildBridge(childBridgeModel);
+                                componentModel.setBlock(blockModel);
+                                helper.getComponentDao().create(componentModel);
                             }
                         }
                     }

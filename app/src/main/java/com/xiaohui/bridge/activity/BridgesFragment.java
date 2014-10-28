@@ -78,8 +78,9 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-
-        final Project project = ((ProjectModel) getCookie().get(Keys.PROJECT)).getProject();
+        ProjectModel projectModel = (ProjectModel) getCookie().get(Keys.PROJECT);
+        final Project project = projectModel.getProject();
+        getCookie().put(Keys.BRIDGE, projectModel.getBridges().get(0));
         setTitle(project.getName());
 
         // ActionBarDrawerToggle ties together the the proper interactions

@@ -16,7 +16,7 @@ import java.util.Locale;
  */
 public class LogUtil {
 
-    private static String sGlobalTag = "CTLog";
+    private static String sGlobalTag = "LogUtil";
     private static boolean sIsEnable = true;
     private static final int LOG_MAX_LENGTH = 3000;
 

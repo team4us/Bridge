@@ -14,6 +14,7 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
+import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -23,16 +24,20 @@ import java.util.List;
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractOrmLiteActivity implements AdapterView.OnItemClickListener{
+public class DiseaseListActivity extends AbstractOrmLiteActivity implements AdapterView.OnItemClickListener {
     private ListView diseaseListView;
     private String componentName;
     private String positionName;
     private int longClickPosition;
+    private ComponentModel componentModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_list);
+
+        componentModel = (ComponentModel) getCookie().get(Keys.COMPONENT);
+        
         StoreManager.Instance.initDiseasesModelList(componentName, positionName);
 
         componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
@@ -49,7 +54,7 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity implements Adap
     private List<String> getData() {
 
         List<String> data = new ArrayList<String>();
-        for(int i = 0; i < StoreManager.Instance.getDiseasesList().size(); i ++){
+        for (int i = 0; i < StoreManager.Instance.getDiseasesList().size(); i++) {
             data.add((i + 1) + " " + StoreManager.Instance.getDiseasesList().get(i).getDiseaseType());
         }
         return data;
