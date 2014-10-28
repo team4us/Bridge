@@ -1,6 +1,5 @@
 package com.xiaohui.bridge.viewmodel;
 
-import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.model.BridgeModel;
 
 import org.robobinding.itempresentationmodel.ItemContext;

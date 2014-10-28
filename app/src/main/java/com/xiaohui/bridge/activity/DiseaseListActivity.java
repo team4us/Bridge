@@ -15,7 +15,11 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.ComponentModel;
+import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
+import com.xiaohui.bridge.view.IDiseaseView;
+import com.xiaohui.bridge.viewmodel.DiseasesViewModel;
+import com.xiaohui.bridge.viewmodel.ProjectsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,40 +28,20 @@ import java.util.List;
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractOrmLiteActivity implements AdapterView.OnItemClickListener {
-    private ListView diseaseListView;
-    private String componentName;
-    private String positionName;
+public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements IDiseaseView {
     private int longClickPosition;
     private ComponentModel componentModel;
+    private DiseasesViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_disease_list);
-
         componentModel = (ComponentModel) getCookie().get(Keys.COMPONENT);
-
-        StoreManager.Instance.initDiseasesModelList(componentName, positionName);
-
-        componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
-        positionName = getIntent().getExtras().getString(Keys.KeySelectedPositionName);
-
-        setTitle(getIntent().getStringExtra("title") + "病害列表");
-
-        diseaseListView = (ListView) findViewById(R.id.lv_disease);
-        diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
-        diseaseListView.setOnItemClickListener(this);
+        viewModel = new DiseasesViewModel(this, getCookie(), componentModel);
+        setContentView(R.layout.activity_disease_list, viewModel);
+        setTitle(componentModel.getComponent().getName() + "病害列表");
+        ListView diseaseListView = (ListView) findViewById(R.id.lv_disease);
         registerForContextMenu(diseaseListView);
-    }
-
-    private List<String> getData() {
-
-        List<String> data = new ArrayList<String>();
-        for (int i = 0; i < StoreManager.Instance.getDiseasesList().size(); i++) {
-            data.add((i + 1) + " " + StoreManager.Instance.getDiseasesList().get(i).getDiseaseType());
-        }
-        return data;
     }
 
     @Override
@@ -70,7 +54,6 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity implements Adap
                 StoreManager.Instance.getDiseasesList().remove(longClickPosition);
                 break;
         }
-        diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
         return true;
     }
 
@@ -102,7 +85,6 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity implements Adap
         if (id == R.id.action_disease_add) {
             Intent intent = new Intent(this, DiseaseDetailActivity.class);
             intent.putExtra(Keys.FLAG, true); //是否为新增
-            intent.putExtras(getIntent().getExtras());
             startActivity(intent);
         } else if (id == R.id.action_disease_statistics) {
             Intent intent = new Intent(this, DiseaseStatisticsActivity.class);
@@ -113,18 +95,9 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity implements Adap
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    public void onItemSelect(int position, DiseaseModel project) {
         Intent intent = new Intent(this, DiseaseDetailActivity.class);
         intent.putExtra(Keys.FLAG, false); //是否为新增
-        intent.putExtra(Keys.KeySelectedIndex, position);
-        intent.putExtras(getIntent().getExtras());
         startActivity(intent);
     }
-
 }
