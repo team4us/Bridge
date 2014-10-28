@@ -16,6 +16,8 @@
     <string name="action_bridge_statistics">病害统计</string>
     <string name="action_upload">上传</string>
     <string name="action_download">下载</string>
+    <string name="action_setting">设置</string>
+    <string name="action_logout">登出</string>
     <string name="action_save">保存</string>
     <string name="action_cancel">取消</string>
     <string name="action_done">完成</string>

@@ -58,6 +58,13 @@ public class ProjectsActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
         } else if (id == R.id.action_upload) {
             viewModel.upload();
             return true;
+        } else if (id == R.id.action_setting) {
+            startActivity(new Intent(this, SettingActivity.class));
+            return true;
+        } else if (id == R.id.action_logout) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
