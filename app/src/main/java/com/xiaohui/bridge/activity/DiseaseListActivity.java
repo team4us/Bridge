@@ -18,6 +18,8 @@ import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseasesViewModel;
 
+import java.sql.SQLException;
+
 /**
  * 病害列表界面
  * Created by jztang on 2014/9/26.
@@ -38,14 +40,20 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper>
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_copy:
-                StoreManager.Instance.addDiseaseModel(StoreManager.Instance.getDiseasesList().get(longClickPosition));
-                break;
-            case R.id.action_delete:
-                StoreManager.Instance.getDiseasesList().remove(longClickPosition);
-                break;
+        DiseaseModel theDiseaseModel = viewModel.getDiseases().get(longClickPosition);
+        try {
+            switch (item.getItemId()) {
+                case R.id.action_copy:
+                    getHelper().getDiseaseDao().create(theDiseaseModel);
+                    break;
+                case R.id.action_delete:
+                    getHelper().getDiseaseDao().delete(theDiseaseModel);
+                    break;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        viewModel.updateData();
         return true;
     }
 
@@ -56,12 +64,6 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper>
         longClickPosition = (int) info.id;
         menu.setHeaderTitle(getString(R.string.action_operate_tips));
         getMenuInflater().inflate(R.menu.diseaselist_menu, menu);
-    }
-
-    @Override
-    public void finish() {
-        StoreManager.Instance.clearDiseasesList();
-        super.finish();
     }
 
     @Override
