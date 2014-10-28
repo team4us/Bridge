@@ -2,9 +2,9 @@ package com.xiaohui.bridge.business.store;
 
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
+import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
-import com.xiaohui.bridge.model.DiseasesModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -252,10 +252,10 @@ public enum StoreManager {
 
     public String[] diseaseTypes = new String[]{"裂缝", "破损", "钢筋锈蚀", "其他"};
 
-    private List<DiseasesModel> diseasesList = new ArrayList<DiseasesModel>();
+    private List<Disease> diseasesList = new ArrayList<Disease>();
 
     public void initDiseasesModelList(String componentName, String position){
-        DiseasesModel disease = new DiseasesModel();
+        Disease disease = new Disease();
         disease.setComponentName(componentName);
         disease.setPosition(position);
         disease.setDiseaseType("裂缝");
@@ -267,7 +267,7 @@ public enum StoreManager {
         disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
-        disease = new DiseasesModel();
+        disease = new Disease();
         disease.setComponentName(componentName);
         disease.setPosition(position);
         disease.setDiseaseType("裂缝");
@@ -279,7 +279,7 @@ public enum StoreManager {
         disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
-        disease = new DiseasesModel();
+        disease = new Disease();
         disease.setComponentName(componentName);
         disease.setPosition(position);
         disease.setDiseaseType("破损");
@@ -291,7 +291,7 @@ public enum StoreManager {
         disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
-        disease = new DiseasesModel();
+        disease = new Disease();
         disease.setComponentName(componentName);
         disease.setPosition(position);
         disease.setDiseaseType("钢筋锈蚀");
@@ -303,7 +303,7 @@ public enum StoreManager {
         disease.setInputMethodValues(values);
         diseasesList.add(disease);
 
-        disease = new DiseasesModel();
+        disease = new Disease();
         disease.setComponentName(componentName);
         disease.setPosition(position);
         disease.setDiseaseType("其他");
@@ -320,11 +320,11 @@ public enum StoreManager {
         diseasesList.clear();
     }
 
-    public void addDiseaseModel(DiseasesModel model){
+    public void addDiseaseModel(Disease model){
         diseasesList.add(model);
     }
 
-    public List<DiseasesModel> getDiseasesList(){
+    public List<Disease> getDiseasesList(){
         return diseasesList;
     }
 

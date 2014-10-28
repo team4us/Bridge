@@ -36,9 +36,9 @@ import android.widget.Toast;
 import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.business.store.StoreManager;
-import com.xiaohui.bridge.model.DiseasesModel;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 import com.xiaohui.bridge.view.MyGridView;
 import com.xiaohui.bridge.view.PickPicture.Bimp;
@@ -101,7 +101,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private String componentName;
     private String positionName;
 
-    private DiseasesModel diseaseDetail;
+    private Disease diseaseDetail;
     private View inputTemplateView;
 
     @Override
@@ -284,7 +284,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
 
     private void saveDiseaseDetail(){
         if(null == diseaseDetail){
-            diseaseDetail = new DiseasesModel();
+            diseaseDetail = new Disease();
         }
         diseaseDetail.setComponentName(componentName);
         diseaseDetail.setPosition(positionName);
