@@ -101,17 +101,17 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".view.PickPicture.ImageGridActivity"
+            android:name=".component.PickPicture.ImageGridActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".view.PickPicture.PhotoActivity"
+            android:name=".component.PickPicture.PhotoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".view.PickPicture.TestPicActivity"
+            android:name=".component.PickPicture.TestPicActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
         </activity>

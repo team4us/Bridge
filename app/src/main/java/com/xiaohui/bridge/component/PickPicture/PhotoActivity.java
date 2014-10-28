@@ -1,9 +1,8 @@
-package com.xiaohui.bridge.view.PickPicture;
+package com.xiaohui.bridge.component.PickPicture;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;

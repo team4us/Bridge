@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.util.BitmapUtil;
-import com.xiaohui.bridge.view.ZoomImage.ZoomableImageView;
+import com.xiaohui.bridge.component.ZoomImage.ZoomableImageView;
 
 /**
  * 展示图片

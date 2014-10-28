@@ -1,4 +1,4 @@
-package com.xiaohui.bridge.view.ZoomImage;
+package com.xiaohui.bridge.component.ZoomImage;
 
 import android.annotation.TargetApi;
 import android.graphics.drawable.Drawable;

@@ -1,4 +1,4 @@
-package com.xiaohui.bridge.view.PickPicture;
+package com.xiaohui.bridge.component.PickPicture;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaohui.bridge.view.PickPicture.BitmapCache.ImageCallback;
+import com.xiaohui.bridge.component.PickPicture.BitmapCache.ImageCallback;
 import com.xiaohui.bridge.R;
 
 import java.util.List;

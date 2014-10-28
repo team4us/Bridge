@@ -1,4 +1,4 @@
-package com.xiaohui.bridge.view.ZoomImage;
+package com.xiaohui.bridge.component.ZoomImage;
 
 import android.content.Context;
 import android.graphics.Bitmap;

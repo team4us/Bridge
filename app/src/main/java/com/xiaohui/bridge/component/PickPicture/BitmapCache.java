@@ -1,4 +1,4 @@
-package com.xiaohui.bridge.view.PickPicture;
+package com.xiaohui.bridge.component.PickPicture;
 
 import java.io.BufferedInputStream;
 import java.io.File;

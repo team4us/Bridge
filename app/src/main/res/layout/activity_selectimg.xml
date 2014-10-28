@@ -40,7 +40,7 @@
         android:background="@null" >
     </EditText>
 
-    <com.xiaohui.bridge.view.MyGridView
+    <com.xiaohui.bridge.component.MyGridView
         android:id="@+id/noScrollgridview"
         android:layout_width="290dp"
         android:layout_height="350dp"

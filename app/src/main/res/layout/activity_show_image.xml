@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <com.xiaohui.bridge.view.ZoomImage.ZoomableImageView
+    <com.xiaohui.bridge.component.ZoomImage.ZoomableImageView
         android:id="@+id/iv_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

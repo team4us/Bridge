@@ -42,11 +42,11 @@ import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
-import com.xiaohui.bridge.view.MyGridView;
-import com.xiaohui.bridge.view.PickPicture.Bimp;
-import com.xiaohui.bridge.view.PickPicture.FileUtils;
-import com.xiaohui.bridge.view.PickPicture.PhotoActivity;
-import com.xiaohui.bridge.view.PickPicture.TestPicActivity;
+import com.xiaohui.bridge.component.MyGridView;
+import com.xiaohui.bridge.component.PickPicture.Bimp;
+import com.xiaohui.bridge.component.PickPicture.FileUtils;
+import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
+import com.xiaohui.bridge.component.PickPicture.TestPicActivity;
 
 import java.io.File;
 import java.io.IOException;

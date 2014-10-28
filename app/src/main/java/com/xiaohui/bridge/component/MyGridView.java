@@ -1,4 +1,4 @@
-package com.xiaohui.bridge.view;
+package com.xiaohui.bridge.component;
 
 import android.widget.GridView;
 
