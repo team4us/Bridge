@@ -105,6 +105,11 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="disease_number_input" parent="disease_input_edittext">
+        <item name="android:inputType">number</item>
+        <item name="android:digits">"-,.0123456789"</item>
+    </style>
+
     <style name="detail_input_edittext" parent="base_input_edittext">
         <item name="android:textSize">@dimen/font_size_24</item>
         <item name="android:editable">false</item>

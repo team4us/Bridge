@@ -58,7 +58,7 @@ import java.util.Map;
  * 多种病害输入模板基类
  * Created by Administrator on 2014/10/9.
  */
-public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements View.OnClickListener {
+public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements View.OnClickListener {
 
     public static String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
     private static String AddPhotoTag = "AddPhoto";
@@ -303,7 +303,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
 
         if(isNewDisease){
             try {
-                ((DatabaseHelper) getHelper()).getDiseaseDao().create(diseaseModel);
+                getHelper().getDiseaseDao().create(diseaseModel);
                 Toast.makeText(this, "新增成功", Toast.LENGTH_SHORT).show();
                 this.finish();
             } catch (SQLException e) {
@@ -312,7 +312,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
             }
         } else {
             try {
-                ((DatabaseHelper) getHelper()).getDiseaseDao().update(diseaseModel);
+                getHelper().getDiseaseDao().update(diseaseModel);
                 Toast.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
                 this.finish();
             } catch (SQLException e) {
@@ -336,15 +336,15 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
     }
 
     public boolean isHaveEmptyData(Map<String, Object> values, EDiseaseInputMethod method){
-        if(null == values || values.size() == 0){
-            return true;
-        }
-        for(int i = 0; i < method.getInputTitles().length; i ++){
-            if(!method.getInputTitles()[i].equals("moreinfo") &&
-                    ((String)values.get(method.getInputTitles()[i])).isEmpty()){
-                return true;
-            }
-        }
+//        if(null == values || values.size() == 0){
+//            return true;
+//        }
+//        for(int i = 0; i < method.getInputTitles().length; i ++){
+//            if(!method.getInputTitles()[i].equals("moreinfo") &&
+//                    ((String)values.get(method.getInputTitles()[i])).isEmpty()){
+//                return true;
+//            }
+//        }
         return false;
     }
 
@@ -550,6 +550,16 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
     protected void takePhotoFromCamera() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String currentTakePictureName = "Picture-" + df.format(new Date()) + ".jpg";
+
+        File pictureSaveDir = new File(PicturePath);
+
+        if (!pictureSaveDir.exists()) {
+            if (!pictureSaveDir.mkdirs()) {
+                Toast.makeText(this, "创建图片文档目录失败", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         File file = new File(PicturePath + currentTakePictureName);
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         path = file.getPath();

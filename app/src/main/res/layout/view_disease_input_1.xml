@@ -29,9 +29,7 @@
 
                 <EditText
                     android:id="@+id/et_startpoint"
-                    style="@style/disease_input_edittext"
-                    android:inputType="number"
-                    android:digits=",.0123456789"/>
+                    style="@style/disease_number_input"/>
             </LinearLayout>
 
             <LinearLayout
@@ -45,9 +43,7 @@
 
                 <EditText
                     android:id="@+id/et_endpoint"
-                    style="@style/disease_input_edittext"
-                    android:inputType="number"
-                    android:digits=",.0123456789"/>
+                    style="@style/disease_number_input"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -72,9 +68,7 @@
 
         <EditText
             android:id="@+id/et_length"
-            style="@style/disease_input_edittext"
-            android:inputType="number"
-            android:digits=",.0123456789"/>
+            style="@style/disease_number_input"/>
 
     </LinearLayout>
 
@@ -91,9 +85,7 @@
 
         <EditText
             android:id="@+id/et_width"
-            style="@style/disease_input_edittext"
-            android:inputType="number"
-            android:digits=",.0123456789"/>
+            style="@style/disease_number_input"/>
 
     </LinearLayout>
 
