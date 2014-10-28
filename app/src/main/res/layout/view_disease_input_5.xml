@@ -55,8 +55,7 @@
 
         <EditText
             android:id="@+id/et_imagenumber"
-            style="@style/disease_input_edittext"
-            android:inputType="number"/>
+            style="@style/disease_input_edittext"/>
 
     </LinearLayout>
 

@@ -23,7 +23,8 @@
             android:layout_weight="1"
             android:layout_marginRight="@dimen/margin_15"
             style="@style/disease_input_edittext"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:digits=",.0123456789"/>
 
         <ImageView
             android:id="@+id/btn_add_position_from_screen"
@@ -48,7 +49,8 @@
         <EditText
             android:id="@+id/et_length"
             style="@style/disease_input_edittext"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:digits=",.0123456789"/>
 
     </LinearLayout>
 
@@ -66,7 +68,8 @@
         <EditText
             android:id="@+id/et_width"
             style="@style/disease_input_edittext"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:digits=",.0123456789"/>
 
     </LinearLayout>
 
@@ -83,8 +86,7 @@
 
         <EditText
             android:id="@+id/et_imagenumber"
-            style="@style/disease_input_edittext"
-            android:inputType="number"/>
+            style="@style/disease_input_edittext"/>
 
     </LinearLayout>
 

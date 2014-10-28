@@ -1,19 +1,15 @@
 package com.xiaohui.bridge.activity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +36,7 @@ import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.component.MyGridView;
 import com.xiaohui.bridge.component.PickPicture.Bimp;
-import com.xiaohui.bridge.component.PickPicture.FileUtils;
+import com.xiaohui.bridge.component.PickPicture.GridAdapter;
 import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.component.PickPicture.TestPicActivity;
 import com.xiaohui.bridge.model.ComponentModel;
@@ -130,29 +125,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
             initInputTemplateView(0);
         }
 
-        llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
-        llVoiceRecords = (LinearLayout) findViewById(R.id.ll_voice_record);
-        llVideoRecords = (LinearLayout) findViewById(R.id.ll_video_record);
-        spChoosePosition = (Spinner) findViewById(R.id.sp_choose_position);
-        spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
-        etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
-        rgRadioGroup = (RadioGroup) findViewById(R.id.rg_radio_group);
-        rbRadioButton1 = (RadioButton) findViewById(R.id.rb_input_1);
-        rbRadioButton1.setTag(EDiseaseInputMethod.One);
-        rbRadioButton2 = (RadioButton) findViewById(R.id.rb_input_2);
-        rbRadioButton2.setTag(EDiseaseInputMethod.Two);
-        rbRadioButton3 = (RadioButton) findViewById(R.id.rb_input_3);
-        rbRadioButton3.setTag(EDiseaseInputMethod.Three);
-        rbRadioButton4 = (RadioButton) findViewById(R.id.rb_input_4);
-        rbRadioButton4.setTag(EDiseaseInputMethod.Four);
-        rbRadioButton5 = (RadioButton) findViewById(R.id.rb_input_5);
-        rbRadioButton5.setTag(EDiseaseInputMethod.Five);
-        llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
-        viewPictureDivider = findViewById(R.id.view_picture_divider);
-        viewVoiceDivider = findViewById(R.id.view_voice_divider);
-        viewVideoDivider = findViewById(R.id.view_video_divider);
-        tvComponentName = (TextView) findViewById(R.id.tv_component_name);
-
+        initBaseView();
         initMediaResource();
         initDiseaseDetailView();
         initMediaLayout();
@@ -323,7 +296,6 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
 
         diseaseModel.setDisease(diseaseDetail);
 
-        // 新增
         if(isNewDisease){
             try {
                 ((DatabaseHelper) getHelper()).getDiseaseDao().create(diseaseModel);
@@ -333,7 +305,6 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
                 e.printStackTrace();
                 Toast.makeText(this, "新增失败", Toast.LENGTH_SHORT).show();
             }
-            // 修改
         } else {
             try {
                 ((DatabaseHelper) getHelper()).getDiseaseDao().update(diseaseModel);
@@ -389,6 +360,31 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
         return super.onOptionsItemSelected(item);
     }
 
+    private void initBaseView() {
+        llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
+        llVoiceRecords = (LinearLayout) findViewById(R.id.ll_voice_record);
+        llVideoRecords = (LinearLayout) findViewById(R.id.ll_video_record);
+        spChoosePosition = (Spinner) findViewById(R.id.sp_choose_position);
+        spChooseDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
+        etDiseaseType = (EditText) findViewById(R.id.et_disease_type);
+        rgRadioGroup = (RadioGroup) findViewById(R.id.rg_radio_group);
+        rbRadioButton1 = (RadioButton) findViewById(R.id.rb_input_1);
+        rbRadioButton1.setTag(EDiseaseInputMethod.One);
+        rbRadioButton2 = (RadioButton) findViewById(R.id.rb_input_2);
+        rbRadioButton2.setTag(EDiseaseInputMethod.Two);
+        rbRadioButton3 = (RadioButton) findViewById(R.id.rb_input_3);
+        rbRadioButton3.setTag(EDiseaseInputMethod.Three);
+        rbRadioButton4 = (RadioButton) findViewById(R.id.rb_input_4);
+        rbRadioButton4.setTag(EDiseaseInputMethod.Four);
+        rbRadioButton5 = (RadioButton) findViewById(R.id.rb_input_5);
+        rbRadioButton5.setTag(EDiseaseInputMethod.Five);
+        llInputTemplate = (LinearLayout) findViewById(R.id.ll_input_container);
+        viewPictureDivider = findViewById(R.id.view_picture_divider);
+        viewVoiceDivider = findViewById(R.id.view_voice_divider);
+        viewVideoDivider = findViewById(R.id.view_video_divider);
+        tvComponentName = (TextView) findViewById(R.id.tv_component_name);
+    }
+
     private void initGridView() {
         MyGridView mgvPicturesGridView = (MyGridView) findViewById(R.id.mgv_pictures);
         mgvPicturesGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -396,11 +392,8 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
         mgvPicturesAdapter.update();
         mgvPicturesGridView.setAdapter(mgvPicturesAdapter);
         mgvPicturesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
-                Intent intent = new Intent(DiseaseDetailActivity.this,
-                        PhotoActivity.class);
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                Intent intent = new Intent(DiseaseDetailActivity.this, PhotoActivity.class);
                 intent.putExtra("ID", arg2);
                 startActivity(intent);
             }
@@ -410,36 +403,23 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
     private void initMediaLayout() {
         LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, iconWidth);
         llMediaTypes.setLayoutParams(layoutLP);
+        llMediaTypes.addView(addMediaIcon(AddPhotoTag, R.drawable.bg_photo));
+        llMediaTypes.addView(addMediaIcon(AddPictureTag, R.drawable.bg_add_picture));
+        llMediaTypes.addView(addMediaIcon(AddVoiceTag, R.drawable.bg_add_voice));
+        llMediaTypes.addView(addMediaIcon(AddVideoTag, R.drawable.bg_add_movie));
+    }
 
+    private View addMediaIcon(String tag, int imageid){
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(iconWidth, iconWidth);
-        ImageView addPhotoIcon = new ImageView(this);
         addIconLP.setMargins(5, 0, 5, 0);
-        addPhotoIcon.setLayoutParams(addIconLP);
-        addPhotoIcon.setOnClickListener(this);
-        addPhotoIcon.setTag(AddPhotoTag);
-        addPhotoIcon.setBackgroundResource(R.drawable.bg_photo);
-        llMediaTypes.addView(addPhotoIcon, addIconLP);
-
-        ImageView addPicIcon = new ImageView(this);
-        addPicIcon.setLayoutParams(addIconLP);
-        addPicIcon.setOnClickListener(this);
-        addPicIcon.setTag(AddPictureTag);
-        addPicIcon.setBackgroundResource(R.drawable.bg_add_picture);
-        llMediaTypes.addView(addPicIcon);
-
-        ImageView addVoiceIcon = new ImageView(this);
-        addVoiceIcon.setLayoutParams(addIconLP);
-        addVoiceIcon.setOnClickListener(this);
-        addVoiceIcon.setTag(AddVoiceTag);
-        addVoiceIcon.setBackgroundResource(R.drawable.bg_add_voice);
-        llMediaTypes.addView(addVoiceIcon);
 
         ImageView addVideoIcon = new ImageView(this);
         addVideoIcon.setLayoutParams(addIconLP);
         addVideoIcon.setOnClickListener(this);
-        addVideoIcon.setTag(AddVideoTag);
-        addVideoIcon.setBackgroundResource(R.drawable.bg_add_movie);
-        llMediaTypes.addView(addVideoIcon);
+        addVideoIcon.setTag(tag);
+        addVideoIcon.setBackgroundResource(imageid);
+
+        return addVideoIcon;
     }
 
     protected void onRestart() {
@@ -620,125 +600,5 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
     public void finish() {
         super.finish();
         Bimp.clearData();
-    }
-
-    @SuppressLint("HandlerLeak")
-    public class GridAdapter extends BaseAdapter {
-        private LayoutInflater inflater; // 视图容器
-        private int selectedPosition = -1;// 选中的位置
-        private boolean shape;
-
-        public boolean isShape() {
-            return shape;
-        }
-
-        public void setShape(boolean shape) {
-            this.shape = shape;
-        }
-
-        public GridAdapter(Context context) {
-            inflater = LayoutInflater.from(context);
-        }
-
-        public void update() {
-            loading();
-        }
-
-        public int getCount() {
-            return (Bimp.bmp.size() + 1);
-        }
-
-        public Object getItem(int arg0) {
-
-            return null;
-        }
-
-        public long getItemId(int arg0) {
-
-            return 0;
-        }
-
-        public void setSelectedPosition(int position) {
-            selectedPosition = position;
-        }
-
-        public int getSelectedPosition() {
-            return selectedPosition;
-        }
-
-        /**
-         * ListView Item设置
-         */
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            if (convertView == null) {
-
-                convertView = inflater.inflate(R.layout.item_published_grida,
-                        parent, false);
-                holder = new ViewHolder();
-                holder.image = (ImageView) convertView
-                        .findViewById(R.id.item_grida_image);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            if (position < Bimp.bmp.size() && null != Bimp.bmp && Bimp.bmp.size() > 0) {
-                holder.image.setVisibility(View.VISIBLE);
-                holder.image.setImageBitmap(Bimp.bmp.get(position));
-            } else {
-                holder.image.setVisibility(View.GONE);
-            }
-
-            return convertView;
-        }
-
-        public class ViewHolder {
-            public ImageView image;
-        }
-
-        Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        mgvPicturesAdapter.notifyDataSetChanged();
-                        break;
-                }
-                super.handleMessage(msg);
-            }
-        };
-
-        public void loading() {
-            new Thread(new Runnable() {
-                public void run() {
-                    while (true) {
-                        if (Bimp.max == Bimp.drr.size()) {
-                            Message message = new Message();
-                            message.what = 1;
-                            handler.sendMessage(message);
-                            break;
-                        } else {
-                            try {
-                                String path = Bimp.drr.get(Bimp.max);
-                                System.out.println(path);
-                                Bitmap bm = Bimp.revitionImageSize(path);
-                                Bimp.bmp.add(bm);
-                                String newStr = path.substring(
-                                        path.lastIndexOf("/") + 1,
-                                        path.lastIndexOf("."));
-                                FileUtils.saveBitmap(bm, "" + newStr);
-                                Bimp.max += 1;
-                                Message message = new Message();
-                                message.what = 1;
-                                handler.sendMessage(message);
-                            } catch (IOException e) {
-
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }).start();
-        }
     }
 }
