@@ -265,8 +265,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
         if (!isNewDisease) {
             StringBuilder builder = new StringBuilder("rb_input_");
             builder.append(diseaseDetail.getInputMethod().getId());
-            int xx = getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME);
-            rgRadioGroup.check(xx);
+            rgRadioGroup.check(getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME));
         }
     }
 
@@ -444,7 +443,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
 
         switch (requestCode) {
             case Keys.RequestCodeTakePicture:
-                if (Bimp.drr.size() < 9 && resultCode == -1) {
+                if (Bimp.drr.size() < 9 && resultCode == RESULT_OK) {
                     picturesList.clear();
                     Bimp.drr.add(path);
                     for (int i = 0; i < Bimp.drr.size(); i++) {
