@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,7 +37,6 @@ import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
-import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.DiseasesModel;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
@@ -53,6 +51,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -284,28 +283,26 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     }
 
     private void saveDiseaseDetail(){
-//        if(isNewDisease){
-//            diseaseDetail = new DiseasesModel();
-//            diseaseDetail.setComponentName(componentName);
-//            diseaseDetail.setPosition(positionName);
-//            diseaseDetail.setInputMethod((EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag());
-//        }
+        if(null == diseaseDetail){
+            diseaseDetail = new DiseasesModel();
+        }
+        diseaseDetail.setComponentName(componentName);
+        diseaseDetail.setPosition(positionName);
+        diseaseDetail.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
+        EDiseaseInputMethod type = (EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag();
+        diseaseDetail.setInputMethod(type);
+
+        diseaseDetail.setInputMethodValues(new HashMap<String, Object>());
 
         if(diseaseDetail.isHaveEmptyData()){
             Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
             return ;
         }
 
-        DiseasesModel diseasesModel = new DiseasesModel();
-        diseasesModel.setComponentName(componentName);
-        diseasesModel.setPosition(positionName);
-        diseasesModel.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
-//        diseasesModel.set
-//        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
-        diseasesModel.setPictureList(picturesList);
-        diseasesModel.setRecordList(recordsList);
-        diseasesModel.setVideoList(videosList);
-        StoreManager.Instance.addDiseaseModel(diseasesModel);
+        diseaseDetail.setPictureList(picturesList);
+        diseaseDetail.setRecordList(recordsList);
+        diseaseDetail.setVideoList(videosList);
+        StoreManager.Instance.addDiseaseModel(diseaseDetail);
         this.finish();
     }
 
