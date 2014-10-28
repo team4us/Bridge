@@ -22,6 +22,8 @@ import java.util.List;
  */
 public class BusinessManager {
 
+    public static String USER_MEDIA_FILE_PATH = "";
+
     private String[] generalsTypes = {"上部承重构件",
             "上部一般构件",
             "支座",

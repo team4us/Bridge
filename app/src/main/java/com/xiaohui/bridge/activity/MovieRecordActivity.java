@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
+import com.xiaohui.bridge.business.BusinessManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +37,8 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
     private boolean mIsRecording = false;
     private MediaRecorder mediaRecorder;
     private String fileName = "";
+
+    private static String videoPath = BusinessManager.USER_MEDIA_FILE_PATH + "Movie/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,8 +204,17 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
 
     private String getName() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String fileName = Environment.getExternalStorageDirectory() + "/IBridge/Movie/" + "Video" + df.format(new Date()) + ".3gp";
-        return fileName;
+
+        File recordSaveDir = new File(videoPath);
+
+        if (!recordSaveDir.exists()) {
+            if (!recordSaveDir.mkdirs()) {
+                Toast.makeText(this, "创建视频文档目录失败", Toast.LENGTH_SHORT).show();
+                return "";
+            }
+        }
+
+        return videoPath + "Video" + df.format(new Date()) + ".3gp";
     }
 
 }

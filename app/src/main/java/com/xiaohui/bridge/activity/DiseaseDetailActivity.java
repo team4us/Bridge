@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.BusinessManager;
 import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.business.store.StoreManager;
@@ -61,7 +62,7 @@ import java.util.Random;
  */
 public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements View.OnClickListener {
 
-    public static String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/Picture/";
+    public static String PicturePath = BusinessManager.USER_MEDIA_FILE_PATH + "Picture/";
     private static String AddPhotoTag = "AddPhoto";
     private static String AddPictureTag = "AddPicture";
     private static String AddVoiceTag = "AddVoice";

@@ -4,26 +4,37 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.BusinessManager;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.ILoginView;
 import com.xiaohui.bridge.viewmodel.LoginViewModel;
+
+import java.io.File;
 
 /**
  * Created by xhChen on 14/9/22.
  */
 public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements ILoginView {
 
+    private LoginViewModel loginViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login, new LoginViewModel(this, getStore(), getHelper().getUserDao(), getCookie()));
+
+        loginViewModel =  new LoginViewModel(this, getStore(), getHelper().getUserDao(), getCookie());
+        setContentView(R.layout.activity_login, loginViewModel);
     }
 
     @Override
     public void loginSuccess() {
+        initFolder();
+
         startActivity(new Intent(this, ProjectsActivity.class));
         finish();
     }
@@ -40,5 +51,18 @@ public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> imple
             }
         });
         builder.create().show();
+    }
+
+    private void initFolder(){
+        String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/" + loginViewModel.getName() + File.separator;
+        File saveDir = new File(PicturePath);
+
+        if (!saveDir.exists()) {
+            if (!saveDir.mkdirs()) {
+                Toast.makeText(this, "创建个人文档目录失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        BusinessManager.USER_MEDIA_FILE_PATH = PicturePath;
     }
 }

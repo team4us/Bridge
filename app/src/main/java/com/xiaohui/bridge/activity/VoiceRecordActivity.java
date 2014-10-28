@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
+import com.xiaohui.bridge.business.BusinessManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -29,7 +30,7 @@ public class VoiceRecordActivity extends AbstractActivity {
     private TextView tvVoiceTime;
     private Button btnStart;
 
-    private static String recordPath = Environment.getExternalStorageDirectory() + "/IBridge/Record/";
+    private static String recordPath = BusinessManager.USER_MEDIA_FILE_PATH + "Record/";
     private MediaRecorder mVoiceRecorder;
     private String currentRecordName = "";
     private Timer timer = new Timer();
