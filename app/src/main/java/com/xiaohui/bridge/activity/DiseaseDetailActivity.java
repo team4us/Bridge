@@ -346,10 +346,6 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
         }
     }
 
-
-
-
-
     private void initMediaResource(){
         if(!isNewDisease){
             picturesList = diseaseDetail.getPictureList();
@@ -385,14 +381,11 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_disease_save) {
             saveDiseaseDetail();
         } else if (id == R.id.action_disease_cancel) {
-            // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
-            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+            this.finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
