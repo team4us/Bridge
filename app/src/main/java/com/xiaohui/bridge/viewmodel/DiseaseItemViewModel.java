@@ -18,6 +18,7 @@ public class DiseaseItemViewModel implements ItemPresentationModel<DiseaseModel>
 
     @Override
     public void updateData(DiseaseModel diseaseModel, ItemContext itemContext) {
-        title = diseaseModel.getDisease().getDiseaseType();
+        title = String.valueOf(itemContext.getPosition() + 1)
+                + " " + diseaseModel.getDisease().getDiseaseType();
     }
 }

@@ -102,6 +102,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
     private Disease diseaseDetail;
     private View inputTemplateView;
     private DiseaseModel diseaseModel;
+    private ComponentModel componentModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +111,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
         isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
         setTitle(isNewDisease ? "病害新增" : "病害编辑");
 
-        ComponentModel componentModel = (ComponentModel)getCookie().get(Keys.COMPONENT);
+        componentModel = (ComponentModel)getCookie().get(Keys.COMPONENT);
         componentName = componentModel.getComponent().getName();
         positionName = componentModel.getBlock().getBlock().getName();
 
@@ -161,7 +162,11 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
             }
         }
 
-        ArrayAdapter<String> diseases = new ArrayAdapter<String>(this, R.layout.view_spinner_item, StoreManager.Instance.diseaseTypes);
+        String key = "disease_type_" + String.valueOf(componentModel.getBlock().getBlock().getId() + 1);
+        int id = getResources().getIdentifier(key, "array", BuildConfig.PACKAGE_NAME);
+        String[] diseaseTypes = getResources().getStringArray(id);
+
+        ArrayAdapter<String> diseases = new ArrayAdapter<String>(this, R.layout.view_spinner_item, diseaseTypes);
         diseases.setDropDownViewResource(R.layout.view_spinner_dropdown_item);
         spChooseDiseaseType.setAdapter(diseases);
         spChooseDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

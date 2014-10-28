@@ -34,7 +34,7 @@ public class LoginViewModel {
     }
 
     public String getName() {
-        return name;
+        return "test";
     }
 
     public void setName(String name) {
@@ -42,7 +42,7 @@ public class LoginViewModel {
     }
 
     public String getPassword() {
-        return password;
+        return "111111";
     }
 
     public void setPassword(String password) {
