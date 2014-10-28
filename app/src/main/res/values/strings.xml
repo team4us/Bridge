@@ -2,13 +2,8 @@
 <resources>
 
     <string name="app_name">iBridge</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
-    <string name="action_settings">Settings</string>
     <string name="action_bridge_detail">桥梁详情</string>
     <string name="action_project_detail">项目详情</string>
     <string name="action_disease_add">添加病害</string>
@@ -27,7 +22,7 @@
 
     <string name="record_seconds">%1$s 秒</string>
 
-    <string-array name="disease_input_type1" >
+    <string-array name="disease_input_type1">
         <item>startpoint</item>
         <item>endpoint</item>
         <item>length</item>
@@ -35,28 +30,28 @@
         <item>imagenumber</item>
         <item>moreinfo</item>
     </string-array>
-    <string-array name="disease_input_type2" >
+    <string-array name="disease_input_type2">
         <item>position</item>
         <item>length</item>
         <item>width</item>
         <item>imagenumber</item>
         <item>moreinfo</item>
     </string-array>
-    <string-array name="disease_input_type3" >
+    <string-array name="disease_input_type3">
         <item>position</item>
         <item>length</item>
         <item>width</item>
         <item>imagenumber</item>
         <item>moreinfo</item>
     </string-array>
-    <string-array name="disease_input_type4" >
+    <string-array name="disease_input_type4">
         <item>position</item>
         <item>length</item>
         <item>width</item>
         <item>imagenumber</item>
         <item>moreinfo</item>
     </string-array>
-    <string-array name="disease_input_type5" >
+    <string-array name="disease_input_type5">
         <item>position</item>
         <item>description</item>
         <item>imagenumber</item>
