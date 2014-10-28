@@ -1,6 +1,5 @@
 package com.xiaohui.bridge.viewmodel;
 
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.xiaohui.bridge.business.BusinessManager;
 import com.xiaohui.bridge.model.ProjectModel;

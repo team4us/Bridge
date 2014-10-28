@@ -69,6 +69,8 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!bridgesFragment.isDrawerOpen()) {
+            BridgeModel bridge = (BridgeModel) getCookie().get(Keys.BRIDGE);
+            setTitle(bridge.getBridge().getName());
             getMenuInflater().inflate(R.menu.bridge_menu, menu);
             return true;
         }

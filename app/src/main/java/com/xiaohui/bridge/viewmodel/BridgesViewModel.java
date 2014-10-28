@@ -52,7 +52,10 @@ public class BridgesViewModel {
     }
 
     public void onItemClick(ItemClickEvent event) {
-        int position = event.getPosition();
+        onItemClick(event.getPosition());
+    }
+
+    public void onItemClick(int position) {
         currentBridgeModel = bridges.get(position);
         cookie.put(Keys.BRIDGE, currentBridgeModel);
         if (bridgeView != null) {

@@ -34,9 +34,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     private View mFragmentContainerView;
 
     private BridgesViewModel viewModel;
-
-    public BridgesFragment() {
-    }
+    private ProjectModel project;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -70,39 +68,19 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
-
-        // set a custom shadow that overlays the bridges_menu content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
-
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        ProjectModel projectModel = (ProjectModel) getCookie().get(Keys.PROJECT);
-        final Project project = projectModel.getProject();
-        getCookie().put(Keys.BRIDGE, projectModel.getBridges().get(0));
-        setTitle(project.getName());
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the navigation drawer and the action bar app icon.
-        mDrawerToggle = new ActionBarDrawerToggle(
-                getActivity(),                    /* host Activity */
-                mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
-                R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
-                R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
-        ) {
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawerLayout,
+                R.drawable.ic_drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 if (!isAdded()) {
                     return;
                 }
-
-                BridgeModel bridge = viewModel.getCurrentBridgeModel();
-                setTitle(bridge.getBridge().getName());
-
-                getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+                getActivity().invalidateOptionsMenu();
             }
 
             @Override
@@ -111,14 +89,12 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
                 if (!isAdded()) {
                     return;
                 }
-                setTitle(project.getName());
-                getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+                getActivity().invalidateOptionsMenu();
             }
         };
 
-        mDrawerLayout.openDrawer(mFragmentContainerView);
+        project = (ProjectModel) getCookie().get(Keys.PROJECT);
 
-        // Defer code dependent on restoration of previous instance state.
         mDrawerLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -127,11 +103,14 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        viewModel.onItemClick(0);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (mDrawerLayout != null && isDrawerOpen()) {
+            setTitle(project.getProject().getName());
             inflater.inflate(R.menu.bridges_menu, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
