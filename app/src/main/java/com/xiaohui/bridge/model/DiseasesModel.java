@@ -15,7 +15,6 @@ public class DiseasesModel {
     private String diseaseType;
     private EDiseaseInputMethod inputMethod;
     private Map<String, Object> inputMethodValues;
-//    private BaseInputModel diseaseInputMethod;
     private ArrayList<String> pictureList = new ArrayList<String>();
     private ArrayList<String> recordList = new ArrayList<String>();
     private ArrayList<String> videoList = new ArrayList<String>();
@@ -31,10 +30,6 @@ public class DiseasesModel {
     public void setDiseaseType(String diseaseType) {
         this.diseaseType = diseaseType;
     }
-
-//    public void setDiseaseInputMethod(BaseInputModel diseaseInputMethod) {
-//        this.diseaseInputMethod = diseaseInputMethod;
-//    }
 
     public void setPictureList(ArrayList<String> pictureList) {
         this.pictureList = pictureList;
@@ -59,10 +54,6 @@ public class DiseasesModel {
     public String getDiseaseType() {
         return diseaseType;
     }
-
-//    public BaseInputModel getDiseaseInputMethod() {
-//        return diseaseInputMethod;
-//    }
 
     public Map<String, Object> getInputMethodValues() {
         return inputMethodValues;
@@ -93,6 +84,9 @@ public class DiseasesModel {
     }
 
     public boolean isHaveEmptyData(){
+        if(null == getInputMethodValues() || getInputMethodValues().size() == 0){
+            return true;
+        }
         for(int i = 0; i < getInputMethod().getInputTitles().length; i ++){
             if(!getInputMethod().getInputTitles()[i].equals("moreinfo") &&
                     ((String)getInputMethodValues().get(getInputMethod().getInputTitles()[i])).isEmpty()){

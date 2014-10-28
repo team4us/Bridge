@@ -255,10 +255,9 @@ public enum StoreManager {
     private List<DiseasesModel> diseasesList = new ArrayList<DiseasesModel>();
 
     public void initDiseasesModelList(String componentName, String position){
-        // TODO 这里的positionName两边的测试数据都不一致，为了达到效果都写死成上面generalsTypes中的内容
         DiseasesModel disease = new DiseasesModel();
         disease.setComponentName(componentName);
-        disease.setPosition("左腹板");
+        disease.setPosition(position);
         disease.setDiseaseType("裂缝");
         disease.setInputMethod(EDiseaseInputMethod.One);
         Map<String, Object> values = new HashMap<String, Object>();
@@ -270,7 +269,7 @@ public enum StoreManager {
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
-        disease.setPosition("底板");
+        disease.setPosition(position);
         disease.setDiseaseType("裂缝");
         disease.setInputMethod(EDiseaseInputMethod.Three);
         values = new HashMap<String, Object>();
@@ -282,7 +281,7 @@ public enum StoreManager {
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
-        disease.setPosition("右腹板");
+        disease.setPosition(position);
         disease.setDiseaseType("破损");
         disease.setInputMethod(EDiseaseInputMethod.Two);
         values = new HashMap<String, Object>();
@@ -294,7 +293,7 @@ public enum StoreManager {
 
         disease = new DiseasesModel();
         disease.setComponentName(componentName);
-        disease.setPosition("右翼缘板");
+        disease.setPosition(position);
         disease.setDiseaseType("钢筋锈蚀");
         disease.setInputMethod(EDiseaseInputMethod.Four);
         values = new HashMap<String, Object>();
