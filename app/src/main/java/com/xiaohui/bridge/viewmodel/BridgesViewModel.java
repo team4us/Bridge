@@ -2,11 +2,7 @@ package com.xiaohui.bridge.viewmodel;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.xiaohui.bridge.business.bean.Bridge;
-import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.BridgeModel;
-import com.xiaohui.bridge.model.BridgesModel;
-import com.xiaohui.bridge.model.ProjectModel;
 import com.xiaohui.bridge.view.IBridgeView;
 
 import org.robobinding.annotation.ItemPresentationModel;
@@ -24,14 +20,12 @@ import java.util.List;
 public class BridgesViewModel {
 
     private IBridgeView bridgeView;
-    private BridgesModel model;
     private int position;
     private Dao<BridgeModel, Integer> dao;
     private List<BridgeModel> bridges;
     private String projectCode;
 
     public BridgesViewModel(IBridgeView view, Dao<BridgeModel, Integer> dao, String projectCode) {
-        model = new BridgesModel(StoreManager.Instance.getBridges());
         bridgeView = view;
         this.dao = dao;
         this.projectCode = projectCode;
@@ -60,7 +54,7 @@ public class BridgesViewModel {
         }
     }
 
-    public Bridge getCurrentBridge() {
-        return model.getBridge(position);
+    public BridgeModel getCurrentBridge() {
+        return bridges.get(position);
     }
 }

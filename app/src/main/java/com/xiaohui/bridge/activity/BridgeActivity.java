@@ -18,9 +18,8 @@ import android.widget.TextView;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
-import com.xiaohui.bridge.Keys;
+import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 
@@ -32,7 +31,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private BridgesFragment bridgesFragment;
-    private Bridge bridge;
+    private BridgeModel bridge;
     private ExpandableListView listView;
 
     @Override
@@ -67,7 +66,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     }
 
     @Override
-    public void onSelectedBridge(Bridge bridge) {
+    public void onSelectedBridge(BridgeModel bridge) {
         this.bridge = bridge;
         getCookie().put(Keys.BRIDGE, bridge);
         updateChildBridgeView();
@@ -97,8 +96,8 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     private void updateChildBridgeView() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rg_child_bridge);
         rg.removeAllViews();
-        for (int i = 0; i < bridge.getChildBridges().size(); i++) {
-            ChildBridge childBridge = bridge.getChildBridges().get(i);
+        for (int i = 0; i < bridge.getBridge().getChildBridges().size(); i++) {
+            ChildBridge childBridge = bridge.getBridge().getChildBridges().get(i);
             RadioButton rb = new RadioButton(this);
             rb.setText(childBridge.getName());
             rb.setTextSize(20);

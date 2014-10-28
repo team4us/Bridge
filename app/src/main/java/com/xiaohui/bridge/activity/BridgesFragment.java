@@ -17,6 +17,7 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.Project;
+import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IBridgeView;
 import com.xiaohui.bridge.viewmodel.BridgesViewModel;
@@ -109,8 +110,8 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
                     return;
                 }
 
-                Bridge bridge = viewModel.getCurrentBridge();
-                setTitle(bridge.getName());
+                BridgeModel bridge = viewModel.getCurrentBridge();
+                setTitle(bridge.getBridge().getName());
 
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
@@ -190,6 +191,6 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     }
 
     public static interface OnBridgeSelectListener {
-        void onSelectedBridge(Bridge bridge);
+        void onSelectedBridge(BridgeModel bridge);
     }
 }

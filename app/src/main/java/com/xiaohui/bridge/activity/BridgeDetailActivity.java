@@ -6,8 +6,8 @@ import android.widget.LinearLayout;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
+import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.viewmodel.BridgeDetailViewModel;
 import com.xiaohui.bridge.viewmodel.ChildBridgeDetailViewModel;
 
@@ -19,11 +19,11 @@ public class BridgeDetailActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bridge bridge = (Bridge) getCookie().get(Keys.BRIDGE);
-        setContentView(R.layout.activity_bridge_detail, new BridgeDetailViewModel(bridge));
+        BridgeModel bridge = (BridgeModel) getCookie().get(Keys.BRIDGE);
+        setContentView(R.layout.activity_bridge_detail, new BridgeDetailViewModel(bridge.getBridge()));
         setTitle("桥梁详情");
 
-        for (ChildBridge childBridge : bridge.getChildBridges()) {
+        for (ChildBridge childBridge : bridge.getBridge().getChildBridges()) {
             LinearLayout llChild = (LinearLayout) findViewById(R.id.ll_child);
             View view = inflateView(R.layout.view_child_bridge_detail, new ChildBridgeDetailViewModel(childBridge));
             llChild.addView(view);

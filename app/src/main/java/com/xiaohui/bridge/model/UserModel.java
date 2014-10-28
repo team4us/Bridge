@@ -1,10 +1,12 @@
 package com.xiaohui.bridge.model;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by xhChen on 14/10/27.
  */
+@DatabaseTable(tableName = "User")
 public class UserModel {
     @DatabaseField(generatedId = true)
     private int id;

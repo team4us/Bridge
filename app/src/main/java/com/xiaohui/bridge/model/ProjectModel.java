@@ -1,12 +1,16 @@
 package com.xiaohui.bridge.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Project;
 
 /**
  * Created by xiaohui on 14-10-27.
  */
+@DatabaseTable(tableName = "Project")
 public class ProjectModel {
     @DatabaseField(generatedId = true)
     private int id;
@@ -14,6 +18,8 @@ public class ProjectModel {
     private String userName;
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Project project;
+    @ForeignCollectionField(eager = true)
+    private ForeignCollection<BridgeModel> bridges;
 
     public int getId() {
         return id;
