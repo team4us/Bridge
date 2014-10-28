@@ -91,7 +91,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".activity.SettingActivity"
+            android:name=".activity.SettingsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 

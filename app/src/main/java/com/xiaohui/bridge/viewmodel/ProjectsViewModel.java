@@ -27,7 +27,6 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
     private IProjectView projectView;
     private DatabaseHelper helper;
     private UserModel user;
-    private BusinessManager businessManager;
     private List<ProjectModel> projects;
 
     public ProjectsViewModel(IProjectView view, DatabaseHelper helper, UserModel user) {
@@ -35,7 +34,6 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
         this.helper = helper;
         this.user = user;
         this.changeSupport = new PresentationModelChangeSupport(this);
-        this.businessManager = new BusinessManager();
     }
 
     @ItemPresentationModel(ProjectItemViewModel.class)
@@ -48,11 +46,15 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
                 projects = builder.query();
             } catch (SQLException e) {
                 e.printStackTrace();
-                projects = new ArrayList<ProjectModel>();
             }
         }
 
         return projects;
+    }
+
+    public void updateData() {
+        projects = null;
+        changeSupport.firePropertyChange("projects");
     }
 
     public ProjectModel getProject(int index) {
@@ -64,16 +66,6 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
         if (projectView != null) {
             projectView.onItemSelect(pos, projects.get(pos));
         }
-    }
-
-    public void download() {
-        businessManager.download(helper, user);
-        projects = null;
-        changeSupport.firePropertyChange("projects");
-    }
-
-    public void upload() {
-        businessManager.upload();
     }
 
     @Override

@@ -52,18 +52,11 @@ public class ProjectsActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_download) {
-            viewModel.download();
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
-        } else if (id == R.id.action_upload) {
-            viewModel.upload();
-            return true;
-        } else if (id == R.id.action_setting) {
-            startActivity(new Intent(this, SettingActivity.class));
-            return true;
-        } else if (id == R.id.action_logout) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+        } else if (id == R.id.action_refresh) {
+            viewModel.updateData();
             return true;
         }
 
