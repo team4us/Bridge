@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.model.ProjectModel;
+import com.xiaohui.bridge.model.UserModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IProjectView;
 import com.xiaohui.bridge.viewmodel.ProjectsViewModel;
@@ -28,7 +29,7 @@ public class ProjectsActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ProjectsViewModel(this, getHelper(), getGlobalApplication().getCurrentUserName());
+        viewModel = new ProjectsViewModel(this, getHelper(), (UserModel) getCookie().get(Keys.USER));
         setContentView(R.layout.activity_projects, viewModel);
         setTitle("项目列表");
         ListView lv = (ListView) findViewById(R.id.lv_projects);
@@ -37,7 +38,7 @@ public class ProjectsActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
 
     @Override
     public void onItemSelect(int position, ProjectModel project) {
-        getCookie().put(Keys.PROJECT, project.getProject());
+        getCookie().put(Keys.PROJECT, project);
         startActivity(new Intent(this, BridgeActivity.class));
     }
 

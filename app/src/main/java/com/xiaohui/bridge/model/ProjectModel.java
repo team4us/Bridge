@@ -18,6 +18,8 @@ public class ProjectModel {
     private String userName;
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Project project;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName="user_id")
+    private UserModel user;
     @ForeignCollectionField(eager = true)
     private ForeignCollection<BridgeModel> bridges;
 
@@ -39,5 +41,13 @@ public class ProjectModel {
 
     public Project getProject() {
         return project;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+
+    public ForeignCollection<BridgeModel> getBridges() {
+        return bridges;
     }
 }

@@ -19,7 +19,7 @@ public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> imple
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login, new LoginViewModel(this, getStore(), getHelper().getUserDao()));
+        setContentView(R.layout.activity_login, new LoginViewModel(this, getStore(), getHelper().getUserDao(), getCookie()));
     }
 
     @Override

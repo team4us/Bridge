@@ -40,4 +40,8 @@ public class ChildBridgeModel {
     public void setBridge(BridgeModel bridge) {
         this.bridge = bridge;
     }
+
+    public ForeignCollection<ComponentModel> getComponentModels() {
+        return componentModels;
+    }
 }

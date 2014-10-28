@@ -52,4 +52,8 @@ public class BridgeModel {
     public void setProject(ProjectModel project) {
         this.project = project;
     }
+
+    public ForeignCollection<ChildBridgeModel> getChildBridges() {
+        return childBridges;
+    }
 }

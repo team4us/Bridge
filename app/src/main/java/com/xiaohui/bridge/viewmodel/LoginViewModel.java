@@ -1,11 +1,11 @@
 package com.xiaohui.bridge.viewmodel;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.model.UserModel;
+import com.xiaohui.bridge.storage.Cookie;
 import com.xiaohui.bridge.storage.Store;
 import com.xiaohui.bridge.view.ILoginView;
 
@@ -21,14 +21,16 @@ public class LoginViewModel {
 
     private ILoginView loginView;
     private Store store;
+    private Cookie cookie;
     private String name;
     private String password;
     private Dao<UserModel, Integer> dao;
 
-    public LoginViewModel(ILoginView view, Store store, Dao<UserModel, Integer> dao) {
+    public LoginViewModel(ILoginView view, Store store, Dao<UserModel, Integer> dao, Cookie cookie) {
         loginView = view;
         this.store = store;
         this.dao = dao;
+        this.cookie = cookie;
     }
 
     public String getName() {
@@ -54,7 +56,7 @@ public class LoginViewModel {
 
     public void login() {
         if (verify()) {
-            store.putString(Keys.USER_NAME, name);
+            store.putString(Keys.USER, name);
             UserModel userModel = new UserModel();
             userModel.setUserName(name);
             try {
@@ -62,6 +64,7 @@ public class LoginViewModel {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            cookie.put(Keys.USER, userModel);
             loginView.loginSuccess();
         } else {
             loginView.loginFailed();

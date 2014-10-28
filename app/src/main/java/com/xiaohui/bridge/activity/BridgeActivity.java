@@ -18,21 +18,23 @@ import android.widget.TextView;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
 import com.xiaohui.bridge.model.BridgeModel;
+import com.xiaohui.bridge.model.ChildBridgeModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.util.LogUtil;
+
+import java.util.Iterator;
 
 
-public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
-    implements BridgesFragment.OnBridgeSelectListener {
+public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private BridgesFragment bridgesFragment;
-    private BridgeModel bridge;
-    private ExpandableListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        listView = (ExpandableListView) findViewById(R.id.elv_content);
+        ExpandableListView listView = (ExpandableListView) findViewById(R.id.elv_content);
         listView.setAdapter(adapter);
         //设置item点击的监听器
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -57,19 +59,12 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
                                         int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(BridgeActivity.this, DiseaseListActivity.class);
                 intent.putExtra("title", (String) adapter.getChild(groupPosition, childPosition));
-                intent.putExtra(Keys.KeySelectedComponentName, (String)adapter.getGroup(groupPosition));
-                intent.putExtra(Keys.KeySelectedPositionName, (String)adapter.getChild(groupPosition, childPosition));
+                intent.putExtra(Keys.KeySelectedComponentName, (String) adapter.getGroup(groupPosition));
+                intent.putExtra(Keys.KeySelectedPositionName, (String) adapter.getChild(groupPosition, childPosition));
                 startActivity(intent);
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onSelectedBridge(BridgeModel bridge) {
-        this.bridge = bridge;
-        getCookie().put(Keys.BRIDGE, bridge);
-        updateChildBridgeView();
     }
 
     @Override
@@ -93,11 +88,21 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateChildBridgeView() {
+    public void updateChildBridgeView() {
         RadioGroup rg = (RadioGroup) findViewById(R.id.rg_child_bridge);
         rg.removeAllViews();
-        for (int i = 0; i < bridge.getBridge().getChildBridges().size(); i++) {
-            ChildBridge childBridge = bridge.getBridge().getChildBridges().get(i);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                LogUtil.i("checkedId:" + checkedId);
+            }
+        });
+        BridgeModel bridge = (BridgeModel) getCookie().get(Keys.BRIDGE);
+        Iterator<ChildBridgeModel> iterator = bridge.getChildBridges().iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+            ChildBridgeModel childBridgeModel = iterator.next();
+            ChildBridge childBridge = childBridgeModel.getChildBridge();
             RadioButton rb = new RadioButton(this);
             rb.setText(childBridge.getName());
             rb.setTextSize(20);
@@ -114,6 +119,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
             if (i == 0) {
                 rg.check(rb.getId());
             }
+            i++;
         }
     }
 

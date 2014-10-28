@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Project;
+import com.xiaohui.bridge.model.ProjectModel;
 import com.xiaohui.bridge.viewmodel.ProjectDetailViewModel;
 import com.xiaohui.bridge.viewmodel.ProjectsViewModel;
 
@@ -18,7 +19,7 @@ public class ProjectDetailActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ProjectDetailViewModel viewModel = new ProjectDetailViewModel();
-        viewModel.setProject((Project) getCookie().get(Keys.PROJECT));
+        viewModel.setProject(((ProjectModel) getCookie().get(Keys.PROJECT)).getProject());
         setContentView(R.layout.activity_project_detail, viewModel);
         setTitle("项目详情");
     }

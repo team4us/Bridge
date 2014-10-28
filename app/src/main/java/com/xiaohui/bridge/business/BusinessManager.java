@@ -2,11 +2,14 @@ package com.xiaohui.bridge.business;
 
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
+import com.xiaohui.bridge.business.bean.Component;
 import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.model.ChildBridgeModel;
+import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.ProjectModel;
+import com.xiaohui.bridge.model.UserModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 
 import java.sql.SQLException;
@@ -36,14 +39,15 @@ public class BusinessManager {
             {"照明", "标志"}
     };
 
-    public void download(DatabaseHelper helper, String userName) {
+    public void download(DatabaseHelper helper, UserModel user) {
         List<Project> projects = StoreManager.Instance.getProjects();
         List<Bridge> bridges = StoreManager.Instance.getBridges();
         try {
             for (Project project : projects) {
                 ProjectModel projectModel = new ProjectModel();
                 projectModel.setProject(project);
-                projectModel.setUserName(userName);
+                projectModel.setUserName(user.getUserName());
+                projectModel.setUser(user);
                 helper.getProjectDao().create(projectModel);
 
                 for (Bridge bridge : bridges) {
@@ -54,7 +58,7 @@ public class BusinessManager {
                     helper.getBridgeDao().create(bridgeModel);
 
                     String[] names = {"左幅桥", "右幅桥"};
-                    for (int i=0 ; i<2; i++) {
+                    for (int i = 0; i < 2; i++) {
                         ChildBridge childBridge = new ChildBridge(names[i]);
                         childBridge.setCategory("梁式桥");
                         childBridge.setCount("10");
@@ -65,6 +69,17 @@ public class BusinessManager {
                         childBridgeModel.setChildBridge(childBridge);
                         childBridgeModel.setBridge(bridgeModel);
                         helper.getChildBridgeDao().create(childBridgeModel);
+                        for (int j = 0; j < generals.length; j++) {
+                            String[] componentNames = generals[j];
+                            for (int k = 0; k < componentNames.length; k++) {
+                                ComponentModel componentModel = new ComponentModel();
+                                Component component = new Component();
+                                component.setType(j);
+                                component.setName(componentNames[k]);
+                                componentModel.setComponent(component);
+                                componentModel.setChildBridge(childBridgeModel);
+                            }
+                        }
                     }
                 }
             }

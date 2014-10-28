@@ -4,6 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.xiaohui.bridge.business.BusinessManager;
 import com.xiaohui.bridge.model.ProjectModel;
+import com.xiaohui.bridge.model.UserModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IProjectView;
 
@@ -26,14 +27,14 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
     private final PresentationModelChangeSupport changeSupport;
     private IProjectView projectView;
     private DatabaseHelper helper;
-    private String userName;
+    private UserModel user;
     private BusinessManager businessManager;
     private List<ProjectModel> projects;
 
-    public ProjectsViewModel(IProjectView view, DatabaseHelper helper, String userName) {
+    public ProjectsViewModel(IProjectView view, DatabaseHelper helper, UserModel user) {
         projectView = view;
         this.helper = helper;
-        this.userName = userName;
+        this.user = user;
         this.changeSupport = new PresentationModelChangeSupport(this);
         this.businessManager = new BusinessManager();
     }
@@ -43,7 +44,7 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
         if (projects == null) {
             try {
                 QueryBuilder<ProjectModel, Integer> builder = helper.getProjectDao().queryBuilder();
-                builder.where().eq("userName", userName);
+                builder.where().eq("userName", user.getUserName());
                 builder.orderBy("Id", false);
                 projects = builder.query();
             } catch (SQLException e) {
@@ -67,7 +68,7 @@ public class ProjectsViewModel implements HasPresentationModelChangeSupport {
     }
 
     public void download() {
-        businessManager.download(helper, userName);
+        businessManager.download(helper, user);
         projects = null;
         changeSupport.firePropertyChange("projects");
     }

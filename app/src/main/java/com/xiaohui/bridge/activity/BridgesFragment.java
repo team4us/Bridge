@@ -18,6 +18,7 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.model.BridgeModel;
+import com.xiaohui.bridge.model.ProjectModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IBridgeView;
 import com.xiaohui.bridge.viewmodel.BridgesViewModel;
@@ -28,24 +29,13 @@ import com.xiaohui.bridge.viewmodel.BridgesViewModel;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class BridgesFragment extends AbstractFragment implements IBridgeView {
-    private OnBridgeSelectListener mCallbacks;
     private ActionBarDrawerToggle mDrawerToggle;
-
     private DrawerLayout mDrawerLayout;
     private View mFragmentContainerView;
 
     private BridgesViewModel viewModel;
 
     public BridgesFragment() {
-    }
-
-    public DatabaseHelper getDatabaseHelper() {
-        Activity activity = getActivity();
-        if (activity instanceof BridgeActivity) {
-            return ((BridgeActivity) activity).getHelper();
-        }
-
-        return null;
     }
 
     @Override
@@ -62,9 +52,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
     @Override
     protected BridgesViewModel getViewModel() {
         if (viewModel == null) {
-            Project project = (Project) getCookie().get(Keys.PROJECT);
-            viewModel = new BridgesViewModel(this,
-                    getDatabaseHelper().getBridgeDao(), project.getCode());
+            viewModel = new BridgesViewModel(this, getCookie());
         }
         return viewModel;
     }
@@ -91,7 +79,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        final Project project = (Project) getCookie().get(Keys.PROJECT);
+        final Project project = ((ProjectModel) getCookie().get(Keys.PROJECT)).getProject();
         setTitle(project.getName());
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -110,7 +98,7 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
                     return;
                 }
 
-                BridgeModel bridge = viewModel.getCurrentBridge();
+                BridgeModel bridge = viewModel.getCurrentBridgeModel();
                 setTitle(bridge.getBridge().getName());
 
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
@@ -138,22 +126,6 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mCallbacks = (OnBridgeSelectListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mCallbacks = null;
     }
 
     @Override
@@ -185,12 +157,9 @@ public class BridgesFragment extends AbstractFragment implements IBridgeView {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
 
-        if (mCallbacks != null) {
-            mCallbacks.onSelectedBridge(viewModel.getCurrentBridge());
+        Activity activity = getActivity();
+        if (activity instanceof BridgeActivity) {
+            ((BridgeActivity) activity).updateChildBridgeView();
         }
-    }
-
-    public static interface OnBridgeSelectListener {
-        void onSelectedBridge(BridgeModel bridge);
     }
 }

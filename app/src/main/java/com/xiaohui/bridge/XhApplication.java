@@ -49,10 +49,10 @@ public class XhApplication extends Application {
     }
 
     public String getCurrentUserName() {
-        return store.getString(Keys.USER_NAME, DEFAULT_USER_NAME);
+        return store.getString(Keys.USER, DEFAULT_USER_NAME);
     }
 
     public void setCurrentUserName(String userName) {
-        store.putString(Keys.USER_NAME, userName);
+        store.putString(Keys.USER, userName);
     }
 }
