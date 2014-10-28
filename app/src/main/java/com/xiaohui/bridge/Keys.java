@@ -24,6 +24,7 @@ public final class Keys {
     public static final int RequestCodeTakeRecord = 4;
     public static final int RequestCodeTakeMovie = 5;
     public static final int RequestCodeShowImage = 6;
+    public static final int RequestCodeCoordinate = 7;
 
     public static final int ResultCodeFailed = 0;
     public static final int ResultCodeSuccess = 1;

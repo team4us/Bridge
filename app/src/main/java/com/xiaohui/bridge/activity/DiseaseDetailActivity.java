@@ -53,6 +53,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 多种病害输入模板基类
@@ -111,12 +112,12 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
         isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
         setTitle(isNewDisease ? "病害新增" : "病害编辑");
 
-        componentModel = (ComponentModel)getCookie().get(Keys.COMPONENT);
+        componentModel = (ComponentModel) getCookie().get(Keys.COMPONENT);
         componentName = componentModel.getComponent().getName();
         positionName = componentModel.getBlock().getBlock().getName();
 
-        if(!isNewDisease) {
-            diseaseModel = (DiseaseModel)getCookie().get(Keys.DISEASE);
+        if (!isNewDisease) {
+            diseaseModel = (DiseaseModel) getCookie().get(Keys.DISEASE);
             diseaseDetail = diseaseModel.getDisease();
             initInputTemplateView(diseaseDetail.getInputMethod().getResID());
         } else {
@@ -133,7 +134,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
         initGridView();
     }
 
-    private void initInputTemplateView(int resid){
+    private void initInputTemplateView(int resid) {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inputTemplateView = inflater.inflate(resid == 0 ? R.layout.view_disease_input_1 : resid, null);
     }
@@ -173,7 +174,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    if(isNewDisease) {
+                    if (isNewDisease) {
                         rbRadioButton1.setChecked(true);
                     }
                     rbRadioButton1.setVisibility(View.VISIBLE);
@@ -185,7 +186,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
                     rbRadioButton2.setVisibility(View.GONE);
                     rbRadioButton4.setVisibility(View.GONE);
                 } else {
-                    if(isNewDisease) {
+                    if (isNewDisease) {
                         rbRadioButton2.setChecked(true);
                     }
                     rbRadioButton2.setVisibility(View.VISIBLE);
@@ -212,7 +213,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
             }
         });
 
-        if(!isNewDisease) {
+        if (!isNewDisease) {
             for (int i = 0; i < StoreManager.Instance.diseaseTypes.length; i++) {
                 if (diseaseDetail.getDiseaseType().equals(StoreManager.Instance.diseaseTypes[i])) {
                     spChooseDiseaseType.setSelection(i);
@@ -234,26 +235,26 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
                 llInputTemplate.addView(inputTemplateView);
 
                 // 匹配当前的录入模板是否和原本的数据模板相同，如果相同，那么初始化视图中的数据，如果不同，什么都不做
-                if(!isNewDisease && null != diseaseDetail && nowInputMethod.getId() == diseaseDetail.getInputMethod().getId()){
+                if (!isNewDisease && null != diseaseDetail && nowInputMethod.getId() == diseaseDetail.getInputMethod().getId()) {
                     String[] keys = nowInputMethod.getInputTitles();
-                    for(int j = 0; j< keys.length ; j ++){
+                    for (int j = 0; j < keys.length; j++) {
                         StringBuilder builder = new StringBuilder("et_");
                         builder.append(keys[j]);
                         EditText et = (EditText) inputTemplateView.findViewById(getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME));
-                        et.setText((String)diseaseDetail.getInputMethodValues().get(keys[j]));
+                        et.setText((String) diseaseDetail.getInputMethodValues().get(keys[j]));
                     }
                 }
                 // 初始化方法一和方法二的点击图片选择坐标点的图标点击事件
                 int imageid = getResources().getIdentifier("btn_add_position_from_screen", "id", BuildConfig.PACKAGE_NAME);
-                if(imageid > 0){
+                if (imageid > 0) {
                     ImageView iv = (ImageView) inputTemplateView.findViewById(imageid);
-                    if(null != iv) {
+                    if (null != iv) {
                         iv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent();
                                 intent.setClass(DiseaseDetailActivity.this, CoordinateActivity.class);
-                                startActivity(intent);
+                                startActivityForResult(intent, Keys.RequestCodeCoordinate);
                             }
                         });
                     }
@@ -261,7 +262,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
             }
         });
 
-        if(!isNewDisease) {
+        if (!isNewDisease) {
             StringBuilder builder = new StringBuilder("rb_input_");
             builder.append(diseaseDetail.getInputMethod().getId());
             int xx = getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME);
@@ -269,10 +270,10 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
         }
     }
 
-    private Map<String, Object> getCurrentValues(){
-        String[] keys = ((EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag()).getInputTitles();
+    private Map<String, Object> getCurrentValues() {
+        String[] keys = ((EDiseaseInputMethod) findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag()).getInputTitles();
         HashMap<String, Object> values = new HashMap<String, Object>();
-        for(int j = 0; j< keys.length ; j ++){
+        for (int j = 0; j < keys.length; j++) {
             StringBuilder builder = new StringBuilder("et_");
             builder.append(keys[j]);
             EditText et = (EditText) inputTemplateView.findViewById(getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME));
@@ -281,13 +282,13 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
         return values;
     }
 
-    private void saveDiseaseDetail(){
-        EDiseaseInputMethod type = (EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag();
+    private void saveDiseaseDetail() {
+        EDiseaseInputMethod type = (EDiseaseInputMethod) findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag();
         Map<String, Object> values = getCurrentValues();
 
-        if(isHaveEmptyData(values, type)){
+        if (isHaveEmptyData(values, type)) {
             Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
-            return ;
+            return;
         }
 
         diseaseDetail.setComponentName(componentName);
@@ -301,7 +302,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
 
         diseaseModel.setDisease(diseaseDetail);
 
-        if(isNewDisease){
+        if (isNewDisease) {
             try {
                 getHelper().getDiseaseDao().create(diseaseModel);
                 Toast.makeText(this, "新增成功", Toast.LENGTH_SHORT).show();
@@ -322,20 +323,20 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
         }
     }
 
-    private void initMediaResource(){
-        if(!isNewDisease){
+    private void initMediaResource() {
+        if (!isNewDisease) {
             picturesList = diseaseDetail.getPictureList();
             Bimp.drr = picturesList;
-            for(int i =0 ; i < diseaseDetail.getRecordList().size(); i ++){
+            for (int i = 0; i < diseaseDetail.getRecordList().size(); i++) {
                 addMediaFile(diseaseDetail.getRecordList().get(i), true);
             }
-            for(int i =0 ; i < diseaseDetail.getVideoList().size(); i ++){
+            for (int i = 0; i < diseaseDetail.getVideoList().size(); i++) {
                 addMediaFile(diseaseDetail.getVideoList().get(i), false);
             }
         }
     }
 
-    public boolean isHaveEmptyData(Map<String, Object> values, EDiseaseInputMethod method){
+    public boolean isHaveEmptyData(Map<String, Object> values, EDiseaseInputMethod method) {
 //        if(null == values || values.size() == 0){
 //            return true;
 //        }
@@ -414,7 +415,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
         llMediaTypes.addView(addMediaIcon(AddVideoTag, R.drawable.bg_add_movie));
     }
 
-    private View addMediaIcon(String tag, int imageid){
+    private View addMediaIcon(String tag, int imageid) {
         LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(iconWidth, iconWidth);
         addIconLP.setMargins(5, 0, 5, 0);
 
@@ -428,7 +429,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
     }
 
     protected void onRestart() {
-        if(Bimp.drr.size() > 0){
+        if (Bimp.drr.size() > 0) {
             viewPictureDivider.setVisibility(View.VISIBLE);
         } else {
             viewPictureDivider.setVisibility(View.GONE);
@@ -446,7 +447,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
                 if (Bimp.drr.size() < 9 && resultCode == -1) {
                     picturesList.clear();
                     Bimp.drr.add(path);
-                    for(int i =0; i < Bimp.drr.size(); i ++){
+                    for (int i = 0; i < Bimp.drr.size(); i++) {
                         picturesList.add(Bimp.drr.get(i));
                     }
                 }
@@ -469,7 +470,30 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
                     addMediaFile(videoPath, false);
                 }
                 break;
+            case Keys.RequestCodeCoordinate:
+                View view = inputTemplateView.findViewById(R.id.et_startpoint);
+                if (view != null) {
+
+                    String startPoint = random() + "," + random();
+                    ((EditText) view).setText(startPoint);
+
+                    EditText editText = (EditText) inputTemplateView.findViewById(R.id.et_endpoint);
+                    String endPoint = random() + "," + random();
+                    editText.setText(endPoint);
+                } else {
+                    view = inputTemplateView.findViewById(R.id.et_position);
+                    if (view != null) {
+                        EditText editText = (EditText) view;
+                        String endPoint = random() + "," + random();
+                        editText.setText(endPoint);
+                    }
+                }
+                break;
         }
+    }
+
+    private int random() {
+        return 1 + (int)(Math.random()*15);
     }
 
     private void addVoiceRecord() {
@@ -499,7 +523,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(v.getTag().toString().contains("Voice")){
+                        if (v.getTag().toString().contains("Voice")) {
                             llVoiceRecords.removeView(v);
                             recordsList.remove(filePath);
                         } else {
@@ -522,7 +546,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
             llVoiceRecords.setLayoutParams(layoutLP);
             addPhotoIcon.setBackgroundResource(R.drawable.icon_voice);
             llVoiceRecords.addView(addPhotoIcon, addIconLP);
-            if(llVoiceRecords.getChildCount() > 0){
+            if (llVoiceRecords.getChildCount() > 0) {
                 viewVoiceDivider.setVisibility(View.VISIBLE);
             } else {
                 viewVoiceDivider.setVisibility(View.GONE);
@@ -532,7 +556,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
             llVideoRecords.setLayoutParams(layoutLP);
             addPhotoIcon.setBackgroundResource(R.drawable.icon_vedio);
             llVideoRecords.addView(addPhotoIcon, addIconLP);
-            if(llVideoRecords.getChildCount() > 0){
+            if (llVideoRecords.getChildCount() > 0) {
                 viewVideoDivider.setVisibility(View.VISIBLE);
             } else {
                 viewVideoDivider.setVisibility(View.GONE);

@@ -16,7 +16,7 @@ import java.util.List;
 public class UserModel {
     @DatabaseField(generatedId = true)
     private int id;
-    @DatabaseField(uniqueIndex = true)
+    @DatabaseField
     private String userName;
     @ForeignCollectionField(eager = true)
     private ForeignCollection<ProjectModel> projects;
