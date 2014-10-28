@@ -106,7 +106,6 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
 
     private Disease diseaseDetail;
     private View inputTemplateView;
-    private ComponentModel componentModel;
     private DiseaseModel diseaseModel;
 
     @Override
@@ -116,18 +115,19 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
         isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
         setTitle(isNewDisease ? "病害新增" : "病害编辑");
 
-        componentModel = (ComponentModel)getCookie().get(Keys.COMPONENT);
+        ComponentModel componentModel = (ComponentModel)getCookie().get(Keys.COMPONENT);
         componentName = componentModel.getComponent().getName();
         positionName = componentModel.getBlock().getBlock().getName();
+
         if(!isNewDisease) {
             diseaseModel = (DiseaseModel)getCookie().get(Keys.DISEASE);
             diseaseDetail = diseaseModel.getDisease();
-        }
-
-        if(isNewDisease){
-            initInputTemplateView(0);
-        } else {
             initInputTemplateView(diseaseDetail.getInputMethod().getResID());
+        } else {
+            diseaseModel = new DiseaseModel();
+            diseaseDetail = new Disease();
+            diseaseModel.setComponent(componentModel);
+            initInputTemplateView(0);
         }
 
         llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
@@ -312,20 +312,16 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
             return ;
         }
 
-        Disease newDisease = new Disease();
-        newDisease.setComponentName(componentName);
-        newDisease.setPosition(positionName);
-        newDisease.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
-        newDisease.setInputMethod(type);
-        newDisease.setInputMethodValues(values);
-        newDisease.setPictureList(picturesList);
-        newDisease.setRecordList(recordsList);
-        newDisease.setVideoList(videosList);
+        diseaseDetail.setComponentName(componentName);
+        diseaseDetail.setPosition(positionName);
+        diseaseDetail.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
+        diseaseDetail.setInputMethod(type);
+        diseaseDetail.setInputMethodValues(values);
+        diseaseDetail.setPictureList(picturesList);
+        diseaseDetail.setRecordList(recordsList);
+        diseaseDetail.setVideoList(videosList);
 
-        DiseaseModel diseaseModel = new DiseaseModel();
-        diseaseModel.setDisease(newDisease);
-        // TODO 这里的这个组件需要添加
-        diseaseModel.setComponent(componentModel);
+        diseaseModel.setDisease(diseaseDetail);
 
         // 新增
         if(isNewDisease){
@@ -349,10 +345,6 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
             }
         }
     }
-
-
-
-
 
     private void initMediaResource(){
         if(!isNewDisease){
@@ -389,14 +381,11 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_disease_save) {
             saveDiseaseDetail();
         } else if (id == R.id.action_disease_cancel) {
-            // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
-            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+            this.finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
