@@ -39,14 +39,15 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
 import com.xiaohui.bridge.business.store.StoreManager;
-import com.xiaohui.bridge.model.DiseaseModel;
-import com.xiaohui.bridge.storage.DatabaseHelper;
-import com.xiaohui.bridge.util.DeviceParamterUtil;
 import com.xiaohui.bridge.component.MyGridView;
 import com.xiaohui.bridge.component.PickPicture.Bimp;
 import com.xiaohui.bridge.component.PickPicture.FileUtils;
 import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.component.PickPicture.TestPicActivity;
+import com.xiaohui.bridge.model.ComponentModel;
+import com.xiaohui.bridge.model.DiseaseModel;
+import com.xiaohui.bridge.storage.DatabaseHelper;
+import com.xiaohui.bridge.util.DeviceParamterUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,7 +96,6 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
 
     private String path = "";
 
-    private int selectIndex = -1;
     private ArrayList<String> picturesList = new ArrayList<String>();
     private ArrayList<String> recordsList = new ArrayList<String>();
     private ArrayList<String> videosList = new ArrayList<String>();
@@ -106,19 +106,22 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
 
     private Disease diseaseDetail;
     private View inputTemplateView;
+    private ComponentModel componentModel;
+    private DiseaseModel diseaseModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_detail);
         isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
-        selectIndex = getIntent().getIntExtra(Keys.KeySelectedIndex, -1);
         setTitle(isNewDisease ? "病害新增" : "病害编辑");
 
-        componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
-        positionName = getIntent().getExtras().getString(Keys.KeySelectedPositionName);
+        componentModel = (ComponentModel)getCookie().get(Keys.COMPONENT);
+        componentName = componentModel.getComponent().getName();
+        positionName = componentModel.getBlock().getBlock().getName();
         if(!isNewDisease) {
-            diseaseDetail = StoreManager.Instance.getDiseasesList().get(selectIndex);
+            diseaseModel = (DiseaseModel)getCookie().get(Keys.DISEASE);
+            diseaseDetail = diseaseModel.getDisease();
         }
 
         if(isNewDisease){
@@ -233,7 +236,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
 
         if(!isNewDisease) {
             for (int i = 0; i < StoreManager.Instance.diseaseTypes.length; i++) {
-                if (StoreManager.Instance.getDiseasesList().get(selectIndex).getDiseaseType().equals(StoreManager.Instance.diseaseTypes[i])) {
+                if (diseaseDetail.getDiseaseType().equals(StoreManager.Instance.diseaseTypes[i])) {
                     spChooseDiseaseType.setSelection(i);
                     break;
                 }
@@ -322,7 +325,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity implements Vi
         DiseaseModel diseaseModel = new DiseaseModel();
         diseaseModel.setDisease(newDisease);
         // TODO 这里的这个组件需要添加
-        diseaseModel.setComponent(null);
+        diseaseModel.setComponent(componentModel);
 
         // 新增
         if(isNewDisease){
