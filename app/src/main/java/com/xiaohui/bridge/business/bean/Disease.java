@@ -83,17 +83,4 @@ public class Disease implements Serializable {
     public ArrayList<String> getVideoList() {
         return videoList;
     }
-
-    public boolean isHaveEmptyData(){
-        if(null == getInputMethodValues() || getInputMethodValues().size() == 0){
-            return true;
-        }
-        for(int i = 0; i < getInputMethod().getInputTitles().length; i ++){
-            if(!getInputMethod().getInputTitles()[i].equals("moreinfo") &&
-                    ((String)getInputMethodValues().get(getInputMethod().getInputTitles()[i])).isEmpty()){
-                return true;
-            }
-        }
-        return false;
-    }
 }
