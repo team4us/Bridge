@@ -15,6 +15,10 @@ public class ProjectModel {
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Project project;
 
+    public int getId() {
+        return id;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
