@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.util.BitmapUtil;
 import com.xiaohui.bridge.view.ZoomImage.ZoomableImageView;
 
@@ -24,7 +24,7 @@ public class ShowImageActivity extends AbstractActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_image);
         ivImage = (ZoomableImageView) findViewById(R.id.iv_image);
-        picPath = getIntent().getExtras().getString(KeyStore.KeyContent);
+        picPath = getIntent().getExtras().getString(Keys.KeyContent);
 
         initToShowImage();
     }
@@ -41,8 +41,8 @@ public class ShowImageActivity extends AbstractActivity{
 
         if (id == R.id.action_delete_image) {
             Intent intent = new Intent();
-            intent.putExtra(KeyStore.KeyContent, picPath);
-            setResult(KeyStore.ResultCodeDelete, intent);
+            intent.putExtra(Keys.KeyContent, picPath);
+            setResult(Keys.ResultCodeDelete, intent);
             this.finish();
             return true;
         }

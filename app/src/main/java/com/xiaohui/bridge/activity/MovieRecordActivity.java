@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -157,8 +157,8 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
                 }
             }
             Intent intent = new Intent();
-            intent.putExtra(KeyStore.KeyContent, fileName);
-            setResult(KeyStore.ResultCodeSuccess, intent);
+            intent.putExtra(Keys.KeyContent, fileName);
+            setResult(Keys.ResultCodeSuccess, intent);
             this.finish();
         }
     }

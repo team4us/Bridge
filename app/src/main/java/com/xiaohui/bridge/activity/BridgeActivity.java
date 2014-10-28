@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +20,9 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
-import com.xiaohui.bridge.view.IProjectView;
 
 
 public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
@@ -60,8 +58,8 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper>
                                         int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(BridgeActivity.this, DiseaseListActivity.class);
                 intent.putExtra("title", (String) adapter.getChild(groupPosition, childPosition));
-                intent.putExtra(KeyStore.KeySelectedComponentName, (String)adapter.getGroup(groupPosition));
-                intent.putExtra(KeyStore.KeySelectedPositionName, (String)adapter.getChild(groupPosition, childPosition));
+                intent.putExtra(Keys.KeySelectedComponentName, (String)adapter.getGroup(groupPosition));
+                intent.putExtra(Keys.KeySelectedPositionName, (String)adapter.getChild(groupPosition, childPosition));
                 startActivity(intent);
                 return false;
             }

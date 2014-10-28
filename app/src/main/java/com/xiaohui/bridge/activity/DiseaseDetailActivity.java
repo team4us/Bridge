@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,19 +34,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.DiseasesModel;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseBaseInputTemplate;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate1;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate2;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate3;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate4;
-import com.xiaohui.bridge.view.DiseaseInputTemplateView.DiseaseInputTemplate5;
 import com.xiaohui.bridge.view.MyGridView;
 import com.xiaohui.bridge.view.PickPicture.Bimp;
 import com.xiaohui.bridge.view.PickPicture.FileUtils;
@@ -90,7 +86,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private View viewPictureDivider;
     private View viewVoiceDivider;
     private View viewVideoDivider;
-    private DiseaseBaseInputTemplate inputTemplate;
 
     private GridAdapter mgvPicturesAdapter;
     private int iconWidth = DeviceParamterUtil.dip2px(60);
@@ -107,16 +102,28 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private String componentName;
     private String positionName;
 
+    private DiseasesModel diseaseDetail;
+    private View inputTemplateView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disease_detail);
         isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
-        selectIndex = getIntent().getIntExtra(KeyStore.KeySelectedIndex, -1);
+        selectIndex = getIntent().getIntExtra(Keys.KeySelectedIndex, -1);
         setTitle(isNewDisease ? "病害新增" : "病害编辑");
 
-        componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
-        positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
+        componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
+        positionName = getIntent().getExtras().getString(Keys.KeySelectedPositionName);
+        if(!isNewDisease) {
+            diseaseDetail = StoreManager.Instance.getDiseasesList().get(selectIndex);
+        }
+
+        if(isNewDisease){
+            initInputTemplateView(0);
+        } else {
+            initInputTemplateView(diseaseDetail.getInputMethod().getResID());
+        }
 
         llMediaTypes = (LinearLayout) findViewById(R.id.ll_media_types);
         llVoiceRecrds = (LinearLayout) findViewById(R.id.ll_voice_record);
@@ -146,24 +153,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         initGridView();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.disease_detail_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_disease_save) {
-            saveDiseaseDetail();
-        } else if (id == R.id.action_disease_cancel) {
-            // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
-            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
-        }
-
-        return super.onOptionsItemSelected(item);
+    private void initInputTemplateView(int resid){
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inputTemplateView = inflater.inflate(resid == 0 ? R.layout.view_disease_input_1 : resid, null);
     }
 
     private void initDiseaseDetailView() {
@@ -196,8 +188,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position == 0) {
-                    inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
-                    rbRadioButton1.setChecked(true);
+                    if(isNewDisease) {
+                        rbRadioButton1.setChecked(true);
+                    }
                     rbRadioButton1.setVisibility(View.VISIBLE);
                     rbRadioButton1.setText("详细记录");
                     rbRadioButton3.setVisibility(View.VISIBLE);
@@ -207,8 +200,9 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
                     rbRadioButton2.setVisibility(View.GONE);
                     rbRadioButton4.setVisibility(View.GONE);
                 } else {
-                    inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
-                    rbRadioButton2.setChecked(true);
+                    if(isNewDisease) {
+                        rbRadioButton2.setChecked(true);
+                    }
                     rbRadioButton2.setVisibility(View.VISIBLE);
                     rbRadioButton2.setText("详细记录");
                     rbRadioButton4.setVisibility(View.VISIBLE);
@@ -242,52 +236,111 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
             }
         }
 
-        llInputTemplate.addView(new DiseaseInputTemplate1(DiseaseDetailActivity.this));
+        llInputTemplate.addView(inputTemplateView);
         rgRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int radioButtonId = radioGroup.getCheckedRadioButtonId();
                 RadioButton rb = (RadioButton) DiseaseDetailActivity.this.findViewById(radioButtonId);
                 llInputTemplate.removeAllViews();
+                // 初始化成相应的录入模板
+                EDiseaseInputMethod nowInputMethod = (EDiseaseInputMethod) rb.getTag();
+                initInputTemplateView(nowInputMethod.getResID());
+                llInputTemplate.addView(inputTemplateView);
 
-                String[] keys = ((EDiseaseInputMethod) rb.getTag()).getInputTitles();
-
-
-
-
-
-//                switch (id) {
-//                    case 1:
-//                        inputTemplate = new DiseaseInputTemplate1(DiseaseDetailActivity.this);
-//                        break;
-//                    case 2:
-//                        inputTemplate = new DiseaseInputTemplate2(DiseaseDetailActivity.this);
-//                        break;
-//                    case 3:
-//                        inputTemplate = new DiseaseInputTemplate3(DiseaseDetailActivity.this);
-//                        break;
-//                    case 4:
-//                        inputTemplate = new DiseaseInputTemplate4(DiseaseDetailActivity.this);
-//                        break;
-//                    case 5:
-//                        inputTemplate = new DiseaseInputTemplate5(DiseaseDetailActivity.this);
-//                        break;
-//                }
-
-                llInputTemplate.addView(inputTemplate);
+                // 匹配当前的录入模板是否和原本的数据模板相同，如果相同，那么初始化视图中的数据，如果不同，什么都不做
+                if(!isNewDisease && null != diseaseDetail && nowInputMethod.getId() == diseaseDetail.getInputMethod().getId()){
+                    String[] keys = nowInputMethod.getInputTitles();
+                    for(int j = 0; j< keys.length ; j ++){
+                        StringBuilder builder = new StringBuilder("et_");
+                        builder.append(keys[j]);
+                        EditText et = (EditText) inputTemplateView.findViewById(getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME));
+                        et.setText((String)diseaseDetail.getInputMethodValues().get(keys[j]));
+                    }
+                }
+                int imageid = getResources().getIdentifier("btn_add_position_from_screen", "id", BuildConfig.PACKAGE_NAME);
+                if(imageid > 0){
+                    ImageView iv = (ImageView) inputTemplateView.findViewById(imageid);
+                    if(null != iv) {
+                        iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setClass(DiseaseDetailActivity.this, CoordinateActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }
             }
         });
+
+        if(!isNewDisease) {
+            StringBuilder builder = new StringBuilder("rb_input_");
+            builder.append(diseaseDetail.getInputMethod().getId());
+            int xx = getResources().getIdentifier(builder.toString(), "id", BuildConfig.PACKAGE_NAME);
+            rgRadioGroup.check(xx);
+        }
     }
 
-    private LinearLayout getInputView(String key, String value) {
-        LinearLayout ll = new LinearLayout(this);
-        TextView tv = new TextView(this);
-        tv.setText(key);
-        EditText et = new EditText(this);
-        et.setText(value);
-        ll.addView(tv);
-        ll.addView(et);
-        return ll;
+    private void saveDiseaseDetail(){
+//        if(isNewDisease){
+//            diseaseDetail = new DiseasesModel();
+//            diseaseDetail.setComponentName(componentName);
+//            diseaseDetail.setPosition(positionName);
+//            diseaseDetail.setInputMethod((EDiseaseInputMethod)findViewById(rgRadioGroup.getCheckedRadioButtonId()).getTag());
+//        }
+
+        if(diseaseDetail.isHaveEmptyData()){
+            Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
+            return ;
+        }
+
+        DiseasesModel diseasesModel = new DiseasesModel();
+        diseasesModel.setComponentName(componentName);
+        diseasesModel.setPosition(positionName);
+        diseasesModel.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
+//        diseasesModel.set
+//        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
+        diseasesModel.setPictureList(picturesList);
+        diseasesModel.setRecordList(recordsList);
+        diseasesModel.setVideoList(videosList);
+        StoreManager.Instance.addDiseaseModel(diseasesModel);
+        this.finish();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.disease_detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_disease_save) {
+            saveDiseaseDetail();
+        } else if (id == R.id.action_disease_cancel) {
+            // TODO 这里需要弹出个提示框问是否确定要退出，因为可能是误触
+            Toast.makeText(this, "取消", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initGridView() {
@@ -343,25 +396,6 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         llMediaTypes.addView(addVideoIcon);
     }
 
-    private void saveDiseaseDetail(){
-        if(inputTemplate.isHasEmptyData()){
-            Toast.makeText(this, "请输入全部数据！", Toast.LENGTH_SHORT).show();
-            return ;
-        }
-
-        DiseasesModel diseasesModel = new DiseasesModel();
-        diseasesModel.setComponentName(componentName);
-        diseasesModel.setPosition(positionName);
-        diseasesModel.setDiseaseType(StoreManager.Instance.diseaseTypes[spChooseDiseaseType.getSelectedItemPosition()]);
-//        diseasesModel.set
-//        diseasesModel.setDiseaseInputMethod(inputTemplate.getInputModel());
-        diseasesModel.setPictureList(picturesList);
-        diseasesModel.setRecordList(recordsList);
-        diseasesModel.setVideoList(videosList);
-        StoreManager.Instance.addDiseaseModel(diseasesModel);
-        this.finish();
-    }
-
     protected void onRestart() {
         if(Bimp.drr.size() > 0){
             viewPictureDivider.setVisibility(View.VISIBLE);
@@ -377,25 +411,25 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case KeyStore.RequestCodeTakePicture:
+            case Keys.RequestCodeTakePicture:
                 if (Bimp.drr.size() < 9 && resultCode == -1) {
                     Bimp.drr.add(path);
                 }
                 break;
-            case KeyStore.RequestCodeTakeRecord:
-                if (null != data && null != data.getExtras()) {
-                    String recordPath = data.getExtras().getString(KeyStore.KeyContent);
+            case Keys.RequestCodeTakeRecord:
+                if (resultCode == Keys.ResultCodeSuccess && null != data && null != data.getExtras()) {
+                    String recordPath = data.getExtras().getString(Keys.KeyContent);
                     if (!TextUtils.isEmpty(recordPath)) {
                         addMediaFile(recordPath, true);
                     }
                 }
                 break;
 
-            case KeyStore.RequestCodeTakeMovie:
-                if (resultCode != KeyStore.ResultCodeSuccess || null == data.getExtras()) {
+            case Keys.RequestCodeTakeMovie:
+                if (resultCode != Keys.ResultCodeSuccess || null == data.getExtras()) {
                     return;
                 }
-                String videoPath = data.getExtras().getString(KeyStore.KeyContent);
+                String videoPath = data.getExtras().getString(Keys.KeyContent);
                 if (!TextUtils.isEmpty(videoPath)) {
                     addMediaFile(videoPath, false);
                 }
@@ -406,7 +440,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private void addVoiceRecord() {
         Intent intent = new Intent();
         intent.setClass(this, VoiceRecordActivity.class);
-        startActivityForResult(intent, KeyStore.RequestCodeTakeRecord);
+        startActivityForResult(intent, Keys.RequestCodeTakeRecord);
     }
 
     /**
@@ -471,7 +505,7 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
     private void addMovie() {
         Intent intent = new Intent();
         intent.setClass(this, MovieRecordActivity.class);
-        startActivityForResult(intent, KeyStore.RequestCodeTakeMovie);
+        startActivityForResult(intent, Keys.RequestCodeTakeMovie);
     }
 
     protected void takePhotoFromCamera() {
@@ -482,13 +516,13 @@ public class DiseaseDetailActivity extends AbstractActivity implements View.OnCl
         path = file.getPath();
         Uri imageUri = Uri.fromFile(file);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(openCameraIntent, KeyStore.RequestCodeTakePicture);
+        startActivityForResult(openCameraIntent, Keys.RequestCodeTakePicture);
     }
 
     protected void pickPhotoFromGallery() {
         Intent intent = new Intent(DiseaseDetailActivity.this,
                 TestPicActivity.class);
-        startActivityForResult(intent, KeyStore.RequestCodePickPicture);
+        startActivityForResult(intent, Keys.RequestCodePickPicture);
     }
 
     @Override

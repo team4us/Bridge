@@ -1,9 +1,8 @@
 package com.xiaohui.bridge.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +12,7 @@ import android.widget.ListView;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.business.store.KeyStore;
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.store.StoreManager;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import java.util.List;
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class DiseaseListActivity extends AbstractActivity implements AdapterView.OnItemClickListener{
     private ListView diseaseListView;
     private String componentName;
     private String positionName;
@@ -34,15 +33,15 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
         setContentView(R.layout.activity_disease_list);
         StoreManager.Instance.initDiseasesModelList(componentName, positionName);
 
-        componentName = getIntent().getExtras().getString(KeyStore.KeySelectedComponentName);
-        positionName = getIntent().getExtras().getString(KeyStore.KeySelectedPositionName);
+        componentName = getIntent().getExtras().getString(Keys.KeySelectedComponentName);
+        positionName = getIntent().getExtras().getString(Keys.KeySelectedPositionName);
 
         setTitle(getIntent().getStringExtra("title") + "病害列表");
 
         diseaseListView = (ListView) findViewById(R.id.lv_disease);
         diseaseListView.setAdapter(new ArrayAdapter<String>(this, R.layout.view_disease_item, getData()));
         diseaseListView.setOnItemClickListener(this);
-        diseaseListView.setOnItemLongClickListener(this);
+        registerForContextMenu(diseaseListView);
     }
 
     private List<String> getData() {
@@ -52,6 +51,24 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
             data.add((i + 1) + " " + StoreManager.Instance.getDiseasesList().get(i).getDiseaseType());
         }
         return data;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_copy:
+                break;
+            case R.id.action_delete:
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle(getString(R.string.action_operate_tips));
+        getMenuInflater().inflate(R.menu.diseaselist_menu, menu);
     }
 
     @Override
@@ -93,29 +110,9 @@ public class DiseaseListActivity extends AbstractActivity implements AdapterView
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, DiseaseDetailActivity.class);
         intent.putExtra(Keys.FLAG, false); //是否为新增
-        intent.putExtra(KeyStore.KeySelectedIndex, position);
+        intent.putExtra(Keys.KeySelectedIndex, position);
         intent.putExtras(getIntent().getExtras());
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseListActivity.this);
-        builder.setMessage("你想做什么操作？");
-        builder.setTitle("提示");
-        builder.setPositiveButton("复制", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        builder.create().show();
-        return true;
     }
 
 }
