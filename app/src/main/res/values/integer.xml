@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="disease_method_1">
+        <item>0x00111000</item><!--[1.1]剥落露筋-->
+        <item>0x00100111</item><!--[1.2]裂缝-->
+        <item>0x00111000</item><!--[1.3]剥落-->
+        <item>0x00111000</item><!--[1.4]空洞-->
+        <item>0x00111000</item><!--[1.5]孔洞-->
+        <item>0x00111000</item><!--[1.6]蜂窝-->
+        <item>0x00111000</item><!--[1.7]麻面-->
+        <item>0x00111000</item><!--[1.8]磨损-->
+        <item>0x00100000</item><!--[1.9]挠度-->
+        <item>0x00100000</item><!--[1.10]变位-->
+        <item>0x00100000</item><!--[1.11]预应力构件损伤-->
+        <item>0x00100000</item><!--[1.12]保护层厚度-->
+        <item>0x00100000</item><!--[1.13]钢筋锈蚀-->
+        <item>0x00100000</item><!--[1.14]混凝土碳化-->
+        <item>0x00100000</item><!--[1.15]混凝土强度-->
+    </integer-array>
+
+    <integer-array name="disease_method_2">
+        <item>0x00111000</item><!--[2.1]剥落露筋-->
+        <item>0x00100111</item><!--[2.2]裂缝-->
+        <item>0x00111000</item><!--[2.3]剥落-->
+        <item>0x00111000</item><!--[2.4]空洞-->
+        <item>0x00111000</item><!--[2.5]孔洞-->
+        <item>0x00111000</item><!--[2.6]蜂窝-->
+        <item>0x00111000</item><!--[2.7]麻面-->
+        <item>0x00111000</item><!--[2.8]磨损-->
+        <item>0x00100000</item><!--[2.9]挠度-->
+        <item>0x00100000</item><!--[2.10]变位-->
+        <item>0x00100000</item><!--[2.12]保护层厚度-->
+        <item>0x00100000</item><!--[2.13]钢筋锈蚀-->
+        <item>0x00100000</item><!--[2.14]混凝土碳化-->
+        <item>0x00100000</item><!--[2.15]混凝土强度-->
+    </integer-array>
+
+    <integer-array name="disease_method_3">
+        <item>0x00100000</item><!--[3.1]脱空-->
+        <item>0x00100000</item><!--[3.2]剪切变形-->
+        <item>0x00100000</item><!--[3.3]板式支座老化、开裂-->
+        <item>0x00100000</item><!--[3.4]板式支座外鼓-->
+        <item>0x00100000</item><!--[3.5]板式支座外鼓、钢板外露-->
+        <item>0x00100000</item><!--[3.6]盆式支座组件损坏-->
+        <item>0x00100000</item><!--[3.7]聚四氟乙烯滑板磨损-->
+        <item>0x00100000</item><!--[3.8]盆式支座位移-->
+        <item>0x00100000</item><!--[3.9]位移-->
+        <item>0x00100000</item><!--[3.10]转角-->
+        <item>0x00100000</item><!--[3.11]钢支座缺陷-->
+        <item>0x00100000</item><!--[3.12]钢支座部件裂缝-->
+    </integer-array>
+
+    <integer-array name="disease_method_4">
+        <item>0x00111000</item><!--[4.1]破损-->
+        <item>0x00100110</item><!--[4.2]裂缝-->
+        <item>0x00111000</item><!--[4.3]鼓胀-->
+        <item>0x00100000</item><!--[4.4]砌体松动-->
+        <item>0x00100000</item><!--[4.5]位移-->
+    </integer-array>
+
+    <integer-array name="disease_method_5">
+        <item>0x00111000</item><!--[5.1]破损-->
+        <item>0x00100110</item><!--[5.2]裂缝-->
+        <item>0x00100110</item><!--[5.3]冲刷-->
+    </integer-array>
+
+    <integer-array name="disease_method_6">
+        <item>0x00111000</item><!--[6.1]剥落露筋-->
+        <item>0x00100111</item><!--[6.2]裂缝-->
+        <item>0x00111000</item><!--[6.3]剥落-->
+        <item>0x00111000</item><!--[6.4]空洞-->
+        <item>0x00111000</item><!--[6.5]孔洞-->
+        <item>0x00111000</item><!--[6.6]蜂窝-->
+        <item>0x00111000</item><!--[6.7]麻面-->
+        <item>0x00111000</item><!--[6.8]磨损-->
+        <item>0x00100000</item><!--[6.9]变位-->
+        <item>0x00100000</item><!--[6.10]保护层厚度-->
+        <item>0x00100000</item><!--[6.11]钢筋锈蚀-->
+        <item>0x00100000</item><!--[6.12]混凝土碳化-->
+        <item>0x00100000</item><!--[6.13]混凝土强度-->
+    </integer-array>
+
+    <integer-array name="disease_method_7">
+        <item>0x00111000</item><!--[7.1]剥落露筋-->
+        <item>0x00100111</item><!--[7.2]裂缝-->
+        <item>0x00111000</item><!--[7.3]剥落-->
+        <item>0x00111000</item><!--[7.4]空洞-->
+        <item>0x00111000</item><!--[7.5]孔洞-->
+        <item>0x00111000</item><!--[7.6]蜂窝-->
+        <item>0x00111000</item><!--[7.7]麻面-->
+        <item>0x00111000</item><!--[7.8]磨损-->
+        <item>0x00100000</item><!--[7.9]变位-->
+        <item>0x00100000</item><!--[7.10]保护层厚度-->
+        <item>0x00100000</item><!--[7.11]钢筋锈蚀-->
+        <item>0x00100000</item><!--[7.12]混凝土碳化-->
+        <item>0x00100000</item><!--[7.13]混凝土强度-->
+        <item>0x00100000</item><!--[7.14]桥头跳车-->
+        <item>0x00100000</item><!--[7.15]台背排水-->
+    </integer-array>
+
+    <integer-array name="disease_method_8">
+        <item>0x00100000</item><!--[8.1]冲刷、淘空-->
+        <item>0x00100000</item><!--[8.2]剥落露筋-->
+        <item>0x00100000</item><!--[8.3]冲蚀-->
+        <item>0x00100000</item><!--[8.4]河底铺砌损坏-->
+        <item>0x00100000</item><!--[8.5]沉降-->
+        <item>0x00100000</item><!--[8.6]滑移和倾斜-->
+        <item>0x00100000</item><!--[8.7]裂缝-->
+    </integer-array>
+
+    <integer-array name="disease_method_9">
+        <item>0x00100000</item><!--[9.1]堵塞-->
+        <item>0x00100000</item><!--[9.2]冲刷-->
+        <item>0x00100000</item><!--[9.3]河床变迁-->
+    </integer-array>
+
+    <integer-array name="disease_method_10">
+        <item>0x00100000</item><!--[10.1]损坏-->
+        <item>0x00100000</item><!--[10.2]冲刷-->
+        <item>0x00100000</item><!--[10.3]变形-->
+    </integer-array>
+
+    <integer-array name="disease_method_11">
+        <item>0x00111000</item><!--[11.1]破损-->
+        <item>0x00100110</item><!--[11.2]裂缝-->
+        <item>0x00111000</item><!--[11.3]泛油-->
+        <item>0x00111000</item><!--[11.4]剥落-->
+        <item>0x00111000</item><!--[11.5]磨光、脱皮、露骨-->
+        <item>0x00100000</item><!--[11.6]错台-->
+        <item>0x00111000</item><!--[11.7]坑洞-->
+        <item>0x00111000</item><!--[11.8]拱起-->
+        <item>0x00100000</item><!--[11.9]接缝料损坏-->
+        <item>0x00111000</item><!--[11.10]变形-->
+    </integer-array>
+
+    <integer-array name="disease_method_12">
+        <item>0x00100000</item><!--[12.1]垃圾填塞-->
+        <item>0x00100000</item><!--[12.2]凹凸不平-->
+        <item>0x00100000</item><!--[12.3]锚固区破损-->
+        <item>0x00111000</item><!--[12.4]破损-->
+        <item>0x00100000</item><!--[12.5]失效-->
+        <item>0x00100000</item><!--[12.6]变形过大-->
+    </integer-array>
+
+    <integer-array name="disease_method_13">
+        <item>0x00111000</item><!--[13.1]破损-->
+        <item>0x00100000</item><!--[13.2]缺失-->
+    </integer-array>
+
+    <integer-array name="disease_method_14">
+        <item>0x00100000</item><!--[14.1]撞坏-->
+        <item>0x00100000</item><!--[14.2]缺失-->
+        <item>0x00111000</item><!--[14.3]破损-->
+    </integer-array>
+
+    <integer-array name="disease_method_15">
+        <item>0x00100000</item><!--[15.1]排水不畅-->
+        <item>0x00100000</item><!--[15.2]破损-->
+        <item>0x00100000</item><!--[15.3]缺陷-->
+    </integer-array>
+
+    <integer-array name="disease_method_16">
+        <item>0x00100000</item><!--[16.1]损坏-->
+        <item>0x00100000</item><!--[16.2]缺失-->
+    </integer-array>
+</resources>
