@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
@@ -22,6 +23,7 @@ import java.io.File;
 public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements ILoginView {
 
     private LoginViewModel loginViewModel;
+    private CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +31,17 @@ public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> imple
 
         loginViewModel =  new LoginViewModel(this, getStore(), getHelper().getUserDao(), getCookie());
         setContentView(R.layout.activity_login, loginViewModel);
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
     }
 
     @Override
     public void loginSuccess() {
-        initFolder();
-
-        startActivity(new Intent(this, ProjectsActivity.class));
+        if(!checkBox.isChecked()) {
+            initFolder();
+            startActivity(new Intent(this, ProjectsActivity.class));
+        } else {
+            startActivity(new Intent(this, AllUsersActivity.class));
+        }
         finish();
     }
 

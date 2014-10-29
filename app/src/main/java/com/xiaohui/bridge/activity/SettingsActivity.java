@@ -132,6 +132,7 @@ public class SettingsActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
 
         @Override
         protected String doInBackground(String... params) {
+            // TODO 还要删除数据库中的文件
             FileOperateUtil.deleteAllFiles(BusinessManager.USER_MEDIA_FILE_PATH);
             return null;
         }
