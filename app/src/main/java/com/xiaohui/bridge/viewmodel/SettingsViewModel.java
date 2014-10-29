@@ -75,8 +75,23 @@ public class SettingsViewModel implements HasPresentationModelChangeSupport {
         changeSupport.firePropertyChange("settings");
     }
 
+    public void setAllFileSize(String size){
+        settings.get(2).setSubtitle(size);
+        changeSupport.firePropertyChange("settings");
+    }
+
+    public void clearSuccess(){
+        settings.get(2).setSubtitle("");
+        changeSupport.firePropertyChange("settings");
+    }
+
     public void upload() {
         view.onUpload();
+    }
+
+    public void startClear(){
+        settings.get(2).setSubtitle("缓存删除中");
+        changeSupport.firePropertyChange("settings");
     }
 
     public void clear() {

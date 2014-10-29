@@ -54,7 +54,7 @@ public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> imple
     }
 
     private void initFolder(){
-        String PicturePath = Environment.getExternalStorageDirectory() + "/IBridge/" + loginViewModel.getName() + File.separator;
+        String PicturePath = BusinessManager.ALL_MEDIA_FILE_PATH + loginViewModel.getName() + File.separator;
         File saveDir = new File(PicturePath);
 
         if (!saveDir.exists()) {

@@ -1,5 +1,7 @@
 package com.xiaohui.bridge.business;
 
+import android.os.Environment;
+
 import com.xiaohui.bridge.business.bean.Block;
 import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
@@ -21,7 +23,7 @@ import java.util.List;
  * Created by xiaohui on 14-10-27.
  */
 public class BusinessManager {
-
+    public static final String ALL_MEDIA_FILE_PATH = Environment.getExternalStorageDirectory() + "/IBridge/";
     public static String USER_MEDIA_FILE_PATH = "";
 
     private String[] generalsTypes = {"上部承重构件",
