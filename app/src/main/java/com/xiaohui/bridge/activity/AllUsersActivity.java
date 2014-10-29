@@ -19,6 +19,7 @@ public class AllUsersActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel= new UsersViewModel(this, getCookie(), getHelper());
+        setTitle("记录人员列表");
     }
 
     @Override
