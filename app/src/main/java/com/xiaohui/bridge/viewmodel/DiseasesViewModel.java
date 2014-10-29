@@ -5,6 +5,7 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.Cookie;
+import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IDiseaseView;
 
 import org.robobinding.annotation.ItemPresentationModel;
@@ -26,14 +27,14 @@ public class DiseasesViewModel implements HasPresentationModelChangeSupport {
     private IDiseaseView view;
     private Cookie cookie;
     private ComponentModel componentModel;
-    private Dao<ComponentModel, Integer> dao;
+    private DatabaseHelper helper;
 
-    public DiseasesViewModel(IDiseaseView view, Cookie cookie, ComponentModel componentModel, Dao<ComponentModel, Integer> dao) {
+    public DiseasesViewModel(IDiseaseView view, Cookie cookie, DatabaseHelper helper) {
         this.view = view;
         this.cookie = cookie;
-        this.componentModel = componentModel;
+        this.componentModel = (ComponentModel) cookie.get(Keys.COMPONENT);;
         changeSupport = new PresentationModelChangeSupport(this);
-        this.dao = dao;
+        this.helper = helper;
     }
 
     @ItemPresentationModel(DiseaseItemViewModel.class)
@@ -41,14 +42,14 @@ public class DiseasesViewModel implements HasPresentationModelChangeSupport {
         return componentModel.getDiseases();
     }
 
-    public void updateData(){
+    public void updateData() {
         try {
-            componentModel = this.dao.queryForSameId(componentModel);
+            componentModel = helper.getComponentDao().queryForSameId(componentModel);
             cookie.put(Keys.COMPONENT, componentModel);
+            changeSupport.firePropertyChange("diseases");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        changeSupport.firePropertyChange("diseases");
     }
 
     public void onItemClick(ItemClickEvent event) {
@@ -56,6 +57,24 @@ public class DiseasesViewModel implements HasPresentationModelChangeSupport {
         DiseaseModel diseaseModel = getDiseases().get(pos);
         cookie.put(Keys.DISEASE, diseaseModel);
         view.onItemSelect(pos, diseaseModel);
+    }
+
+    public void deleteOneDiseaseWithPos(int pos) {
+        try {
+            helper.getDiseaseDao().delete(getDiseases().get(pos));
+            updateData();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void copyOneDiseaseWithPos(int pos) {
+        try {
+            helper.getDiseaseDao().create(getDiseases().get(pos));
+            updateData();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
