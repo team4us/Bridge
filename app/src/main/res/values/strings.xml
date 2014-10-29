@@ -67,10 +67,21 @@
     </string-array>
 
     <string-array name="disease_type_1">
+        <item>剥落露筋</item>
         <item>裂缝</item>
-        <item>破损</item>
+        <item>剥落</item>
+        <item>空洞</item>
+        <item>孔洞</item>
+        <item>蜂窝</item>
+        <item>麻面</item>
+        <item>磨损</item>
+        <item>挠度</item>
+        <item>变位</item>
+        <item>预应力构件损伤</item>
+        <item>保护层厚度</item>
         <item>钢筋锈蚀</item>
-        <item>其他</item>
+        <item>混凝土碳化</item>
+        <item>混凝土强度</item>
     </string-array>
 
     <string-array name="disease_type_2">
