@@ -67,111 +67,100 @@
     </string-array>
 
     <string-array name="disease_type_1">
-        <item>[1.1]剥落露筋</item>
-        <item>[1.2]裂缝</item>
-        <item>[1.3]剥落</item>
-        <item>[1.4]空洞</item>
-        <item>[1.5]孔洞</item>
-        <item>[1.6]蜂窝</item>
-        <item>[1.7]麻面</item>
-        <item>[1.8]磨损</item>
-        <item>[1.9]挠度</item>
-        <item>[1.10]变位</item>
-        <item>[1.11]预应力构件损伤</item>
-        <item>[1.12]保护层厚度</item>
-        <item>[1.13]钢筋锈蚀</item>
-        <item>[1.14]混凝土碳化</item>
-        <item>[1.15]混凝土强度</item>
+        <item>裂缝</item>
+        <item>破损</item>
+        <item>钢筋锈蚀</item>
+        <item>其他</item>
     </string-array>
 
     <string-array name="disease_type_2">
-        <item>[1.1]剥落露筋</item>
-        <item>[1.2]裂缝</item>
-        <item>[1.3]剥落</item>
-        <item>[1.4]空洞</item>
-        <item>[1.5]孔洞</item>
-        <item>[1.6]蜂窝</item>
-        <item>[1.7]麻面</item>
-        <item>[1.8]磨损</item>
-        <item>[1.9]挠度</item>
-        <item>[1.10]变位</item>
-        <item>[1.12]保护层厚度</item>
-        <item>[1.13]钢筋锈蚀</item>
-        <item>[1.14]混凝土碳化</item>
-        <item>[1.15]混凝土强度</item>
+        <item>剥落露筋</item>
+        <item>裂缝</item>
+        <item>剥落</item>
+        <item>空洞</item>
+        <item>孔洞</item>
+        <item>蜂窝</item>
+        <item>麻面</item>
+        <item>磨损</item>
+        <item>挠度</item>
+        <item>变位</item>
+        <item>保护层厚度</item>
+        <item>钢筋锈蚀</item>
+        <item>混凝土碳化</item>
+        <item>混凝土强度</item>
     </string-array>
 
     <string-array name="disease_type_3">
-        <item>[3.1]脱空</item>
-        <item>[3.2]剪切变形</item>
-        <item>[3.3]板式支座老化、开裂</item>
-        <item>[3.4]板式支座外鼓</item>
-        <item>[3.5]板式支座外鼓、钢板外露</item>
-        <item>[3.6]盆式支座组件损坏</item>
-        <item>[3.7]聚四氟乙烯滑板磨损</item>
-        <item>[3.8]盆式支座位移</item>
-        <item>[3.9]位移</item>
-        <item>[3.10]转角</item>
-        <item>[3.11]钢支座缺陷</item>
-        <item>[3.12]钢支座部件裂缝</item>
+        <item>脱空</item>
+        <item>剪切变形</item>
+        <item>板式支座老化、开裂</item>
+        <item>板式支座外鼓</item>
+        <item>板式支座外鼓、钢板外露</item>
+        <item>盆式支座组件损坏</item>
+        <item>聚四氟乙烯滑板磨损</item>
+        <item>盆式支座位移</item>
+        <item>位移</item>
+        <item>转角</item>
+        <item>钢支座缺陷</item>
+        <item>钢支座部件裂缝</item>
     </string-array>
 
     <string-array name="disease_type_4">
-        <item>[4.1]破损</item>
-        <item>[4.2]裂缝</item>
-        <item>[4.3]鼓胀</item>
-        <item>[4.4]砌体松动</item>
-        <item>[4.5]位移</item>
+        <item>破损</item>
+        <item>裂缝</item>
+        <item>鼓胀</item>
+        <item>砌体松动</item>
+        <item>位移</item>
     </string-array>
 
     <string-array name="disease_type_5">
-        <item>[5.1]破损</item>
-        <item>[5.2]裂缝</item>
-        <item>[5.3]冲刷</item>
+        <item>破损</item>
+        <item>裂缝</item>
+        <item>冲刷</item>
     </string-array>
 
     <string-array name="disease_type_6">
-        <item>[6.1]剥落露筋</item>
-        <item>[6.2]裂缝</item>
-        <item>[6.3]剥落</item>
-        <item>[6.4]空洞</item>
-        <item>[6.5]孔洞</item>
-        <item>[6.6]蜂窝</item>
-        <item>[6.7]麻面</item>
-        <item>[6.8]磨损</item>
-        <item>[6.9]变位</item>
-        <item>[6.10]保护层厚度</item>
-        <item>[6.11]钢筋锈蚀</item>
-        <item>[6.12]混凝土碳化</item>
-        <item>[6.13]混凝土强度</item>
+        <item>剥落露筋</item>
+        <item>裂缝</item>
+        <item>剥落</item>
+        <item>空洞</item>
+        <item>孔洞</item>
+        <item>蜂窝</item>
+        <item>麻面</item>
+        <item>磨损</item>
+        <item>变位</item>
+        <item>保护层厚度</item>
+        <item>钢筋锈蚀</item>
+        <item>混凝土碳化</item>
+        <item>混凝土强度</item>
     </string-array>
 
     <string-array name="disease_type_7">
-        <item>[7.1]剥落露筋</item>
-        <item>[7.2]裂缝</item>
-        <item>[7.3]剥落</item>
-        <item>[7.4]空洞</item>
-        <item>[7.5]孔洞</item>
-        <item>[7.6]蜂窝</item>
-        <item>[7.7]麻面</item>
-        <item>[7.8]磨损</item>
-        <item>[7.9]变位</item>
-        <item>[7.10]保护层厚度</item>
-        <item>[7.11]钢筋锈蚀</item>
-        <item>[7.12]混凝土碳化</item>
-        <item>[7.13]混凝土强度</item>
-        <item>[7.14]桥头跳车</item>
-        <item>[7.15]台背排水</item>
+        <item>剥落露筋</item>
+        <item>裂缝</item>
+        <item>剥落</item>
+        <item>空洞</item>
+        <item>孔洞</item>
+        <item>蜂窝</item>
+        <item>麻面</item>
+        <item>磨损</item>
+        <item>变位</item>
+        <item>保护层厚度</item>
+        <item>钢筋锈蚀</item>
+        <item>混凝土碳化</item>
+        <item>混凝土强度</item>
+        <item>桥头跳车</item>
+        <item>台背排水</item>
     </string-array>
 
     <string-array name="disease_type_8">
-        <item>[8.1]冲刷、淘空</item>
-        <item>[8.2]剥落露筋</item>
-        <item>[8.3]冲蚀</item>
-        <item>[8.4]河底铺砌损坏</item>
-        <item>[8.5]沉降</item>
-        <item>[8.6]滑移和倾斜</item>
-        <item>[8.7]裂缝</item>
+        <item>冲刷、淘空</item>
+        <item>剥落露筋</item>
+        <item>冲蚀</item>
+        <item>河底铺砌损坏</item>
+        <item>沉降</item>
+        <item>滑移和倾斜</item>
+        <item>裂缝</item>
     </string-array>
 
     <string-array name="disease_type_9">
@@ -181,52 +170,52 @@
     </string-array>
 
     <string-array name="disease_type_10">
-        <item>[10.1]损坏</item>
-        <item>[10.2]冲刷</item>
-        <item>[10.3]变形</item>
+        <item>损坏</item>
+        <item>冲刷</item>
+        <item>变形</item>
     </string-array>
 
     <string-array name="disease_type_11">
-        <item>[11.1]破损</item>
-        <item>[11.2]裂缝</item>
-        <item>[11.3]泛油</item>
-        <item>[11.4]剥落</item>
-        <item>[11.5]磨光、脱皮、露骨</item>
-        <item>[11.6]错台</item>
-        <item>[11.7]坑洞</item>
-        <item>[11.8]拱起</item>
-        <item>[11.9]接缝料损坏</item>
-        <item>[11.10]变形</item>
+        <item>破损</item>
+        <item>裂缝</item>
+        <item>泛油</item>
+        <item>剥落</item>
+        <item>磨光、脱皮、露骨</item>
+        <item>错台</item>
+        <item>坑洞</item>
+        <item>拱起</item>
+        <item>接缝料损坏</item>
+        <item>变形</item>
     </string-array>
 
     <string-array name="disease_type_12">
-        <item>[12.1]垃圾填塞</item>
-        <item>[12.2]凹凸不平</item>
-        <item>[12.3]锚固区破损</item>
-        <item>[12.4]破损</item>
-        <item>[12.5]失效</item>
-        <item>[12.6]变形过大</item>
+        <item>垃圾填塞</item>
+        <item>凹凸不平</item>
+        <item>锚固区破损</item>
+        <item>破损</item>
+        <item>失效</item>
+        <item>变形过大</item>
     </string-array>
 
     <string-array name="disease_type_13">
-        <item>[13.1]破损</item>
-        <item>[13.2]缺失</item>
+        <item>破损</item>
+        <item>缺失</item>
     </string-array>
 
     <string-array name="disease_type_14">
-        <item>[14.1]撞坏</item>
-        <item>[14.2]缺失</item>
-        <item>[14.3]破损</item>
+        <item>撞坏</item>
+        <item>缺失</item>
+        <item>破损</item>
     </string-array>
 
     <string-array name="disease_type_15">
-        <item>[15.1]排水不畅</item>
-        <item>[15.2]破损</item>
-        <item>[15.3]缺陷</item>
+        <item>排水不畅</item>
+        <item>破损</item>
+        <item>缺陷</item>
     </string-array>
 
     <string-array name="disease_type_16">
-        <item>[16.1]损坏</item>
-        <item>[16.2]缺失</item>
+        <item>损坏</item>
+        <item>缺失</item>
     </string-array>
 </resources>
