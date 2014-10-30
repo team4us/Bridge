@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListAdapter;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
@@ -64,6 +66,24 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
                 return false;
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                longClickItem(view);
+                return true;
+            }
+        });
+    }
+
+    private void longClickItem(View view) {
+        final int groupPosition = (Integer) view.getTag(R.id.action_add_picture_done);
+        final int childPosition = (Integer) view.getTag(R.id.action_bridge_detail);
+
+        if (childPosition != -1) {         //如果得到child位置的值不为-1，则是操作child
+            Toast.makeText(this, "你现在按下的是 " + ((BlockModel)adapter.getGroup(groupPosition)).getBlock().getName()
+                    + " 部件下的 " + ((ComponentModel)adapter.getChild(groupPosition, childPosition)).getComponent().getName() + " 构件",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -166,6 +186,9 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
             if (convertView == null) {
                 convertView = View.inflate(BridgeActivity.this, R.layout.view_part_item, null);
             }
+
+            convertView.setTag(R.id.action_add_picture_done, groupPosition);
+            convertView.setTag(R.id.action_bridge_detail, -1);
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText((groupPosition + 1) + " " + getGroup(groupPosition).getBlock().getName());
             ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_expandable);
@@ -179,6 +202,8 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
             if (convertView == null) {
                 convertView = View.inflate(BridgeActivity.this, R.layout.view_part_child_item, null);
             }
+            convertView.setTag(R.id.action_add_picture_done, groupPosition);
+            convertView.setTag(R.id.action_bridge_detail, childPosition);
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText(getChild(groupPosition, childPosition).getComponent().getName());
             return convertView;
