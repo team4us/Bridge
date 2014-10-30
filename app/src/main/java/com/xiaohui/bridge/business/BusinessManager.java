@@ -96,7 +96,7 @@ public class BusinessManager {
                             String type = generalsTypes[j];
                             BlockModel blockModel = new BlockModel();
                             Block block = new Block();
-                            block.setId(j);
+                            block.setType(j);
                             block.setName(type);
                             blockModel.setBlock(block);
                             blockModel.setChildBridge(childBridgeModel);

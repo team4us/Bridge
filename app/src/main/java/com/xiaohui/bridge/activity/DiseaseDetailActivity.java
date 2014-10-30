@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -54,7 +53,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * 多种病害输入模板基类
@@ -164,7 +162,7 @@ public class DiseaseDetailActivity extends AbstractOrmLiteActivity<DatabaseHelpe
             }
         }
 
-        String key = "disease_type_" + String.valueOf(componentModel.getBlock().getBlock().getId() + 1);
+        String key = "disease_type_" + String.valueOf(componentModel.getBlock().getBlock().getType() + 1);
         int id = getResources().getIdentifier(key, "array", BuildConfig.PACKAGE_NAME);
         String[] diseaseTypes = getResources().getStringArray(id);
 

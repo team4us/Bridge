@@ -99,6 +99,21 @@
         <item name="android:textColor">@color/color_333333</item>
     </style>
 
+    <style name="DiseaseTitle">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_099fde</item>
+        <item name="android:textSize">@dimen/font_size_36</item>
+        <item name="android:gravity">center_vertical|right</item>
+    </style>
+
+    <style name="DiseaseContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_333333</item>
+        <item name="android:textSize">@dimen/font_size_36</item>
+    </style>
+
     <style name="disease_input_edittext" parent="base_input_edittext">
         <item name="android:textSize">@dimen/font_size_36</item>
         <item name="android:editable">true</item>

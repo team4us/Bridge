@@ -50,7 +50,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".activity.DiseaseListActivity"
+            android:name=".activity.DiseasesActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
@@ -105,27 +105,29 @@
             android:name=".activity.CoordinateActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.DiseaseActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.xiaohui.bridge.component.PickPicture.ImageGridActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".component.PickPicture.ImageGridActivity"
+            android:name="com.xiaohui.bridge.component.PickPicture.PhotoActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+
         <activity
-            android:name=".component.PickPicture.PhotoActivity"
+            android:name="com.xiaohui.bridge.component.PickPicture.TestPicActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".component.PickPicture.TestPicActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.DiseaseStatisticsActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
 
     </application>
 

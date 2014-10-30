@@ -27,7 +27,8 @@ public class XhApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
-        binderFactory = new BinderFactoryBuilder().build();
+        BinderFactoryBuilder builder = new BinderFactoryBuilder();
+        binderFactory = builder.build();
         cookie = new Cookie();
         store = new Store(this, STORE_NAME, new DesEncrypt(KEY));
     }

@@ -1,12 +1,11 @@
 package com.xiaohui.bridge.viewmodel;
 
-import com.j256.ormlite.dao.Dao;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.Cookie;
 import com.xiaohui.bridge.storage.DatabaseHelper;
-import com.xiaohui.bridge.view.IDiseaseView;
+import com.xiaohui.bridge.view.IDiseasesView;
 
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
@@ -24,12 +23,12 @@ import java.util.List;
 public class DiseasesViewModel implements HasPresentationModelChangeSupport {
 
     private final PresentationModelChangeSupport changeSupport;
-    private IDiseaseView view;
+    private IDiseasesView view;
     private Cookie cookie;
     private ComponentModel componentModel;
     private DatabaseHelper helper;
 
-    public DiseasesViewModel(IDiseaseView view, Cookie cookie, DatabaseHelper helper) {
+    public DiseasesViewModel(IDiseasesView view, Cookie cookie, DatabaseHelper helper) {
         this.view = view;
         this.cookie = cookie;
         this.componentModel = (ComponentModel) cookie.get(Keys.COMPONENT);;

@@ -57,9 +57,9 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                Intent intent = new Intent(BridgeActivity.this, DiseaseListActivity.class);
-                ComponentModel componentModel = (ComponentModel) adapter.getChild(groupPosition, childPosition);
-                getCookie().put(Keys.COMPONENT, componentModel);
+                Intent intent = new Intent(BridgeActivity.this, DiseasesActivity.class);
+                getCookie().put(Keys.BLOCK, adapter.getGroup(groupPosition));
+                getCookie().put(Keys.COMPONENT, adapter.getChild(groupPosition, childPosition));
                 startActivity(intent);
                 return false;
             }

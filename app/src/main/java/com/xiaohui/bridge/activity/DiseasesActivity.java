@@ -13,16 +13,14 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
-import com.xiaohui.bridge.view.IDiseaseView;
+import com.xiaohui.bridge.view.IDiseasesView;
 import com.xiaohui.bridge.viewmodel.DiseasesViewModel;
-
-import java.sql.SQLException;
 
 /**
  * 病害列表界面
  * Created by jztang on 2014/9/26.
  */
-public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements IDiseaseView {
+public class DiseasesActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements IDiseasesView {
     private DiseasesViewModel viewModel;
 
     @Override
@@ -66,11 +64,8 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_disease_add) {
-            Intent intent = new Intent(this, DiseaseDetailActivity.class);
-            intent.putExtra(Keys.FLAG, true); //是否为新增
-            startActivity(intent);
+            gotoDiseasePage(true);
         } else if (id == R.id.action_disease_statistics) {
             Intent intent = new Intent(this, DiseaseStatisticsActivity.class);
             startActivity(intent);
@@ -81,14 +76,18 @@ public class DiseaseListActivity extends AbstractOrmLiteActivity<DatabaseHelper>
 
     @Override
     protected void onResume() {
-        viewModel.updateData();
+//        viewModel.updateData();
         super.onResume();
     }
 
     @Override
     public void onItemSelect(int position, DiseaseModel project) {
-        Intent intent = new Intent(this, DiseaseDetailActivity.class);
-        intent.putExtra(Keys.FLAG, false); //是否为新增
+        gotoDiseasePage(false);
+    }
+
+    private void gotoDiseasePage(boolean isAdded) {
+        Intent intent = new Intent(this, DiseaseActivity.class);
+        intent.putExtra(Keys.FLAG, isAdded); //是否为新增
         startActivity(intent);
     }
 }
