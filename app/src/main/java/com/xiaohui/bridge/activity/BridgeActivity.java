@@ -80,9 +80,11 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
         final int groupPosition = (Integer) view.getTag(R.id.action_add_picture_done);
         final int childPosition = (Integer) view.getTag(R.id.action_bridge_detail);
 
-        if (childPosition != -1) {         //如果得到child位置的值不为-1，则是操作child
+        if (childPosition == -1) {         //如果得到child位置的值不为-1，则是操作child
             Toast.makeText(this, "你现在按下的是 " + ((BlockModel)adapter.getGroup(groupPosition)).getBlock().getName()
-                    + " 部件下的 " + ((ComponentModel)adapter.getChild(groupPosition, childPosition)).getComponent().getName() + " 构件",Toast.LENGTH_SHORT).show();
+                    + " 部件",Toast.LENGTH_SHORT).show();
+            getCookie().put(Keys.BLOCK, adapter.getGroup(groupPosition));
+            startActivity(new Intent(this, BlockPropertyDetailActivity.class));
         }
     }
 

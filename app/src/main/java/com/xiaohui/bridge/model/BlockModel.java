@@ -10,6 +10,7 @@ import com.xiaohui.bridge.business.bean.Block;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xiaohui on 14-10-28.
@@ -24,6 +25,8 @@ public class BlockModel {
     private ChildBridgeModel childBridge;
     @ForeignCollectionField(eager = true)
     private ForeignCollection<ComponentModel> components;
+
+    private Map<String, String> blockProperty;
 
     public int getId() {
         return id;
@@ -52,5 +55,13 @@ public class BlockModel {
             list.add(iterator.next());
         }
         return list;
+    }
+
+    public Map<String, String> getBlockProperty() {
+        return blockProperty;
+    }
+
+    public void setBlockProperty(Map<String, String> blockProperty) {
+        this.blockProperty = blockProperty;
     }
 }

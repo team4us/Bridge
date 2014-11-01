@@ -17,7 +17,9 @@ import com.xiaohui.bridge.model.UserModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xiaohui on 14-10-27.
@@ -62,7 +64,7 @@ public class BusinessManager {
             {"构件1", "构件2", "构件3"}
     };
 
-    private String[][] componentProperty = new String[][]{
+    private String[][] blockProperty = new String[][]{
             {"所在跨", "跨径或长度", "材料类型", "坐标系定义", "坐标系示意图", "截面", "表面展开图", "备注"},
             {"所在跨", "跨径或长度", "材料类型", "坐标系定义", "坐标系示意图", "截面", "表面展开图", "备注"},
             {"所在墩台", "支座类型", "支座型号", "X向", "Y向", "Z向", "备注"},
@@ -117,6 +119,14 @@ public class BusinessManager {
                             Block block = new Block();
                             block.setType(j);
                             block.setName(type);
+
+                            String[] blockPropertyTitle = blockProperty[j];
+                            Map<String, String> blockPropertyMap = new HashMap<String, String>();
+                            for(int x = 0; x < blockPropertyTitle.length; x ++){
+                                blockPropertyMap.put(blockPropertyTitle[x], "value " + x);
+                            }
+
+                            blockModel.setBlockProperty(blockPropertyMap);
                             blockModel.setBlock(block);
                             blockModel.setChildBridge(childBridgeModel);
                             helper.getBlockDao().create(blockModel);
