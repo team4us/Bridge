@@ -39,7 +39,7 @@ public class BlockPropertyDetailActivity extends AbstractOrmLiteActivity<Databas
     }
 
     private View getItemView(String title, String value){
-        View view = inflateView(R.layout.view_property_item, null);
+        View view = View.inflate(this,R.layout.view_property_item,null);
         TextView titleView = (TextView) view.findViewById(R.id.tv_property_title);
         TextView valueView = (TextView) view.findViewById(R.id.tv_property_value);
         titleView.setText(title);
