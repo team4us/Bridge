@@ -121,7 +121,7 @@ public class BusinessManager {
                             block.setName(type);
 
                             String[] blockPropertyTitle = blockProperty[j];
-                            Map<String, String> blockPropertyMap = new HashMap<String, String>();
+                            HashMap<String, String> blockPropertyMap = new HashMap<String, String>();
                             for(int x = 0; x < blockPropertyTitle.length; x ++){
                                 blockPropertyMap.put(blockPropertyTitle[x], "value " + x);
                             }

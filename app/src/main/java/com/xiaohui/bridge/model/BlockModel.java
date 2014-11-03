@@ -8,6 +8,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.xiaohui.bridge.business.bean.Block;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,8 @@ public class BlockModel {
     private ChildBridgeModel childBridge;
     @ForeignCollectionField(eager = true)
     private ForeignCollection<ComponentModel> components;
-
-    private Map<String, String> blockProperty;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    private HashMap<String, String> blockProperty;
 
     public int getId() {
         return id;
@@ -61,7 +62,7 @@ public class BlockModel {
         return blockProperty;
     }
 
-    public void setBlockProperty(Map<String, String> blockProperty) {
+    public void setBlockProperty(HashMap<String, String> blockProperty) {
         this.blockProperty = blockProperty;
     }
 }
