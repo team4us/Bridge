@@ -52,4 +52,20 @@ public class DiseaseViewModel {
         String[] diseaseTypes = resources.getStringArray(id);
         return Arrays.asList(diseaseTypes);
     }
+
+    public void onClickTakePhoto() {
+        view.takePhoto();
+    }
+
+    public void onClickSelectPic() {
+        view.selectPictures();
+    }
+
+    public void onClickVoice() {
+        view.takeVoice();
+    }
+
+    public void onClickMovie() {
+        view.takeMovie();
+    }
 }

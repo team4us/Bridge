@@ -127,15 +127,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/DiseaseTitle"
-                    android:text="多媒体："/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
                     android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/bg_photo"
+                        bind:onClick="onClickTakePhoto"/>
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/bg_add_picture"
+                        bind:onClick="onClickSelectPic"/>
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/bg_add_voice"
+                        bind:onClick="onClickVoice"/>
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/bg_add_movie"
+                        bind:onClick="onClickMovie"/>
+
                 </LinearLayout>
 
                 <View
