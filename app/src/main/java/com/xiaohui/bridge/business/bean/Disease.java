@@ -1,6 +1,6 @@
 package com.xiaohui.bridge.business.bean;
 
-import com.xiaohui.bridge.business.enums.EDiseaseInputMethod;
+import com.xiaohui.bridge.business.enums.EDiseaseMethod;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class Disease implements Serializable {
     private String componentName;
     private String position;
     private String diseaseType;
-    private EDiseaseInputMethod inputMethod;
+    private EDiseaseMethod inputMethod;
     private Map<String, Object> inputMethodValues;
     private ArrayList<String> pictureList = new ArrayList<String>();
     private ArrayList<String> recordList = new ArrayList<String>();
@@ -64,11 +64,11 @@ public class Disease implements Serializable {
         this.inputMethodValues = inputMethodValues;
     }
 
-    public EDiseaseInputMethod getInputMethod() {
+    public EDiseaseMethod getInputMethod() {
         return inputMethod;
     }
 
-    public void setInputMethod(EDiseaseInputMethod inputMethod) {
+    public void setInputMethod(EDiseaseMethod inputMethod) {
         this.inputMethod = inputMethod;
     }
 

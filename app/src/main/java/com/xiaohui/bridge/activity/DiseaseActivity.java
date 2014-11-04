@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.BusinessManager;
-import com.xiaohui.bridge.component.PickPicture.Bimp;
+import com.xiaohui.bridge.business.enums.EDiseaseMethod;
+import com.xiaohui.bridge.component.PickPicture.FileUtils;
 import com.xiaohui.bridge.component.PickPicture.TestPicActivity;
-import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseaseViewModel;
@@ -29,18 +32,108 @@ import java.util.Locale;
  */
 public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements IDiseaseView {
 
-    public static final String PICTURE_PATH = BusinessManager.USER_MEDIA_FILE_PATH + "Picture/";
-
     private DiseaseViewModel viewModel;
     private boolean isNewDisease;
+    private RadioGroup rgMethods;
+    private LinearLayout llMethodView;
+    private EDiseaseMethod currentMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initViews();
+    }
+
+    private void initViews() {
         isNewDisease = getIntent().getBooleanExtra(Keys.FLAG, true);
         viewModel = new DiseaseViewModel(this, getCookie());
         setContentView(R.layout.activity_disease, viewModel);
         setTitle(isNewDisease ? "病害新增" : "病害编辑");
+
+        for (int i = 0; i < 6; i++) {
+            EDiseaseMethod diseaseMethod = EDiseaseMethod.values()[i];
+            RadioButton rb = (RadioButton) findViewById(diseaseMethod.getRadioButtonResId());
+            rb.setTag(diseaseMethod);
+        }
+
+        rgMethods = (RadioGroup) findViewById(R.id.rg_methods);
+        llMethodView = (LinearLayout) findViewById(R.id.ll_method_view);
+
+        initListener();
+
+        viewModel.onItemClickDiseaseType(0);
+    }
+
+    private void initListener() {
+        Spinner spLocations = (Spinner) findViewById(R.id.sp_locations);
+        spLocations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.onItemClickLocation(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        Spinner spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
+        spDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                viewModel.onItemClickDiseaseType(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        rgMethods.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switchMethodView(checkedId);
+            }
+        });
+    }
+
+    private void setDefaultMethod(int radioButtonId) {
+        rgMethods.check(radioButtonId);
+        switchMethodView(radioButtonId);
+    }
+
+    private void switchMethodView(int radioButtonId) {
+        Object tag = findViewById(radioButtonId).getTag();
+        currentMethod = (EDiseaseMethod) tag;
+        llMethodView.removeAllViews();
+        llMethodView.addView(View.inflate(this, currentMethod.getViewResId(), null));
+    }
+
+    @Override
+    public void updateMethodView(int method) {
+        int radioButtonId = -1;
+        for (int i = 0; i < 6; i++) {
+            EDiseaseMethod diseaseMethod = EDiseaseMethod.values()[i];
+            RadioButton rb = (RadioButton) findViewById(diseaseMethod.getRadioButtonResId());
+            if ((method & (1 << i)) == 0) {
+                rb.setVisibility(View.GONE);
+            } else {
+                rb.setVisibility(View.VISIBLE);
+                if (method == 63) { //如果6种方法全选中则认为是选择了“其他”
+                    rb.setText("方法" + (i + 1));
+                    radioButtonId = R.id.rb_method_5;
+                } else {
+                    rb.setText(diseaseMethod.getNameResId());
+                    if (radioButtonId == -1) {
+                        radioButtonId = diseaseMethod.getRadioButtonResId();
+                    }
+                }
+            }
+        }
+
+        setDefaultMethod(radioButtonId);
     }
 
     @Override
@@ -48,7 +141,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String currentTakePictureName = "Picture-" + df.format(new Date()) + ".jpg";
 
-        File pictureSaveDir = new File(PICTURE_PATH);
+        File pictureSaveDir = new File(FileUtils.PICTURE_PATH);
 
         if (!pictureSaveDir.exists()) {
             if (!pictureSaveDir.mkdirs()) {
@@ -57,7 +150,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             }
         }
 
-        File file = new File(PICTURE_PATH + currentTakePictureName);
+        File file = new File(FileUtils.PICTURE_PATH + currentTakePictureName);
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String path = file.getPath();
         Uri imageUri = Uri.fromFile(file);
@@ -138,6 +231,6 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     }
 
     private int random() {
-        return 1 + (int)(Math.random()*15);
+        return 1 + (int) (Math.random() * 15);
     }
 }

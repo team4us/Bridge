@@ -1,10 +1,6 @@
 package com.xiaohui.bridge.viewmodel;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.ForeignCollection;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.xiaohui.bridge.Keys;
-import com.xiaohui.bridge.business.bean.Project;
 import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.model.ProjectModel;
 import com.xiaohui.bridge.storage.Cookie;
@@ -14,10 +10,7 @@ import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
 import org.robobinding.widget.adapterview.ItemClickEvent;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 

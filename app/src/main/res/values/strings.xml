@@ -20,7 +20,12 @@
     <string name="action_copy">复制</string>
     <string name="action_delete">删除</string>
     <string name="action_refresh">刷新</string>
-
+    <string name="method_name_0">坐标记录</string>
+    <string name="method_name_1">位置记录</string>
+    <string name="method_name_2">统计记录</string>
+    <string name="method_name_3">详细记录</string>
+    <string name="method_name_4">统计记录</string>
+    <string name="method_name_5">描述记录</string>
     <string name="record_seconds">%1$s 秒</string>
 
     <string name="title">桥梁检测数据管理系统</string>
@@ -66,7 +71,7 @@
         <item>moreinfo</item>
     </string-array>
 
-    <string-array name="disease_type_1">
+    <string-array name="disease_type_0">
         <item>剥落露筋</item>
         <item>裂缝</item>
         <item>剥落</item>
@@ -82,9 +87,10 @@
         <item>钢筋锈蚀</item>
         <item>混凝土碳化</item>
         <item>混凝土强度</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_2">
+    <string-array name="disease_type_1">
         <item>剥落露筋</item>
         <item>裂缝</item>
         <item>剥落</item>
@@ -99,9 +105,10 @@
         <item>钢筋锈蚀</item>
         <item>混凝土碳化</item>
         <item>混凝土强度</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_3">
+    <string-array name="disease_type_2">
         <item>脱空</item>
         <item>剪切变形</item>
         <item>板式支座老化、开裂</item>
@@ -114,20 +121,40 @@
         <item>转角</item>
         <item>钢支座缺陷</item>
         <item>钢支座部件裂缝</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_4">
+    <string-array name="disease_type_3">
         <item>破损</item>
         <item>裂缝</item>
         <item>鼓胀</item>
         <item>砌体松动</item>
         <item>位移</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_5">
+    <string-array name="disease_type_4">
         <item>破损</item>
         <item>裂缝</item>
         <item>冲刷</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="disease_type_5">
+        <item>剥落露筋</item>
+        <item>裂缝</item>
+        <item>剥落</item>
+        <item>空洞</item>
+        <item>孔洞</item>
+        <item>蜂窝</item>
+        <item>麻面</item>
+        <item>磨损</item>
+        <item>变位</item>
+        <item>保护层厚度</item>
+        <item>钢筋锈蚀</item>
+        <item>混凝土碳化</item>
+        <item>混凝土强度</item>
+        <item>其他</item>
     </string-array>
 
     <string-array name="disease_type_6">
@@ -144,27 +171,12 @@
         <item>钢筋锈蚀</item>
         <item>混凝土碳化</item>
         <item>混凝土强度</item>
+        <item>桥头跳车</item>
+        <item>台背排水</item>
+        <item>其他</item>
     </string-array>
 
     <string-array name="disease_type_7">
-        <item>剥落露筋</item>
-        <item>裂缝</item>
-        <item>剥落</item>
-        <item>空洞</item>
-        <item>孔洞</item>
-        <item>蜂窝</item>
-        <item>麻面</item>
-        <item>磨损</item>
-        <item>变位</item>
-        <item>保护层厚度</item>
-        <item>钢筋锈蚀</item>
-        <item>混凝土碳化</item>
-        <item>混凝土强度</item>
-        <item>桥头跳车</item>
-        <item>台背排水</item>
-    </string-array>
-
-    <string-array name="disease_type_8">
         <item>冲刷、淘空</item>
         <item>剥落露筋</item>
         <item>冲蚀</item>
@@ -172,21 +184,24 @@
         <item>沉降</item>
         <item>滑移和倾斜</item>
         <item>裂缝</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="disease_type_8">
+        <item>堵塞</item>
+        <item>冲刷</item>
+        <item>河床变迁</item>
+        <item>其他</item>
     </string-array>
 
     <string-array name="disease_type_9">
-        <item>[9.1]堵塞</item>
-        <item>[9.2]冲刷</item>
-        <item>[9.3]河床变迁</item>
-    </string-array>
-
-    <string-array name="disease_type_10">
         <item>损坏</item>
         <item>冲刷</item>
         <item>变形</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_11">
+    <string-array name="disease_type_10">
         <item>破损</item>
         <item>裂缝</item>
         <item>泛油</item>
@@ -197,36 +212,42 @@
         <item>拱起</item>
         <item>接缝料损坏</item>
         <item>变形</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_12">
+    <string-array name="disease_type_11">
         <item>垃圾填塞</item>
         <item>凹凸不平</item>
         <item>锚固区破损</item>
         <item>破损</item>
         <item>失效</item>
         <item>变形过大</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="disease_type_12">
+        <item>破损</item>
+        <item>缺失</item>
+        <item>其他</item>
     </string-array>
 
     <string-array name="disease_type_13">
-        <item>破损</item>
-        <item>缺失</item>
-    </string-array>
-
-    <string-array name="disease_type_14">
         <item>撞坏</item>
         <item>缺失</item>
         <item>破损</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_15">
+    <string-array name="disease_type_14">
         <item>排水不畅</item>
         <item>破损</item>
         <item>缺陷</item>
+        <item>其他</item>
     </string-array>
 
-    <string-array name="disease_type_16">
+    <string-array name="disease_type_15">
         <item>损坏</item>
         <item>缺失</item>
+        <item>其他</item>
     </string-array>
 </resources>

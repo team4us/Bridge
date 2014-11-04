@@ -13,7 +13,9 @@ import com.xiaohui.bridge.view.IDiseaseView;
 
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
+import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,16 +25,38 @@ import java.util.List;
 @PresentationModel
 public class DiseaseViewModel {
 
+    private PresentationModelChangeSupport changeSupport;
     private IDiseaseView view;
     private String componentName;
-    private int blockType;
+    private List<String> locations;
+    private List<String> diseaseTypes;
+    private List<Integer> methods;
+    private int method;
 
     public DiseaseViewModel(IDiseaseView view, Cookie cookie) {
+        changeSupport = new PresentationModelChangeSupport(this);
         this.view = view;
         ComponentModel componentModel = (ComponentModel) cookie.get(Keys.COMPONENT);
         componentName = componentModel.getComponent().getName();
+        initData(cookie);
+    }
+
+    private void initData(Cookie cookie) {
+        locations = Arrays.asList(StoreManager.Instance.generalsTypes);
+
         BlockModel blockModel = (BlockModel) cookie.get(Keys.BLOCK);
-        blockType = blockModel.getBlock().getType();
+        int blockType = blockModel.getBlock().getType();
+        String key = "disease_type_" + blockType;
+        Resources resources = XhApplication.getApplication().getResources();
+        int id = resources.getIdentifier(key, "array", BuildConfig.PACKAGE_NAME);
+        diseaseTypes = Arrays.asList(resources.getStringArray(id));
+
+        key = "disease_method_" + blockType;
+        id = resources.getIdentifier(key, "array", BuildConfig.PACKAGE_NAME);
+        methods = new ArrayList<Integer>();
+        for (int method : resources.getIntArray(id)) {
+            methods.add(method);
+        }
     }
 
     public String getComponentName() {
@@ -41,16 +65,25 @@ public class DiseaseViewModel {
 
     @ItemPresentationModel(LocationItemViewModel.class)
     public List<String> getLocations() {
-        return Arrays.asList(StoreManager.Instance.generalsTypes);
+        return locations;
     }
 
     @ItemPresentationModel(LocationItemViewModel.class)
     public List<String> getDiseaseTypes() {
-        String key = "disease_type_" + String.valueOf(blockType + 1);
-        Resources resources = XhApplication.getApplication().getResources();
-        int id = resources.getIdentifier(key, "array", BuildConfig.PACKAGE_NAME);
-        String[] diseaseTypes = resources.getStringArray(id);
-        return Arrays.asList(diseaseTypes);
+        return diseaseTypes;
+    }
+
+    public int getMethod() {
+        return method;
+    }
+
+    public void onItemClickLocation(int position) {
+
+    }
+
+    public void onItemClickDiseaseType(int position) {
+        method = methods.get(position);
+        view.updateMethodView(method);
     }
 
     public void onClickTakePhoto() {

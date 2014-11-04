@@ -14,7 +14,6 @@ public class LocationItemViewModel implements ItemPresentationModel<String> {
         return text;
     }
 
-
     @Override
     public void updateData(String text, ItemContext itemContext) {
         this.text = text;

@@ -1,17 +1,20 @@
 package com.xiaohui.bridge.component.PickPicture;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
+
+import com.xiaohui.bridge.business.BusinessManager;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import android.graphics.Bitmap;
-import android.os.Environment;
-import android.util.Log;
-
-import com.xiaohui.bridge.activity.DiseaseDetailActivity;
-
 public class FileUtils {
+
+    public static final String PICTURE_PATH = BusinessManager.USER_MEDIA_FILE_PATH + "Picture/";
+
 
     public static void saveBitmap(Bitmap bm, String picName) {
         Log.e("", "保存图片");
@@ -19,7 +22,7 @@ public class FileUtils {
             if (!isFileExist("")) {
                 File tempf = createSDDir("");
             }
-            File f = new File(DiseaseDetailActivity.PicturePath, picName + ".JPEG");
+            File f = new File(PICTURE_PATH, picName + ".JPEG");
             if (f.exists()) {
                 f.delete();
             }
@@ -36,7 +39,7 @@ public class FileUtils {
     }
 
     public static File createSDDir(String dirName) throws IOException {
-        File dir = new File(DiseaseDetailActivity.PicturePath + dirName);
+        File dir = new File(PICTURE_PATH + dirName);
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
 
@@ -47,13 +50,13 @@ public class FileUtils {
     }
 
     public static boolean isFileExist(String fileName) {
-        File file = new File(DiseaseDetailActivity.PicturePath + fileName);
+        File file = new File(PICTURE_PATH + fileName);
         file.isFile();
         return file.exists();
     }
 
     public static void delFile(String fileName) {
-        File file = new File(DiseaseDetailActivity.PicturePath + fileName);
+        File file = new File(PICTURE_PATH + fileName);
         if (file.isFile()) {
             file.delete();
         }
@@ -61,7 +64,7 @@ public class FileUtils {
     }
 
     public static void deleteDir() {
-        File dir = new File(DiseaseDetailActivity.PicturePath);
+        File dir = new File(PICTURE_PATH);
         if (dir == null || !dir.exists() || !dir.isDirectory())
             return;
 
