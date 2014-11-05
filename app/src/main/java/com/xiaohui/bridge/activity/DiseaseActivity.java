@@ -31,6 +31,8 @@ import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseaseViewModel;
 
+import org.joda.time.DateTime;
+
 import java.io.File;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -353,6 +355,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         disease.setVideoList(videoList);
         disease.setVoiceList(voiceList);
         diseaseModel.setDisease(disease);
+        diseaseModel.setTime(DateTime.now().getMillis());
 
         try {
             getHelper().getDiseaseDao().createOrUpdate(diseaseModel);

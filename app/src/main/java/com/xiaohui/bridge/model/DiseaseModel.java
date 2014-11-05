@@ -14,8 +14,10 @@ public class DiseaseModel {
     private int id;
     @DatabaseField(dataType = DataType.SERIALIZABLE)
     private Disease disease;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName="component_id")
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "component_id")
     private ComponentModel component;
+    @DatabaseField
+    private long time;
 
     public int getId() {
         return id;
@@ -35,5 +37,13 @@ public class DiseaseModel {
 
     public void setComponent(ComponentModel component) {
         this.component = component;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }
