@@ -4,12 +4,12 @@
               xmlns:bind="http://robobinding.org/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/color_efefef">
+              android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="@dimen/margin_10"
         android:scrollbars="none">
 
@@ -26,7 +26,7 @@
 
                 <TextView
                     style="@style/DiseaseTitle"
-                    android:text="构件名称："/>
+                    android:text="构件名称"/>
 
                 <TextView
                     style="@style/DiseaseContent"
@@ -42,7 +42,7 @@
 
                 <TextView
                     style="@style/DiseaseTitle"
-                    android:text="部位："/>
+                    android:text="部位"/>
 
                 <Spinner
                     android:id="@+id/sp_locations"
@@ -62,7 +62,7 @@
 
                 <TextView
                     style="@style/DiseaseTitle"
-                    android:text="病害类型："/>
+                    android:text="病害类型"/>
 
                 <Spinner
                     android:id="@+id/sp_disease_type"
@@ -74,12 +74,11 @@
                     bind:dropdownLayout="@layout/view_spinner_dropdown_item"/>
 
                 <EditText
+                    android:id="@+id/et_other"
                     style="@style/disease_input_edittext"
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_marginRight="@dimen/margin_5"
-                    android:visibility="gone"/>
-
+                    android:layout_marginRight="@dimen/margin_5"/>
             </LinearLayout>
 
             <RadioGroup
@@ -143,8 +142,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/disease_title_textview"
-                    android:text="备注："/>
+                    style="@style/DiseaseTitle"
+                    android:text="备注"/>
 
                 <EditText
                     android:id="@+id/et_comment"
@@ -157,42 +156,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/bg_photo"
-                        bind:onClick="onClickTakePhoto"/>
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/bg_add_picture"
-                        bind:onClick="onClickSelectPic"/>
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/bg_add_voice"
-                        bind:onClick="onClickVoice"/>
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_margin="5dp"
-                        android:src="@drawable/bg_add_movie"
-                        bind:onClick="onClickMovie"/>
-
-                </LinearLayout>
 
                 <View
                     style="@style/line_h"
@@ -239,4 +202,40 @@
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_5"
+        android:background="@color/color_efefef">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/bg_photo"
+            bind:onClick="onClickTakePhoto"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/bg_add_picture"
+            bind:onClick="onClickSelectPic"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/bg_add_voice"
+            bind:onClick="onClickVoice"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/bg_add_movie"
+            bind:onClick="onClickMovie"/>
+
+    </LinearLayout>
 </LinearLayout>

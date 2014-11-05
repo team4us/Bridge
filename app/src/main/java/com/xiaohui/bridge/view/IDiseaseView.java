@@ -8,5 +8,5 @@ public interface IDiseaseView {
     public void selectPictures();
     public void takeVoice();
     public void takeMovie();
-    public void updateMethodView(int method);
+    public void updateMethodView(boolean isOther, int method);
 }
