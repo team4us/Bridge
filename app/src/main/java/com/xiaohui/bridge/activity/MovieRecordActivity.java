@@ -162,7 +162,7 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
             }
             Intent intent = new Intent();
             intent.putExtra(Keys.KeyContent, fileName);
-            setResult(Keys.ResultCodeSuccess, intent);
+            setResult(RESULT_OK, intent);
             this.finish();
         }
     }

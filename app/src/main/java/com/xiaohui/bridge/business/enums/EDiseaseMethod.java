@@ -41,4 +41,5 @@ public enum EDiseaseMethod implements Serializable {
     public int getCount() {
         return count;
     }
+
 }

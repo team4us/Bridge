@@ -152,17 +152,18 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_photo"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
-                    style="@style/line_h"
-                    android:layout_marginTop="5dp"
-                    android:visibility="gone"/>
+                <TextView
+                    style="@style/DiseaseTitle"
+                    android:text="照片"/>
 
                 <com.xiaohui.bridge.component.MyGridView
+                    android:id="@+id/mgv_pictures"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_5"
@@ -170,35 +171,45 @@
                     android:numColumns="4"
                     android:scrollbars="none"
                     android:verticalSpacing="5dp"/>
-
-                <View
-                    style="@style/line_h"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:visibility="gone"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:orientation="horizontal">
-                </LinearLayout>
-
-                <View
-                    style="@style/line_h"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:visibility="gone"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:orientation="horizontal">
-                </LinearLayout>
-
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_voice"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/DiseaseTitle"
+                    android:text="录音"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_voice_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:orientation="horizontal"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_video"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/DiseaseTitle"
+                    android:text="录像"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_video_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:orientation="horizontal"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

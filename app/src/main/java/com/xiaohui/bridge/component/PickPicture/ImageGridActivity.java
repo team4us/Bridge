@@ -80,7 +80,7 @@ public class ImageGridActivity extends AbstractActivity {
             }
 
             if (Bimp.act_bool) {
-                setResult(Keys.ResultCodeSuccess);
+                setResult(RESULT_OK);
                 Bimp.act_bool = false;
             }
             for (int i = 0; i < list.size(); i++) {
@@ -88,7 +88,7 @@ public class ImageGridActivity extends AbstractActivity {
                     Bimp.drr.add(list.get(i));
                 }
             }
-            setResult(Keys.ResultCodeSuccess);
+            setResult(RESULT_OK);
             finish();
         }
 

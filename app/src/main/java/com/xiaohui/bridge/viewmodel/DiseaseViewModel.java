@@ -33,7 +33,6 @@ public class DiseaseViewModel {
     private List<Integer> methods;
     private String location;
     private String type;
-    private boolean isOther;
 
     public DiseaseViewModel(IDiseaseView view, Cookie cookie) {
         this.view = view;
@@ -102,7 +101,7 @@ public class DiseaseViewModel {
 
     public void onItemClickDiseaseType(int position) {
         type = types.get(position);
-        isOther = position == types.size() - 1;
+        boolean isOther = position == types.size() - 1;
         view.updateMethodView(isOther, methods.get(position));
     }
 

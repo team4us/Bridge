@@ -71,7 +71,7 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
         Intent intent = new Intent();
         int selectedIndex = (Integer) v.getTag();
         intent.putExtra(Keys.KeySelectedIndex, selectedIndex);
-        setResult(Keys.ResultCodeSuccess, intent);
+        setResult(RESULT_OK, intent);
         onBackPressed();
     }
 

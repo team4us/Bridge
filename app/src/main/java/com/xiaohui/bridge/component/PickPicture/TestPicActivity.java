@@ -96,8 +96,8 @@ public class TestPicActivity extends AbstractActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == Keys.RequestCodePickPicture){
-            if(resultCode == Keys.ResultCodeSuccess) {
-                setResult(Keys.ResultCodeSuccess);
+            if(resultCode == RESULT_OK) {
+                setResult(RESULT_OK);
                 this.finish();
             }
         }

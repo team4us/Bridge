@@ -18,7 +18,7 @@ public class CoordinateActivity extends AbstractActivity {
     }
 
     public void onClick(View view) {
-        setResult(Keys.ResultCodeSuccess);
+        setResult(RESULT_OK);
         finish();
     }
 }
