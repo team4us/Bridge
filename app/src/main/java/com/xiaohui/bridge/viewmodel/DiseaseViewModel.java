@@ -13,7 +13,6 @@ import com.xiaohui.bridge.view.IDiseaseView;
 
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,16 +24,15 @@ import java.util.List;
 @PresentationModel
 public class DiseaseViewModel {
 
-    private PresentationModelChangeSupport changeSupport;
     private IDiseaseView view;
     private String componentName;
     private List<String> locations;
-    private List<String> diseaseTypes;
+    private List<String> types;
     private List<Integer> methods;
-    private int method;
+    private String location;
+    private String type;
 
     public DiseaseViewModel(IDiseaseView view, Cookie cookie) {
-        changeSupport = new PresentationModelChangeSupport(this);
         this.view = view;
         ComponentModel componentModel = (ComponentModel) cookie.get(Keys.COMPONENT);
         componentName = componentModel.getComponent().getName();
@@ -49,7 +47,7 @@ public class DiseaseViewModel {
         String key = "disease_type_" + blockType;
         Resources resources = XhApplication.getApplication().getResources();
         int id = resources.getIdentifier(key, "array", BuildConfig.PACKAGE_NAME);
-        diseaseTypes = Arrays.asList(resources.getStringArray(id));
+        types = Arrays.asList(resources.getStringArray(id));
 
         key = "disease_method_" + blockType;
         id = resources.getIdentifier(key, "array", BuildConfig.PACKAGE_NAME);
@@ -69,21 +67,39 @@ public class DiseaseViewModel {
     }
 
     @ItemPresentationModel(LocationItemViewModel.class)
-    public List<String> getDiseaseTypes() {
-        return diseaseTypes;
+    public List<String> getTypes() {
+        return types;
     }
 
-    public int getMethod() {
-        return method;
+    public int indexWithType(String name) {
+        for (int i = 0; i < types.size(); i++) {
+            String type = types.get(i);
+            if (type.equalsIgnoreCase(name)) {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+    public int indexWithLocation(String name) {
+        for (int i = 0; i < locations.size(); i++) {
+            String location = locations.get(i);
+            if (location.equalsIgnoreCase(name)) {
+                return i;
+            }
+        }
+
+        return 0;
     }
 
     public void onItemClickLocation(int position) {
-
+        location = locations.get(position);
     }
 
     public void onItemClickDiseaseType(int position) {
-        method = methods.get(position);
-        view.updateMethodView(method);
+        type = types.get(position);
+        view.updateMethodView(methods.get(position));
     }
 
     public void onClickTakePhoto() {
@@ -100,5 +116,13 @@ public class DiseaseViewModel {
 
     public void onClickMovie() {
         view.takeMovie();
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getType() {
+        return type;
     }
 }

@@ -35,42 +35,6 @@
     <string name="password">密码</string>
     <string name="as_checker">审核人登录</string>
 
-    <string-array name="disease_input_type1">
-        <item>startpoint</item>
-        <item>endpoint</item>
-        <item>length</item>
-        <item>width</item>
-        <item>imagenumber</item>
-        <item>moreinfo</item>
-    </string-array>
-    <string-array name="disease_input_type2">
-        <item>position</item>
-        <item>length</item>
-        <item>width</item>
-        <item>imagenumber</item>
-        <item>moreinfo</item>
-    </string-array>
-    <string-array name="disease_input_type3">
-        <item>position</item>
-        <item>length</item>
-        <item>width</item>
-        <item>imagenumber</item>
-        <item>moreinfo</item>
-    </string-array>
-    <string-array name="disease_input_type4">
-        <item>position</item>
-        <item>length</item>
-        <item>width</item>
-        <item>imagenumber</item>
-        <item>moreinfo</item>
-    </string-array>
-    <string-array name="disease_input_type5">
-        <item>position</item>
-        <item>description</item>
-        <item>imagenumber</item>
-        <item>moreinfo</item>
-    </string-array>
-
     <string-array name="disease_type_0">
         <item>剥落露筋</item>
         <item>裂缝</item>

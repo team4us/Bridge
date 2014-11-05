@@ -14,11 +14,12 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_0"
             style="@style/disease_title_textview"
-            android:text="位置："/>
+            android:text="位置"/>
 
         <EditText
-            android:id="@+id/et_position"
+            android:id="@+id/et_0"
             android:layout_width="0dp"
             android:layout_weight="1"
             style="@style/disease_input_edittext"/>
@@ -32,12 +33,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_length_title"
+            android:id="@+id/tv_1"
             style="@style/disease_title_textview"
-            android:text="特征描述："/>
+            android:text="数量（处）"/>
 
         <EditText
-            android:id="@+id/et_description"
+            android:id="@+id/et_1"
             style="@style/disease_input_edittext"/>
 
     </LinearLayout>
@@ -49,30 +50,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_image_number"
+            android:id="@+id/tv_2"
             style="@style/disease_title_textview"
-            android:text="照片编号："/>
+            android:text="总面积（m^2）"/>
 
         <EditText
-            android:id="@+id/et_imagenumber"
-            style="@style/disease_input_edittext"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_more"
-            style="@style/disease_title_textview"
-            android:layout_gravity="center_vertical"
-            android:text="备注："/>
-
-        <EditText
-            android:id="@+id/et_moreinfo"
+            android:id="@+id/et_2"
             style="@style/disease_input_edittext"/>
 
     </LinearLayout>

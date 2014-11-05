@@ -14,64 +14,14 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_0"
             style="@style/disease_title_textview"
-            android:text="位置："/>
+            android:text="位置"/>
 
         <EditText
-            android:id="@+id/et_position"
+            android:id="@+id/et_0"
             android:layout_width="0dp"
             android:layout_weight="1"
-            style="@style/disease_input_edittext" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_length_title"
-            style="@style/disease_title_textview"
-            android:text="长度（m）："/>
-
-        <EditText
-            android:id="@+id/et_length"
-            style="@style/disease_number_input"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_width_title"
-            style="@style/disease_title_textview"
-            android:text="典型宽度（m）："/>
-
-        <EditText
-            android:id="@+id/et_width"
-            style="@style/disease_number_input"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_image_number"
-            style="@style/disease_title_textview"
-            android:text="照片编号："/>
-
-        <EditText
-            android:id="@+id/et_imagenumber"
             style="@style/disease_input_edittext"/>
 
     </LinearLayout>
@@ -83,14 +33,48 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_more"
+            android:id="@+id/tv_1"
             style="@style/disease_title_textview"
-            android:layout_gravity="center_vertical"
-            android:text="备注："/>
+            android:text="总数（条）"/>
 
         <EditText
-            android:id="@+id/et_moreinfo"
-            style="@style/disease_input_edittext"/>
+            android:id="@+id/et_1"
+            style="@style/disease_number_input"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_2"
+            style="@style/disease_title_textview"
+            android:text="总长（m)"/>
+
+        <EditText
+            android:id="@+id/et_2"
+            style="@style/disease_number_input"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_3"
+            style="@style/disease_title_textview"
+            android:text="典型宽度(mm)"/>
+
+        <EditText
+            android:id="@+id/et_3"
+            style="@style/disease_number_input"/>
+
+    </LinearLayout>
+
 </LinearLayout>

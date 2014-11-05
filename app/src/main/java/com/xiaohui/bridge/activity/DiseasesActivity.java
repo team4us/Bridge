@@ -65,7 +65,7 @@ public class DiseasesActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_disease_add) {
-            gotoDiseasePage(true);
+            gotoDiseasePage(DiseaseActivity.MODE_NEW);
         } else if (id == R.id.action_disease_statistics) {
             Intent intent = new Intent(this, DiseaseStatisticsActivity.class);
             startActivity(intent);
@@ -76,18 +76,18 @@ public class DiseasesActivity extends AbstractOrmLiteActivity<DatabaseHelper> im
 
     @Override
     protected void onResume() {
-//        viewModel.updateData();
+        viewModel.updateData();
         super.onResume();
     }
 
     @Override
     public void onItemSelect(int position, DiseaseModel project) {
-        gotoDiseasePage(false);
+        gotoDiseasePage(DiseaseActivity.MODE_EDIT);
     }
 
-    private void gotoDiseasePage(boolean isAdded) {
+    private void gotoDiseasePage(int mode) {
         Intent intent = new Intent(this, DiseaseActivity.class);
-        intent.putExtra(Keys.FLAG, isAdded); //是否为新增
+        intent.putExtra(Keys.MODE, mode);
         startActivity(intent);
     }
 }

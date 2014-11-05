@@ -12,7 +12,7 @@ public final class Keys {
     public static final String COMPONENT = "COMPONENT";
     public static final String DISEASE = "DISEASE";
 
-    public static final String FLAG = "FLAG";
+    public static final String MODE = "MODE";
 
     public static final String KeyContent = "K_Content";
     public static final String KeySelectedIndex = "K_SelectedIndex";

@@ -1,9 +1,7 @@
 package com.xiaohui.bridge.business.bean;
 
-import com.xiaohui.bridge.business.enums.EDiseaseMethod;
-
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,76 +9,76 @@ import java.util.Map;
  * Created by Administrator on 2014/10/12.
  */
 public class Disease implements Serializable {
-    private String componentName;
-    private String position;
-    private String diseaseType;
-    private EDiseaseMethod inputMethod;
-    private Map<String, Object> inputMethodValues;
-    private ArrayList<String> pictureList = new ArrayList<String>();
-    private ArrayList<String> recordList = new ArrayList<String>();
-    private ArrayList<String> videoList = new ArrayList<String>();
+    private String location;
+    private String type;
+    private String method;
+    private String comment;
+    private Map<String, String> values;
+    private List<String> pictureList;
+    private List<String> voiceList;
+    private List<String> videoList;
 
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
+    public String getLocation() {
+        return location;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public void setDiseaseType(String diseaseType) {
-        this.diseaseType = diseaseType;
+    public String getType() {
+        return type;
     }
 
-    public void setPictureList(ArrayList<String> pictureList) {
-        this.pictureList = pictureList;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setRecordList(ArrayList<String> recordList) {
-        this.recordList = recordList;
+    public String getMethod() {
+        return method;
     }
 
-    public void setVideoList(ArrayList<String> videoList) {
-        this.videoList = videoList;
+    public void setMethod(String method) {
+        this.method = method;
     }
 
-    public String getComponentName() {
-        return componentName;
+    public Map<String, String> getValues() {
+        return values;
     }
 
-    public String getPosition() {
-        return position;
+    public void setValues(Map<String, String> values) {
+        this.values = values;
     }
 
-    public String getDiseaseType() {
-        return diseaseType;
-    }
-
-    public Map<String, Object> getInputMethodValues() {
-        return inputMethodValues;
-    }
-
-    public void setInputMethodValues(Map<String, Object> inputMethodValues) {
-        this.inputMethodValues = inputMethodValues;
-    }
-
-    public EDiseaseMethod getInputMethod() {
-        return inputMethod;
-    }
-
-    public void setInputMethod(EDiseaseMethod inputMethod) {
-        this.inputMethod = inputMethod;
-    }
-
-    public ArrayList<String> getPictureList() {
+    public List<String> getPictureList() {
         return pictureList;
     }
 
-    public ArrayList<String> getRecordList() {
-        return recordList;
+    public void setPictureList(List<String> pictureList) {
+        this.pictureList = pictureList;
     }
 
-    public ArrayList<String> getVideoList() {
+    public List<String> getVoiceList() {
+        return voiceList;
+    }
+
+    public void setVoiceList(List<String> voiceList) {
+        this.voiceList = voiceList;
+    }
+
+    public List<String> getVideoList() {
         return videoList;
+    }
+
+    public void setVideoList(List<String> videoList) {
+        this.videoList = videoList;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
