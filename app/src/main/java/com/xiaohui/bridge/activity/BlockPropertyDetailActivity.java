@@ -27,6 +27,8 @@ public class BlockPropertyDetailActivity extends AbstractOrmLiteActivity<Databas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_property);
 
+        setTitle(((BlockModel) getCookie().get(Keys.BLOCK)).getBlock().getName());
+
         llPropertyLayout = (LinearLayout) findViewById(R.id.ll_property_layout);
 
         blockProperty = ((BlockModel) getCookie().get(Keys.BLOCK)).getBlockProperty();
