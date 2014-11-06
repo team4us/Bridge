@@ -109,12 +109,14 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         this.isOther = isOther;
         etOther.setVisibility(isOther ? View.VISIBLE : View.GONE);
         int radioButtonId = -1;
+        int count = 0;
         for (int i = 0; i < 6; i++) {
             EDiseaseMethod diseaseMethod = EDiseaseMethod.values()[i];
             RadioButton rb = (RadioButton) findViewById(diseaseMethod.getRadioButtonResId());
             if ((method & (1 << i)) == 0) {
                 rb.setVisibility(View.GONE);
             } else {
+                count++;
                 rb.setVisibility(View.VISIBLE);
                 if (isOther) {
                     rb.setText("方法" + (i + 1));
@@ -128,6 +130,12 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             }
         }
 
+        if (count > 1) {
+            rgMethods.setVisibility(View.VISIBLE);
+        } else {
+            rgMethods.setVisibility(View.GONE);
+        }
+        
         setDefaultMethod(radioButtonId);
     }
 
