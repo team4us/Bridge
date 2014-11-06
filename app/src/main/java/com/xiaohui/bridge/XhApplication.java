@@ -17,8 +17,7 @@ import java.io.File;
  */
 public class XhApplication extends Application {
 
-    private static final String CACHE_FILE_PATH = Environment.getExternalStorageDirectory() + "/iBridge/";
-
+    private static final String CACHE_PATH = Environment.getExternalStorageDirectory() + "/iBridge/";
     private static final String STORE_NAME = "bridge.storage";
     private static final String KEY = "@WSXCDE#$RV3edc";
     private static final String DEFAULT_USER_NAME = "Default";
@@ -27,7 +26,7 @@ public class XhApplication extends Application {
     private BinderFactory binderFactory;
     private Cookie cookie;
     private Store store;
-    private String pictureFolderPath;
+    private String pictureCachePath;
 
     @Override
     public void onCreate() {
@@ -65,14 +64,18 @@ public class XhApplication extends Application {
     }
 
     private void createCacheFolder() {
-        pictureFolderPath = CACHE_FILE_PATH + "Picture/";
-        File file = new File(pictureFolderPath);
+        pictureCachePath = CACHE_PATH + "Picture/";
+        File file = new File(pictureCachePath);
         if (!file.exists()) {
             file.mkdirs();
         }
     }
 
+    public String getCachePath() {
+        return CACHE_PATH;
+    }
+
     public String getCachePathForPicture() {
-        return pictureFolderPath;
+        return pictureCachePath;
     }
 }

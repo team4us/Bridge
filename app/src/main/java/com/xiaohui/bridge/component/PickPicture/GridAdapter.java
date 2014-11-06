@@ -48,24 +48,24 @@ public class GridAdapter extends BaseAdapter {
      */
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if (convertView == null) {
-
-            convertView = inflater.inflate(R.layout.view_picture_item,
-                    parent, false);
-            holder = new ViewHolder();
-            holder.image = (ImageView) convertView
-                    .findViewById(R.id.item_grida_image);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        if (position < Bimp.bmp.size() && null != Bimp.bmp && Bimp.bmp.size() > 0) {
-            holder.image.setVisibility(View.VISIBLE);
-            holder.image.setImageBitmap(Bimp.bmp.get(position));
-        } else {
-            holder.image.setVisibility(View.GONE);
-        }
+//        if (convertView == null) {
+//
+//            convertView = inflater.inflate(R.layout.view_picture_item,
+//                    parent, false);
+//            holder = new ViewHolder();
+//            holder.image = (ImageView) convertView
+//                    .findViewById(R.id.item_grida_image);
+//            convertView.setTag(holder);
+//        } else {
+//            holder = (ViewHolder) convertView.getTag();
+//        }
+//
+//        if (position < Bimp.bmp.size() && null != Bimp.bmp && Bimp.bmp.size() > 0) {
+//            holder.image.setVisibility(View.VISIBLE);
+//            holder.image.setImageBitmap(Bimp.bmp.get(position));
+//        } else {
+//            holder.image.setVisibility(View.GONE);
+//        }
 
         return convertView;
     }

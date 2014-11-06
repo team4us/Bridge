@@ -33,12 +33,12 @@ import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.enums.EDiseaseMethod;
 import com.xiaohui.bridge.component.DataAdapter;
 import com.xiaohui.bridge.component.MyGridView;
-import com.xiaohui.bridge.component.PickPicture.GridAdapter;
 import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.component.PickPicture.TestPicActivity;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
+import com.xiaohui.bridge.util.BitmapUtil;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseaseViewModel;
@@ -71,7 +71,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private EditText etOther;
     private LinearLayout llVoice;
     private LinearLayout llVideo;
-    private View viewPhoto;
+    private View viewPicture;
     private View viewVoice;
     private View viewVideo;
     private DiseaseViewModel viewModel;
@@ -81,7 +81,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private List<String> pictureList;
     private List<String> voiceList;
     private List<String> videoList;
-    private List<Bitmap> bitmapList;
+    private List<Bitmap> bitmapList = new ArrayList<Bitmap>();
     private int mode;
     private boolean isOther;
     private DataAdapter<Bitmap> pictureAdapter;
@@ -202,6 +202,10 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
     private void onResultTakePhoto() {
         pictureList.add(picturePath);
+        Bitmap bitmap = BitmapUtil.getBitmapFromFilePath(picturePath, 10 * 1024);
+        bitmapList.add(bitmap);
+        pictureAdapter.notifyDataSetChanged();
+        viewPicture.setVisibility(View.VISIBLE);
     }
 
     private void onResultPickPictures() {
@@ -259,7 +263,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         llMethodView = (LinearLayout) findViewById(R.id.ll_method_view);
         etComment = (EditText) findViewById(R.id.et_comment);
         etOther = (EditText) findViewById(R.id.et_other);
-        viewPhoto = findViewById(R.id.ll_photo);
+        viewPicture = findViewById(R.id.ll_photo);
         viewVoice = findViewById(R.id.ll_voice);
         viewVideo = findViewById(R.id.ll_video);
         llVoice = (LinearLayout) findViewById(R.id.ll_voice_record);
@@ -281,7 +285,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 imageView.setImageBitmap(data);
             }
         });
-
+        pictureAdapter.setContent(bitmapList);
         mgvPicturesGridView.setAdapter(pictureAdapter);
         mgvPicturesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -350,6 +354,20 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         } else {
             diseaseModel = (DiseaseModel) getCookie().get(Keys.DISEASE);
             Disease disease = diseaseModel.getDisease();
+            pictureList = disease.getPictureList();
+            if (pictureList == null) {
+                pictureList = new ArrayList<String>();
+            }
+
+            voiceList = disease.getVoiceList();
+            if (voiceList == null) {
+                voiceList = new ArrayList<String>();
+            }
+
+            videoList = disease.getVideoList();
+            if (videoList == null) {
+                videoList = new ArrayList<String>();
+            }
 
             int index = viewModel.indexWithLocation(disease.getLocation());
             spLocations.setSelection(index);

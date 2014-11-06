@@ -37,7 +37,6 @@ public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> imple
     @Override
     public void loginSuccess() {
         if(!checkBox.isChecked()) {
-            initFolder();
             startActivity(new Intent(this, ProjectsActivity.class));
         } else {
             startActivity(new Intent(this, AllUsersActivity.class));
@@ -59,16 +58,16 @@ public class LoginActivity extends AbstractOrmLiteActivity<DatabaseHelper> imple
         builder.create().show();
     }
 
-    private void initFolder(){
-        String PicturePath = BusinessManager.ALL_MEDIA_FILE_PATH + loginViewModel.getName() + File.separator;
-        File saveDir = new File(PicturePath);
-
-        if (!saveDir.exists()) {
-            if (!saveDir.mkdirs()) {
-                Toast.makeText(this, "创建个人文档目录失败", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        BusinessManager.USER_MEDIA_FILE_PATH = PicturePath;
-    }
+//    private void initFolder(){
+//        String PicturePath = BusinessManager.ALL_MEDIA_FILE_PATH + loginViewModel.getName() + File.separator;
+//        File saveDir = new File(PicturePath);
+//
+//        if (!saveDir.exists()) {
+//            if (!saveDir.mkdirs()) {
+//                Toast.makeText(this, "创建个人文档目录失败", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        BusinessManager.USER_MEDIA_FILE_PATH = PicturePath;
+//    }
 }
