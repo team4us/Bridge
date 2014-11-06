@@ -5,7 +5,7 @@ package com.xiaohui.bridge.view;
  */
 public interface IDiseaseView {
     public void takePhoto();
-    public void selectPictures();
+    public void pickPictures();
     public void takeVoice();
     public void takeMovie();
     public void updateMethodView(boolean isOther, int method);

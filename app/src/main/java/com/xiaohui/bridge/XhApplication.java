@@ -1,6 +1,7 @@
 package com.xiaohui.bridge;
 
 import android.app.Application;
+import android.os.Environment;
 
 import com.xiaohui.bridge.storage.Cookie;
 import com.xiaohui.bridge.storage.DesEncrypt;
@@ -9,10 +10,14 @@ import com.xiaohui.bridge.storage.Store;
 import org.robobinding.binder.BinderFactory;
 import org.robobinding.binder.BinderFactoryBuilder;
 
+import java.io.File;
+
 /**
  * Created by xhChen on 14/9/22.
  */
 public class XhApplication extends Application {
+
+    private static final String CACHE_FILE_PATH = Environment.getExternalStorageDirectory() + "/iBridge/";
 
     private static final String STORE_NAME = "bridge.storage";
     private static final String KEY = "@WSXCDE#$RV3edc";
@@ -22,6 +27,7 @@ public class XhApplication extends Application {
     private BinderFactory binderFactory;
     private Cookie cookie;
     private Store store;
+    private String pictureFolderPath;
 
     @Override
     public void onCreate() {
@@ -31,6 +37,7 @@ public class XhApplication extends Application {
         binderFactory = builder.build();
         cookie = new Cookie();
         store = new Store(this, STORE_NAME, new DesEncrypt(KEY));
+        createCacheFolder();
     }
 
     public BinderFactory getBinderFactory() {
@@ -55,5 +62,17 @@ public class XhApplication extends Application {
 
     public void setCurrentUserName(String userName) {
         store.putString(Keys.USER, userName);
+    }
+
+    private void createCacheFolder() {
+        pictureFolderPath = CACHE_FILE_PATH + "Picture/";
+        File file = new File(pictureFolderPath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+    }
+
+    public String getCachePathForPicture() {
+        return pictureFolderPath;
     }
 }

@@ -1,7 +1,6 @@
 package com.xiaohui.bridge.viewmodel;
 
 import android.content.res.Resources;
-import android.view.View;
 
 import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
@@ -14,7 +13,6 @@ import com.xiaohui.bridge.view.IDiseaseView;
 
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
-import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -110,7 +108,7 @@ public class DiseaseViewModel {
     }
 
     public void onClickSelectPic() {
-        view.selectPictures();
+        view.pickPictures();
     }
 
     public void onClickVoice() {

@@ -3,6 +3,7 @@ package com.xiaohui.bridge.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +31,8 @@ import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.enums.EDiseaseMethod;
+import com.xiaohui.bridge.component.DataAdapter;
 import com.xiaohui.bridge.component.MyGridView;
-import com.xiaohui.bridge.component.PickPicture.Bimp;
-import com.xiaohui.bridge.component.PickPicture.FileUtils;
 import com.xiaohui.bridge.component.PickPicture.GridAdapter;
 import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.component.PickPicture.TestPicActivity;
@@ -47,12 +48,9 @@ import org.joda.time.DateTime;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -80,13 +78,14 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private EDiseaseMethod currentMethod;
     private DiseaseModel diseaseModel;
     private Map<String, String> methodValues;
-    private List<String> photoList;
+    private List<String> pictureList;
     private List<String> voiceList;
     private List<String> videoList;
+    private List<Bitmap> bitmapList;
     private int mode;
     private boolean isOther;
-    private GridAdapter mgvPicturesAdapter;
-    private String photoPath;
+    private DataAdapter<Bitmap> pictureAdapter;
+    private String picturePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,20 +93,9 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         mode = getIntent().getIntExtra(Keys.MODE, MODE_NEW);
         viewModel = new DiseaseViewModel(this, getCookie());
         setContentView(R.layout.activity_disease, viewModel);
+        setTitle(mode == MODE_NEW ? "病害新增" : "病害编辑");
         initViews();
-        if (mode == MODE_NEW) {
-            setTitle("病害新增");
-            diseaseModel = new DiseaseModel();
-            diseaseModel.setComponent((ComponentModel) getCookie().get(Keys.COMPONENT));
-            viewModel.onItemClickDiseaseType(0);
-            methodValues = new HashMap<String, String>();
-            photoList = new ArrayList<String>();
-            voiceList = new ArrayList<String>();
-            videoList = new ArrayList<String>();
-        } else {
-            setTitle("病害编辑");
-            fillData();
-        }
+        fillData();
     }
 
     @Override
@@ -162,28 +150,16 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
     @Override
     public void takePhoto() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String currentTakePictureName = "Picture-" + df.format(new Date()) + ".jpg";
-
-        File pictureSaveDir = new File(FileUtils.PICTURE_PATH);
-
-        if (!pictureSaveDir.exists()) {
-            if (!pictureSaveDir.mkdirs()) {
-                Toast.makeText(this, "创建图片文档目录失败", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        File file = new File(FileUtils.PICTURE_PATH + currentTakePictureName);
-        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoPath = file.getPath();
-        Uri imageUri = Uri.fromFile(file);
-        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(openCameraIntent, Keys.RequestCodeTakePicture);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String fileName = "pic_" + DateTime.now().toString("yyyyMMddHHmmss") + ".jpg";
+        picturePath = getGlobalApplication().getCachePathForPicture() + fileName;
+        File file = new File(picturePath);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        startActivityForResult(intent, Keys.RequestCodeTakePicture);
     }
 
     @Override
-    public void selectPictures() {
+    public void pickPictures() {
         Intent intent = new Intent(this, TestPicActivity.class);
         startActivityForResult(intent, Keys.RequestCodePickPicture);
     }
@@ -191,107 +167,85 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     @Override
     public void takeVoice() {
         Intent intent = new Intent(this, VoiceRecordActivity.class);
-        startActivityForResult(intent, Keys.RequestCodeTakeRecord);
+        startActivityForResult(intent, Keys.RequestCodeTakeVoice);
     }
 
     @Override
     public void takeMovie() {
         Intent intent = new Intent(this, MovieRecordActivity.class);
-        startActivityForResult(intent, Keys.RequestCodeTakeMovie);
+        startActivityForResult(intent, Keys.RequestCodeTakeVideo);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bundle bundle = data.getExtras();
-        if (resultCode != RESULT_OK || bundle == null)
+        if (resultCode != RESULT_OK)
             return;
         switch (requestCode) {
             case Keys.RequestCodeTakePicture:
-                if (Bimp.drr.size() < 9) {
-                    photoList.clear();
-                    Bimp.drr.add(photoPath);
-                    for (int i = 0; i < Bimp.drr.size(); i++) {
-                        photoList.add(Bimp.drr.get(i));
-                    }
-                }
+                onResultTakePhoto();
                 break;
-            case Keys.RequestCodeTakeRecord:
-                String recordPath = bundle.getString(Keys.KeyContent);
-                if (!TextUtils.isEmpty(recordPath)) {
-                    addMediaFile(recordPath, true);
-                }
+            case Keys.RequestCodePickPicture:
+                onResultPickPictures();
                 break;
-            case Keys.RequestCodeTakeMovie:
-                String videoPath = bundle.getString(Keys.KeyContent);
-                if (!TextUtils.isEmpty(videoPath)) {
-                    addMediaFile(videoPath, false);
-                }
+            case Keys.RequestCodeTakeVoice:
+                onResultTakeVoice(data);
+                break;
+            case Keys.RequestCodeTakeVideo:
+                onResultTakeVideo(data);
                 break;
             case Keys.RequestCodeCoordinate:
-                View view = methodView.findViewById(R.id.et_startpoint);
-                if (view != null) {
-                    String startPoint = random() + "," + random();
-                    ((EditText) view).setText(startPoint);
-
-                    EditText editText = (EditText) methodView.findViewById(R.id.et_endpoint);
-                    String endPoint = random() + "," + random();
-                    editText.setText(endPoint);
-                } else {
-                    view = methodView.findViewById(R.id.et_position);
-                    if (view != null) {
-                        EditText editText = (EditText) view;
-                        String endPoint = random() + "," + random();
-                        editText.setText(endPoint);
-                    }
-                }
+                onResultCoordinate(data);
                 break;
         }
     }
 
-    private void fillData() {
-        diseaseModel = (DiseaseModel) getCookie().get(Keys.DISEASE);
-        Disease disease = diseaseModel.getDisease();
-
-        int index = viewModel.indexWithLocation(disease.getLocation());
-        spLocations.setSelection(index);
-        viewModel.onItemClickLocation(index);
-
-        index = viewModel.indexWithType(disease.getType());
-        spDiseaseType.setSelection(index);
-        viewModel.onItemClickDiseaseType(index);
-        if (isOther) {
-            etOther.setText(disease.getType());
-        }
-
-        methodView = switchMethodView(EDiseaseMethod.valueOf(disease.getMethod()));
-        int count = currentMethod.getCount();
-        methodValues = disease.getValues();
-        for (int i = 0; i < count; i++) {
-            TextView textView = (TextView) methodView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
-            String key = textView.getText().toString();
-            String value = methodValues.get(key);
-
-            EditText editText = (EditText) methodView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
-            editText.setText(value);
-        }
-
-        etComment.setText(disease.getComment());
-
-        initMediaResource();
+    private void onResultTakePhoto() {
+        pictureList.add(picturePath);
     }
 
-    private void initMediaResource() {
-        if (mode == MODE_NEW) {
-            photoList = diseaseModel.getDisease().getPictureList();
-            Bimp.drr = photoList;
-            for (int i = 0; i < diseaseModel.getDisease().getVoiceList().size(); i++) {
-                addMediaFile(diseaseModel.getDisease().getVoiceList().get(i), true);
-            }
-            for (int i = 0; i < diseaseModel.getDisease().getVideoList().size(); i++) {
-                addMediaFile(diseaseModel.getDisease().getVideoList().get(i), false);
-            }
+    private void onResultPickPictures() {
+    }
+
+    private void onResultTakeVoice(Intent data) {
+        if (data == null)
+            return;
+        Bundle bundle = data.getExtras();
+        String recordPath = bundle.getString(Keys.KeyContent);
+        if (!TextUtils.isEmpty(recordPath)) {
+            addMediaFile(recordPath, true);
         }
+    }
+
+    private void onResultTakeVideo(Intent data) {
+        if (data == null)
+            return;
+        Bundle bundle = data.getExtras();
+        String videoPath = bundle.getString(Keys.KeyContent);
+        if (!TextUtils.isEmpty(videoPath)) {
+            addMediaFile(videoPath, false);
+        }
+    }
+
+    private void onResultCoordinate(Intent data) {
+        if (data == null)
+            return;
+//                View view = methodView.findViewById(R.id.et_startpoint);
+//                if (view != null) {
+//                    String startPoint = random() + "," + random();
+//                    ((EditText) view).setText(startPoint);
+//
+//                    EditText editText = (EditText) methodView.findViewById(R.id.et_endpoint);
+//                    String endPoint = random() + "," + random();
+//                    editText.setText(endPoint);
+//                } else {
+//                    view = methodView.findViewById(R.id.et_position);
+//                    if (view != null) {
+//                        EditText editText = (EditText) view;
+//                        String endPoint = random() + "," + random();
+//                        editText.setText(endPoint);
+//                    }
+//                }
     }
 
     private void initViews() {
@@ -310,12 +264,25 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         viewVideo = findViewById(R.id.ll_video);
         llVoice = (LinearLayout) findViewById(R.id.ll_voice_record);
         llVideo = (LinearLayout) findViewById(R.id.ll_video_record);
+        spLocations = (Spinner) findViewById(R.id.sp_locations);
+        spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
 
         MyGridView mgvPicturesGridView = (MyGridView) findViewById(R.id.mgv_pictures);
         mgvPicturesGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        mgvPicturesAdapter = new GridAdapter(this);
-        mgvPicturesAdapter.update();
-        mgvPicturesGridView.setAdapter(mgvPicturesAdapter);
+        pictureAdapter = new DataAdapter<Bitmap>(this, new DataAdapter.IViewCreator<Bitmap>() {
+            @Override
+            public View createView(LayoutInflater inflater) {
+                return inflater.inflate(R.layout.view_picture_item, null);
+            }
+
+            @Override
+            public void bindDataToView(View view, Bitmap data, int position) {
+                ImageView imageView = (ImageView) view.findViewById(R.id.iv_picture);
+                imageView.setImageBitmap(data);
+            }
+        });
+
+        mgvPicturesGridView.setAdapter(pictureAdapter);
         mgvPicturesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 Intent intent = new Intent(DiseaseActivity.this, PhotoActivity.class);
@@ -323,11 +290,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 startActivity(intent);
             }
         });
-        initListener();
-    }
 
-    private void initListener() {
-        spLocations = (Spinner) findViewById(R.id.sp_locations);
         spLocations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -339,8 +302,6 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
             }
         });
-
-        spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         spDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -352,13 +313,69 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
             }
         });
-
         rgMethods.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switchMethodView(checkedId);
             }
         });
+    }
+
+    private void initMediaResource() {
+
+
+//            pictureList = diseaseModel.getDisease().getPictureList();
+//            voiceList = diseaseModel.getDisease().getVoiceList();
+//            videoList = diseaseModel.getDisease().getVideoList();
+//            Bimp.drr = pictureList;
+//            mgvPicturesAdapter.update();
+//            for (int i = 0; i < voiceList.size(); i++) {
+//                addMediaFile(voiceList.get(i), true);
+//            }
+//            for (int i = 0; i < videoList.size(); i++) {
+//                addMediaFile(diseaseModel.getDisease().getVideoList().get(i), false);
+//            }
+//        }
+    }
+
+    private void fillData() {
+        if (mode == MODE_NEW) {
+            diseaseModel = new DiseaseModel();
+            diseaseModel.setComponent((ComponentModel) getCookie().get(Keys.COMPONENT));
+            viewModel.onItemClickDiseaseType(0);
+            methodValues = new HashMap<String, String>();
+            pictureList = new ArrayList<String>();
+            voiceList = new ArrayList<String>();
+            videoList = new ArrayList<String>();
+        } else {
+            diseaseModel = (DiseaseModel) getCookie().get(Keys.DISEASE);
+            Disease disease = diseaseModel.getDisease();
+
+            int index = viewModel.indexWithLocation(disease.getLocation());
+            spLocations.setSelection(index);
+            viewModel.onItemClickLocation(index);
+
+            index = viewModel.indexWithType(disease.getType());
+            spDiseaseType.setSelection(index);
+            viewModel.onItemClickDiseaseType(index);
+            if (isOther) {
+                etOther.setText(disease.getType());
+            }
+
+            methodView = switchMethodView(EDiseaseMethod.valueOf(disease.getMethod()));
+            int count = currentMethod.getCount();
+            methodValues = disease.getValues();
+            for (int i = 0; i < count; i++) {
+                TextView textView = (TextView) methodView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
+                String key = textView.getText().toString();
+                String value = methodValues.get(key);
+
+                EditText editText = (EditText) methodView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
+                editText.setText(value);
+            }
+
+            etComment.setText(disease.getComment());
+        }
     }
 
     private void setDefaultMethod(int radioButtonId) {
@@ -397,7 +414,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             methodValues.put(textView.getText().toString(), editText.getText().toString());
         }
         disease.setValues(methodValues);
-        disease.setPictureList(photoList);
+        disease.setPictureList(pictureList);
         disease.setVideoList(videoList);
         disease.setVoiceList(voiceList);
         diseaseModel.setDisease(disease);

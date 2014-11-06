@@ -20,16 +20,6 @@ import java.io.IOException;
  */
 public class GridAdapter extends BaseAdapter {
     private LayoutInflater inflater; // 视图容器
-    private int selectedPosition = -1;// 选中的位置
-    private boolean shape;
-
-    public boolean isShape() {
-        return shape;
-    }
-
-    public void setShape(boolean shape) {
-        this.shape = shape;
-    }
 
     public GridAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -53,14 +43,6 @@ public class GridAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void setSelectedPosition(int position) {
-        selectedPosition = position;
-    }
-
-    public int getSelectedPosition() {
-        return selectedPosition;
-    }
-
     /**
      * ListView Item设置
      */
@@ -68,7 +50,7 @@ public class GridAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (convertView == null) {
 
-            convertView = inflater.inflate(R.layout.item_published_grida,
+            convertView = inflater.inflate(R.layout.view_picture_item,
                     parent, false);
             holder = new ViewHolder();
             holder.image = (ImageView) convertView
