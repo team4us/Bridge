@@ -23,6 +23,7 @@
         android:scrollbars="none">
 
         <LinearLayout
+            android:id="@+id/ll_disease_content_layout"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
