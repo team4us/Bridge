@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 
 /**
@@ -22,16 +23,19 @@ public class DiseaseItemView extends LinearLayout{
     public DiseaseItemView(Context context) {
         super(context);
         this.context = context;
+        initView();
     }
 
     public DiseaseItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        initView();
     }
 
     public DiseaseItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
+        initView();
     }
 
     private void initView(){
@@ -40,8 +44,8 @@ public class DiseaseItemView extends LinearLayout{
         diseaseContentLayout = (LinearLayout) findViewById(R.id.ll_disease_content_layout);
     }
 
-    public LinearLayout getInitDataView(){
-        diseaseTypeName.setText("裂缝");
+    public LinearLayout getInitDataView(Disease disease){
+        diseaseTypeName.setText(disease.getType());
 
 
         return this;
