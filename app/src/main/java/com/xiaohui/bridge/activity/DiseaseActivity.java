@@ -38,7 +38,7 @@ import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
-import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.util.ListUtil;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseaseViewModel;
 
@@ -61,17 +61,18 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     public static final int MODE_EDIT = 1;
     public static final int MODE_CHECK = 2;
 
+    public static final int MEDIA_PICTURE = 0;
+    public static final int MEDIA_VOICE = 1;
+    public static final int MEDIA_VIDEO = 2;
+
     private static final int MAX_PICTURE_COUNT = 9;
-    private final int iconWidth = DeviceParamterUtil.dip2px(60);
+    private static final int MAX_VOICE_COUNT = 9;
+    private static final int MAX_VIDEO_COUNT = 9;
     private RadioGroup rgMethods;
     private LinearLayout llMethodView;
-    private Spinner spLocations;
-    private Spinner spDiseaseType;
     private View methodView;
     private EditText etComment;
     private EditText etOther;
-    private LinearLayout llVoice;
-    private LinearLayout llVideo;
     private View viewPicture;
     private View viewVoice;
     private View viewVideo;
@@ -86,6 +87,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private int mode;
     private boolean isOther;
     private DataAdapter<String> pictureAdapter;
+    private DataAdapter<String> voiceAdapter;
+    private DataAdapter<String> videoAdapter;
     private String picturePath;
 
     @Override
@@ -101,8 +104,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
+        initDiseaseModel();
         initViews();
-        fillData();
     }
 
     @Override
@@ -167,7 +170,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     @Override
     public void takePhoto() {
         if (pictureList.size() >= MAX_PICTURE_COUNT) {
-            Toast.makeText(this, R.string.more_than_nine, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.more_than_nine_pictures, Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -181,7 +184,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     @Override
     public void pickPictures() {
         if (pictureList.size() >= MAX_PICTURE_COUNT) {
-            Toast.makeText(this, R.string.more_than_nine, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.more_than_nine_pictures, Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(this, PictureSelectActivity.class);
@@ -191,12 +194,20 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
     @Override
     public void takeVoice() {
+        if (voiceList.size() >= MAX_VOICE_COUNT) {
+            Toast.makeText(this, R.string.more_than_nine_voices, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, VoiceRecordActivity.class);
         startActivityForResult(intent, Keys.RequestCodeTakeVoice);
     }
 
     @Override
     public void takeVideo() {
+        if (videoList.size() >= MAX_VIDEO_COUNT) {
+            Toast.makeText(this, R.string.more_than_nine_videos, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, VideoRecordActivity.class);
         startActivityForResult(intent, Keys.RequestCodeTakeVideo);
     }
@@ -227,36 +238,28 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
     private void onResultTakePhoto() {
         pictureList.add(picturePath);
-        pictureAdapter.setContent(pictureList);
-        pictureAdapter.notifyDataSetChanged();
-        viewPicture.setVisibility(View.VISIBLE);
+        updatePictureView();
     }
 
     private void onResultPickPictures(Intent data) {
+        if (data == null)
+            return;
         pictureList.addAll(data.getStringArrayListExtra(Keys.Content));
-        pictureAdapter.setContent(pictureList);
-        pictureAdapter.notifyDataSetChanged();
-        viewPicture.setVisibility(View.VISIBLE);
+        updatePictureView();
     }
 
     private void onResultTakeVoice(Intent data) {
         if (data == null)
             return;
-        Bundle bundle = data.getExtras();
-        String recordPath = bundle.getString(Keys.Content);
-        if (!TextUtils.isEmpty(recordPath)) {
-            addMediaFile(recordPath, true);
-        }
+        voiceList.add(data.getExtras().getString(Keys.Content));
+        updateVoiceView();
     }
 
     private void onResultTakeVideo(Intent data) {
         if (data == null)
             return;
-        Bundle bundle = data.getExtras();
-        String videoPath = bundle.getString(Keys.Content);
-        if (!TextUtils.isEmpty(videoPath)) {
-            addMediaFile(videoPath, false);
-        }
+        videoList.add(data.getExtras().getString(Keys.Content));
+        updateVideoView();
     }
 
     private void onResultCoordinate(Intent data) {
@@ -280,6 +283,34 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 //                }
     }
 
+    private void initDiseaseModel() {
+        if (mode == MODE_NEW) {
+            diseaseModel = new DiseaseModel();
+            diseaseModel.setComponent((ComponentModel) getCookie().get(Keys.COMPONENT));
+            methodValues = new HashMap<String, String>();
+            pictureList = new ArrayList<String>();
+            voiceList = new ArrayList<String>();
+            videoList = new ArrayList<String>();
+        } else {
+            diseaseModel = (DiseaseModel) getCookie().get(Keys.DISEASE);
+            Disease disease = diseaseModel.getDisease();
+            pictureList = disease.getPictureList();
+            if (pictureList == null) {
+                pictureList = new ArrayList<String>();
+            }
+
+            voiceList = disease.getVoiceList();
+            if (voiceList == null) {
+                voiceList = new ArrayList<String>();
+            }
+
+            videoList = disease.getVideoList();
+            if (videoList == null) {
+                videoList = new ArrayList<String>();
+            }
+        }
+    }
+
     private void initViews() {
         for (int i = 0; i < 6; i++) {
             EDiseaseMethod diseaseMethod = EDiseaseMethod.values()[i];
@@ -294,34 +325,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         viewPicture = findViewById(R.id.ll_photo);
         viewVoice = findViewById(R.id.ll_voice);
         viewVideo = findViewById(R.id.ll_video);
-        llVoice = (LinearLayout) findViewById(R.id.ll_voice_record);
-        llVideo = (LinearLayout) findViewById(R.id.ll_video_record);
-        spLocations = (Spinner) findViewById(R.id.sp_locations);
-        spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
-
-        MyGridView mgvPicturesGridView = (MyGridView) findViewById(R.id.mgv_pictures);
-        mgvPicturesGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        pictureAdapter = new DataAdapter<String>(this, new DataAdapter.IViewCreator<String>() {
-            @Override
-            public View createView(LayoutInflater inflater, ViewGroup parent) {
-                return inflater.inflate(R.layout.view_picture_item, parent, false);
-            }
-
-            @Override
-            public void bindDataToView(View view, String data, int position) {
-                ImageView imageView = (ImageView) view.findViewById(R.id.iv_picture);
-                ImageLoader.getInstance().displayImage("file://" + data, imageView, options);
-            }
-        });
-        pictureAdapter.setContent(pictureList);
-        mgvPicturesGridView.setAdapter(pictureAdapter);
-        mgvPicturesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Intent intent = new Intent(DiseaseActivity.this, PhotoActivity.class);
-                intent.putExtra("ID", arg2);
-                startActivity(intent);
-            }
-        });
+        Spinner spLocations = (Spinner) findViewById(R.id.sp_locations);
+        Spinner spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
 
         spLocations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -351,52 +356,9 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 switchMethodView(checkedId);
             }
         });
-    }
 
-    private void initMediaResource() {
-
-
-//            pictureList = diseaseModel.getDisease().getPictureList();
-//            voiceList = diseaseModel.getDisease().getVoiceList();
-//            videoList = diseaseModel.getDisease().getVideoList();
-//            Bimp.drr = pictureList;
-//            mgvPicturesAdapter.update();
-//            for (int i = 0; i < voiceList.size(); i++) {
-//                addMediaFile(voiceList.get(i), true);
-//            }
-//            for (int i = 0; i < videoList.size(); i++) {
-//                addMediaFile(diseaseModel.getDisease().getVideoList().get(i), false);
-//            }
-//        }
-    }
-
-    private void fillData() {
-        if (mode == MODE_NEW) {
-            diseaseModel = new DiseaseModel();
-            diseaseModel.setComponent((ComponentModel) getCookie().get(Keys.COMPONENT));
-            viewModel.onItemClickDiseaseType(0);
-            methodValues = new HashMap<String, String>();
-            pictureList = new ArrayList<String>();
-            voiceList = new ArrayList<String>();
-            videoList = new ArrayList<String>();
-        } else {
-            diseaseModel = (DiseaseModel) getCookie().get(Keys.DISEASE);
+        if (mode != MODE_NEW) {
             Disease disease = diseaseModel.getDisease();
-            pictureList = disease.getPictureList();
-            if (pictureList == null) {
-                pictureList = new ArrayList<String>();
-            }
-
-            voiceList = disease.getVoiceList();
-            if (voiceList == null) {
-                voiceList = new ArrayList<String>();
-            }
-
-            videoList = disease.getVideoList();
-            if (videoList == null) {
-                videoList = new ArrayList<String>();
-            }
-
             int index = viewModel.indexWithLocation(disease.getLocation());
             spLocations.setSelection(index);
             viewModel.onItemClickLocation(index);
@@ -421,6 +383,163 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             }
 
             etComment.setText(disease.getComment());
+        } else {
+            viewModel.onItemClickDiseaseType(0);
+        }
+
+        initMediaView();
+    }
+
+    private void initMediaView() {
+        MyGridView gvPicture = (MyGridView) findViewById(R.id.mgv_picture);
+        gvPicture.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        pictureAdapter = new DataAdapter<String>(this, new IconViewCreator(MEDIA_PICTURE));
+        gvPicture.setAdapter(pictureAdapter);
+        gvPicture.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(DiseaseActivity.this, PhotoActivity.class);
+                intent.putExtra(Keys.SelectedIndex, position);
+                startActivity(intent);
+            }
+        });
+        gvPicture.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseActivity.this);
+                builder.setMessage("确认要删除该图片吗？");
+                builder.setTitle("提示");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        pictureList.remove(position);
+                        updatePictureView();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                return false;
+            }
+        });
+
+        MyGridView gvVoice = (MyGridView) findViewById(R.id.mgv_voice);
+        gvVoice.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        voiceAdapter = new DataAdapter<String>(this, new IconViewCreator(MEDIA_VOICE));
+        gvVoice.setAdapter(voiceAdapter);
+        gvVoice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String mediaPath = voiceList.get(position);
+                MediaPlayer player = new MediaPlayer();
+                try {
+                    player.setDataSource(mediaPath);
+                    player.prepare();
+                    player.start();
+                } catch (IOException e) {
+                    Toast.makeText(DiseaseActivity.this, "播放录音失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        gvVoice.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseActivity.this);
+                builder.setMessage("确认要删除该音频吗？");
+                builder.setTitle("提示");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        voiceList.remove(position);
+                        updateVoiceView();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                return false;
+            }
+        });
+
+        MyGridView gvVideo = (MyGridView) findViewById(R.id.mgv_video);
+        gvVideo.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        videoAdapter = new DataAdapter<String>(this, new IconViewCreator(MEDIA_VIDEO));
+        gvVideo.setAdapter(videoAdapter);
+        gvVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String mediaPath = videoList.get(position);
+                Uri uri = Uri.parse("file://" + mediaPath);
+                //调用系统自带的播放器
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(uri, "video/3gpp");
+                startActivity(intent);
+            }
+        });
+        gvVideo.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseActivity.this);
+                builder.setMessage("确认要删除该视频吗？");
+                builder.setTitle("提示");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        videoList.remove(position);
+                        updateVideoView();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+                return false;
+            }
+        });
+
+        updatePictureView();
+        updateVoiceView();
+        updateVideoView();
+    }
+
+    private void updatePictureView() {
+        if (ListUtil.sizeOfList(pictureList) > 0) {
+            viewPicture.setVisibility(View.VISIBLE);
+            pictureAdapter.setContent(pictureList);
+            pictureAdapter.notifyDataSetChanged();
+        } else {
+            viewPicture.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateVoiceView() {
+        if (ListUtil.sizeOfList(voiceList) > 0) {
+            viewVoice.setVisibility(View.VISIBLE);
+            voiceAdapter.setContent(voiceList);
+            voiceAdapter.notifyDataSetChanged();
+        } else {
+            viewVoice.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateVideoView() {
+        if (ListUtil.sizeOfList(videoList) > 0) {
+            viewVideo.setVisibility(View.VISIBLE);
+            videoAdapter.setContent(videoList);
+            videoAdapter.notifyDataSetChanged();
+        } else {
+            viewVideo.setVisibility(View.GONE);
         }
     }
 
@@ -484,88 +603,29 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         return 1 + (int) (Math.random() * 15);
     }
 
-    /**
-     * isVoice = true 表示是增加语音文件
-     * isVoice = false 表示是增加视频文件
-     */
-    private void addMediaFile(final String filePath, boolean isVoice) {
-        LinearLayout.LayoutParams layoutLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, iconWidth);
-        LinearLayout.LayoutParams addIconLP = new LinearLayout.LayoutParams(iconWidth, iconWidth);
-        ImageView addPhotoIcon = new ImageView(this);
-        addIconLP.setMargins(5, 0, 10, 0);
-        addPhotoIcon.setLayoutParams(addIconLP);
-        addPhotoIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mediaPath = (String) v.getTag();
-                // 这里不是视频就是音频文件了
-                if (mediaPath.contains("Video")) {
-                    Uri uri = Uri.parse("file://" + mediaPath);
-                    //调用系统自带的播放器
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(uri, "video/3gpp");
-                    startActivity(intent);
-                } else {
-                    MediaPlayer player = new MediaPlayer();
-                    try {
-                        player.setDataSource(mediaPath);
-                        player.prepare();
-                        player.start();
-                    } catch (IOException e) {
-                        Toast.makeText(DiseaseActivity.this, "播放录音失败", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-        addPhotoIcon.setTag(filePath);
-        addPhotoIcon.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseActivity.this);
-                builder.setMessage("确认删除该多媒体文件吗？");
-                builder.setTitle("提示");
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (v.getTag().toString().contains("Voice")) {
-                            llVoice.removeView(v);
-                            voiceList.remove(filePath);
-                        } else {
-                            llVideo.removeView(v);
-                            videoList.remove(filePath);
-                        }
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
-                return false;
-            }
-        });
-        if (isVoice) {
-            llVoice.setLayoutParams(layoutLP);
-            addPhotoIcon.setBackgroundResource(R.drawable.icon_voice);
-            llVoice.addView(addPhotoIcon, addIconLP);
-            if (llVoice.getChildCount() > 0) {
-                viewVoice.setVisibility(View.VISIBLE);
+    private final class IconViewCreator implements DataAdapter.IViewCreator<String> {
+
+        private int mediaType;
+
+        public IconViewCreator(int mediaType) {
+            this.mediaType = mediaType;
+        }
+
+        @Override
+        public View createView(LayoutInflater inflater, ViewGroup parent) {
+            return inflater.inflate(R.layout.view_media_item, parent, false);
+        }
+
+        @Override
+        public void bindDataToView(View view, String data, int position) {
+            ImageView imageView = (ImageView) view.findViewById(R.id.iv_image);
+            if (mediaType == MEDIA_PICTURE) {
+                ImageLoader.getInstance().displayImage("file://" + data, imageView, options);
+            } else if (mediaType == MEDIA_VIDEO) {
+                imageView.setImageResource(R.drawable.icon_video);
             } else {
-                viewVoice.setVisibility(View.GONE);
+                imageView.setImageResource(R.drawable.icon_voice);
             }
-            voiceList.add(filePath);
-        } else {
-            llVideo.setLayoutParams(layoutLP);
-            addPhotoIcon.setBackgroundResource(R.drawable.icon_vedio);
-            llVideo.addView(addPhotoIcon, addIconLP);
-            if (llVideo.getChildCount() > 0) {
-                viewVideo.setVisibility(View.VISIBLE);
-            } else {
-                viewVideo.setVisibility(View.GONE);
-            }
-            videoList.add(filePath);
         }
     }
 }

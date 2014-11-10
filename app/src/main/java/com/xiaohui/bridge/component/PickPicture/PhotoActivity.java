@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.AbstractActivity;
 
@@ -102,7 +103,7 @@ public class PhotoActivity extends AbstractActivity {
         adapter = new MyPageAdapter(listViews);// 构造adapter
         pager.setAdapter(adapter);// 设置适配器
         Intent intent = getIntent();
-        int id = intent.getIntExtra("ID", 0);
+        int id = intent.getIntExtra(Keys.SelectedIndex, 0);
         pager.setCurrentItem(id);
     }
 

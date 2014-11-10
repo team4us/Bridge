@@ -166,7 +166,7 @@
                     android:text="照片"/>
 
                 <com.xiaohui.bridge.component.MyGridView
-                    android:id="@+id/mgv_pictures"
+                    android:id="@+id/mgv_picture"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_5"
@@ -188,12 +188,15 @@
                     style="@style/DiseaseTitle"
                     android:text="录音"/>
 
-                <LinearLayout
-                    android:id="@+id/ll_voice_record"
+                <com.xiaohui.bridge.component.MyGridView
+                    android:id="@+id/mgv_voice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:orientation="horizontal"/>
+                    android:layout_margin="@dimen/margin_5"
+                    android:horizontalSpacing="3dp"
+                    android:numColumns="4"
+                    android:scrollbars="none"
+                    android:verticalSpacing="5dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -208,12 +211,15 @@
                     style="@style/DiseaseTitle"
                     android:text="录像"/>
 
-                <LinearLayout
-                    android:id="@+id/ll_video_record"
+                <com.xiaohui.bridge.component.MyGridView
+                    android:id="@+id/mgv_video"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:orientation="horizontal"/>
+                    android:layout_margin="@dimen/margin_5"
+                    android:horizontalSpacing="3dp"
+                    android:numColumns="4"
+                    android:scrollbars="none"
+                    android:verticalSpacing="5dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

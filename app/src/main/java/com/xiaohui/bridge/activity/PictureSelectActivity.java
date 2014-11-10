@@ -84,7 +84,7 @@ public class PictureSelectActivity extends AbstractActivity {
                 ImageView ivCheck = (ImageView) view.findViewById(R.id.iv_check);
                 if (ivCheck.getVisibility() == View.GONE) {
                     if (remainCount <= 0) {
-                        Toast.makeText(PictureSelectActivity.this, R.string.more_than_nine, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PictureSelectActivity.this, R.string.more_than_nine_pictures, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     remainCount--;
