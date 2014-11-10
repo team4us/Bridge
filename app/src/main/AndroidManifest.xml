@@ -81,7 +81,7 @@
             android:theme="@style/MenuOptionsTheme"/>
 
         <activity
-            android:name=".activity.MovieRecordActivity"
+            android:name=".activity.VideoRecordActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 

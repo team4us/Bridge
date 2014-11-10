@@ -23,14 +23,11 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.component.DataAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * @author Paresh Mayani (@pareshmayani)
- */
+
 public class PictureSelectActivity extends AbstractActivity {
 
-    private ArrayList<String> imageUrls;
-    private DisplayImageOptions options;
     private DataAdapter<String> pictureAdapter;
     private int remainCount;
     private SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
@@ -49,18 +46,16 @@ public class PictureSelectActivity extends AbstractActivity {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy + " DESC");
         Cursor imageCursor = cursorLoader.loadInBackground();
 
-        this.imageUrls = new ArrayList<String>();
+        List<String> imageUrls = new ArrayList<String>();
 
         for (int i = 0; i < imageCursor.getCount(); i++) {
             imageCursor.moveToPosition(i);
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
             imageUrls.add(imageCursor.getString(dataColumnIndex));
-
-            System.out.println("=====> Array path => " + imageUrls.get(i));
         }
 
 
-        options = new DisplayImageOptions.Builder()
+        final DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.icon_no_picture)
                 .showImageForEmptyUri(R.drawable.icon_no_picture)
                 .cacheInMemory(true)
@@ -76,7 +71,7 @@ public class PictureSelectActivity extends AbstractActivity {
             @Override
             public void bindDataToView(View view, String data, int position) {
                 ImageView imageView = (ImageView) findViewById(R.id.iv_thumb);
-                ImageLoader.getInstance().displayImage("file://" + imageUrls.get(position), imageView, options);
+                ImageLoader.getInstance().displayImage("file://" + data, imageView, options);
             }
         });
         pictureAdapter.setContent(imageUrls);

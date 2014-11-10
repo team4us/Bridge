@@ -116,7 +116,7 @@ public class DiseaseViewModel {
     }
 
     public void onClickMovie() {
-        view.takeMovie();
+        view.takeVideo();
     }
 
     public String getLocation() {

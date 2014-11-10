@@ -7,6 +7,6 @@ public interface IDiseaseView {
     public void takePhoto();
     public void pickPictures();
     public void takeVoice();
-    public void takeMovie();
+    public void takeVideo();
     public void updateMethodView(boolean isOther, int method);
 }

@@ -196,8 +196,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     }
 
     @Override
-    public void takeMovie() {
-        Intent intent = new Intent(this, MovieRecordActivity.class);
+    public void takeVideo() {
+        Intent intent = new Intent(this, VideoRecordActivity.class);
         startActivityForResult(intent, Keys.RequestCodeTakeVideo);
     }
 

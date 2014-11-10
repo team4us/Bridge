@@ -20,6 +20,7 @@ import java.io.File;
  */
 public class XhApplication extends Application {
 
+    private static final String[] MEDIA_DIR = {"Picture", "Voice", "Video"};
     private static final String CACHE_PATH = Environment.getExternalStorageDirectory() + "/iBridge/";
     private static final String STORE_NAME = "bridge.storage";
     private static final String KEY = "@WSXCDE#$RV3edc";
@@ -29,7 +30,6 @@ public class XhApplication extends Application {
     private BinderFactory binderFactory;
     private Cookie cookie;
     private Store store;
-    private String pictureCachePath;
 
     @Override
     public void onCreate() {
@@ -84,10 +84,12 @@ public class XhApplication extends Application {
     }
 
     private void createCacheFolder() {
-        pictureCachePath = CACHE_PATH + "Picture/";
-        File file = new File(pictureCachePath);
-        if (!file.exists()) {
-            file.mkdirs();
+        for (String name : MEDIA_DIR) {
+            String path = CACHE_PATH + name + "/";
+            File file = new File(path);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
         }
     }
 
@@ -96,6 +98,14 @@ public class XhApplication extends Application {
     }
 
     public String getCachePathForPicture() {
-        return pictureCachePath;
+        return CACHE_PATH + MEDIA_DIR[0] + "/";
+    }
+
+    public String getCachePathForVoice() {
+        return CACHE_PATH + MEDIA_DIR[1] + "/";
+    }
+
+    public String getCachePathForVideo() {
+        return CACHE_PATH + MEDIA_DIR[2] + "/";
     }
 }

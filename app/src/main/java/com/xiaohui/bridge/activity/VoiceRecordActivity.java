@@ -5,6 +5,7 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.business.BusinessManager;
+
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -28,12 +31,10 @@ import java.util.TimerTask;
 public class VoiceRecordActivity extends AbstractActivity {
     private TextView tvVoiceTime;
     private Button btnStart;
-
-    private static String recordPath = BusinessManager.USER_MEDIA_FILE_PATH + "Record/";
     private MediaRecorder mVoiceRecorder;
-    private String currentRecordName = "";
     private Timer timer = new Timer();
     private int time = 0;
+    private String filePath;
 
     private TimerTask timerTask = new TimerTask() {
         @Override
@@ -54,20 +55,9 @@ public class VoiceRecordActivity extends AbstractActivity {
 
     public void onStart(View v) {
         try {
-            File recordSaveDir = new File(recordPath);
-
-            if (!recordSaveDir.exists()) {
-                if (!recordSaveDir.mkdirs()) {
-                    Toast.makeText(this, "创建录音文档目录失败", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-            currentRecordName = "Voice" + df.format(new Date()) + ".amr";
-
-            File myRecAudioFile = new File(recordPath + currentRecordName);
-
+            String name= "voice_" + DateTime.now().toString("yyyyMMddHHmmss") + ".amr";
+            filePath = getGlobalApplication().getCachePathForVoice() + name;
+            File myRecAudioFile = new File(filePath);
             mVoiceRecorder = new MediaRecorder();
             mVoiceRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mVoiceRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
@@ -106,10 +96,8 @@ public class VoiceRecordActivity extends AbstractActivity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra(Keys.Content, recordPath + currentRecordName);
-        if(currentRecordName.length() > 0){
-            setResult(RESULT_OK, intent);
-        }
+        intent.putExtra(Keys.Content, filePath);
+        setResult(TextUtils.isEmpty(filePath) ? RESULT_CANCELED : RESULT_OK, intent);
         super.finish();
     }
 }

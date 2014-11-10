@@ -6,6 +6,7 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -15,29 +16,22 @@ import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.Keys;
-import com.xiaohui.bridge.business.BusinessManager;
 
-import java.io.File;
+import org.joda.time.DateTime;
+
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * 录制视频界面
  * Created by Janzon on 2014/10/6.
  */
-public class MovieRecordActivity extends AbstractActivity implements View.OnClickListener {
+public class VideoRecordActivity extends AbstractActivity implements View.OnClickListener {
     private Camera mCamera;
-    private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
-    private Camera.CameraInfo[] mCameraInfo;
     private Button startButton;
     private boolean mIsRecording = false;
     private MediaRecorder mediaRecorder;
-    private String fileName = "";
-
-    private static String videoPath = BusinessManager.USER_MEDIA_FILE_PATH + "Movie/";
+    private String filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +39,8 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
         setContentView(R.layout.activity_movie_record);
         setTitle("视频录制");
 
-        mSurfaceView = (SurfaceView) findViewById(R.id.surfaceview);
-        mSurfaceHolder = mSurfaceView.getHolder();
+        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.surfaceview);
+        mSurfaceHolder = surfaceView.getHolder();
         mSurfaceHolder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
@@ -126,10 +120,10 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
         switch (id) {
             case R.id.start:
 
-                if (mIsRecording == false) {
+                if (!mIsRecording) {
                     startmediaRecorder();
                 } else {
-                    stopmediaRecorder();
+                    stopMediaRecorder();
                 }
                 if (mIsRecording) {
                     startButton.setText("stop");
@@ -143,7 +137,7 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
 
     }
 
-    private void stopmediaRecorder() {
+    private void stopMediaRecorder() {
         if (mediaRecorder != null) {
             if (mIsRecording) {
                 mediaRecorder.stop();
@@ -155,18 +149,19 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
                 try {
                     mCamera.reconnect();
                 } catch (IOException e) {
-                    Toast.makeText(this, "reconect fail", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
             Intent intent = new Intent();
-            intent.putExtra(Keys.Content, fileName);
-            setResult(RESULT_OK, intent);
-            this.finish();
+            intent.putExtra(Keys.Content, filePath);
+            setResult(TextUtils.isEmpty(filePath) ? RESULT_CANCELED : RESULT_OK, intent);
+            finish();
         }
     }
 
     private void startmediaRecorder() {
+        String name = "video_" + DateTime.now().toString("yyyyMMddHHmmss") + ".3gp";
+        filePath = getGlobalApplication().getCachePathForVideo() + name;
         mCamera.unlock();
         mIsRecording = true;
         mediaRecorder = new MediaRecorder();
@@ -182,8 +177,7 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
 //      mediaRecorder.setVideoSize(640, 480);
         CamcorderProfile mCamcorderProfile = CamcorderProfile.get(Camera.CameraInfo.CAMERA_FACING_BACK, CamcorderProfile.QUALITY_LOW);
         mediaRecorder.setProfile(mCamcorderProfile);
-        fileName = getName();
-        mediaRecorder.setOutputFile(fileName);
+        mediaRecorder.setOutputFile(filePath);
         mediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
 
         try {
@@ -192,29 +186,11 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
 
 //      mediaRecorder.set
         } catch (Exception e) {
-
             mIsRecording = false;
-            Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             mCamera.lock();
         }
 
     }
-
-    private String getName() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-
-        File recordSaveDir = new File(videoPath);
-
-        if (!recordSaveDir.exists()) {
-            if (!recordSaveDir.mkdirs()) {
-                Toast.makeText(this, "创建视频文档目录失败", Toast.LENGTH_SHORT).show();
-                return "";
-            }
-        }
-
-        return videoPath + "Video" + df.format(new Date()) + ".3gp";
-    }
-
 }
 
