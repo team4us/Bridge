@@ -70,16 +70,16 @@ public class BitmapCache extends Activity {
                     if (isThumbPath) {
                         thumb = BitmapFactory.decodeFile(thumbPath);
                         if (thumb == null) {
-                            thumb = revitionImageSize(sourcePath);
+                            thumb = revisionImageSize(sourcePath);
                         }
                     } else {
-                        thumb = revitionImageSize(sourcePath);
+                        thumb = revisionImageSize(sourcePath);
                     }
                 } catch (Exception e) {
 
                 }
                 if (thumb == null) {
-                    thumb = TestPicActivity.bimap;
+                    thumb = PickPictureActivity.bimap;
                 }
                 Log.e(TAG, "-------thumb------" + thumb);
                 put(path, thumb);
@@ -97,7 +97,7 @@ public class BitmapCache extends Activity {
 
     }
 
-    public Bitmap revitionImageSize(String path) throws IOException {
+    public Bitmap revisionImageSize(String path) throws IOException {
         BufferedInputStream in = new BufferedInputStream(new FileInputStream(
                 new File(path)));
         BitmapFactory.Options options = new BitmapFactory.Options();

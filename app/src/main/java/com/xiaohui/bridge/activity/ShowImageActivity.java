@@ -24,7 +24,7 @@ public class ShowImageActivity extends AbstractActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_image);
         ivImage = (ZoomableImageView) findViewById(R.id.iv_image);
-        picPath = getIntent().getExtras().getString(Keys.KeyContent);
+        picPath = getIntent().getExtras().getString(Keys.Content);
 
         initToShowImage();
     }
@@ -41,7 +41,7 @@ public class ShowImageActivity extends AbstractActivity{
 
         if (id == R.id.action_delete_image) {
             Intent intent = new Intent();
-            intent.putExtra(Keys.KeyContent, picPath);
+            intent.putExtra(Keys.Content, picPath);
             setResult(Keys.ResultCodeDelete, intent);
             this.finish();
             return true;

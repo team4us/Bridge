@@ -3,7 +3,6 @@ package com.xiaohui.bridge.activity;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -107,7 +106,7 @@ public class VoiceRecordActivity extends AbstractActivity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra(Keys.KeyContent, recordPath + currentRecordName);
+        intent.putExtra(Keys.Content, recordPath + currentRecordName);
         if(currentRecordName.length() > 0){
             setResult(RESULT_OK, intent);
         }

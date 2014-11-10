@@ -77,7 +77,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
     }
 
     private void longClickItem(View view) {
-        final int groupPosition = (Integer) view.getTag(R.id.action_add_picture_done);
+        final int groupPosition = (Integer) view.getTag(R.id.action_done);
         final int childPosition = (Integer) view.getTag(R.id.action_bridge_detail);
 
         if (childPosition == -1) {         //如果得到child位置的值不为-1，则是操作child
@@ -189,7 +189,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
                 convertView = View.inflate(BridgeActivity.this, R.layout.view_part_item, null);
             }
 
-            convertView.setTag(R.id.action_add_picture_done, groupPosition);
+            convertView.setTag(R.id.action_done, groupPosition);
             convertView.setTag(R.id.action_bridge_detail, -1);
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText((groupPosition + 1) + " " + getGroup(groupPosition).getBlock().getName());
@@ -204,7 +204,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
             if (convertView == null) {
                 convertView = View.inflate(BridgeActivity.this, R.layout.view_part_child_item, null);
             }
-            convertView.setTag(R.id.action_add_picture_done, groupPosition);
+            convertView.setTag(R.id.action_done, groupPosition);
             convertView.setTag(R.id.action_bridge_detail, childPosition);
             TextView tvTitle = (TextView) convertView.findViewById(R.id.tv_title);
             tvTitle.setText(getChild(groupPosition, childPosition).getComponent().getName());

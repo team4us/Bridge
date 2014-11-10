@@ -27,6 +27,7 @@
     <string name="method_name_4">统计记录</string>
     <string name="method_name_5">描述记录</string>
     <string name="record_seconds">%1$s 秒</string>
+    <string name="more_than_nine">最多选择9张图片, 请先删除不需要的照片</string>
 
     <string name="title">桥梁检测数据管理系统</string>
     <string name="company">苏交科</string>

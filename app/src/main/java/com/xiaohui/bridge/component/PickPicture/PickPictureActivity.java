@@ -16,7 +16,7 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.AbstractActivity;
 import com.xiaohui.bridge.Keys;
 
-public class TestPicActivity extends AbstractActivity {
+public class PickPictureActivity extends AbstractActivity {
     // ArrayList<Entity> dataList;//用来装载数据源的列表
     List<ImageBucket> dataList;
     GridView gridView;
@@ -60,8 +60,8 @@ public class TestPicActivity extends AbstractActivity {
      * 初始化view视图
      */
     private void initView() {
-        gridView = (GridView) findViewById(R.id.gridview);
-        adapter = new ImageBucketAdapter(TestPicActivity.this, dataList);
+        gridView = (GridView) findViewById(R.id.gv_content);
+        adapter = new ImageBucketAdapter(PickPictureActivity.this, dataList);
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
@@ -82,9 +82,9 @@ public class TestPicActivity extends AbstractActivity {
                  * 通知适配器，绑定的数据发生了改变，应当刷新视图
                  */
                 // adapter.notifyDataSetChanged();
-                Intent intent = new Intent(TestPicActivity.this,
+                Intent intent = new Intent(PickPictureActivity.this,
                         ImageGridActivity.class);
-                intent.putExtra(TestPicActivity.EXTRA_IMAGE_LIST,
+                intent.putExtra(PickPictureActivity.EXTRA_IMAGE_LIST,
                         (Serializable) dataList.get(position).imageList);
                 startActivityForResult(intent, Keys.RequestCodePickPicture);
             }

@@ -30,7 +30,7 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
 
     @SuppressWarnings("unchecked")
     private void initView() {
-        ArrayList<MenuItem> menuItems = (ArrayList<MenuItem>) getIntent().getSerializableExtra(Keys.KeyContent);
+        ArrayList<MenuItem> menuItems = (ArrayList<MenuItem>) getIntent().getSerializableExtra(Keys.Content);
         int size = menuItems.size();
         for (int i = 0; i < size; i++) {
             View view = getViewWithData(menuItems.get(i));
@@ -70,7 +70,7 @@ public class MenuActivity extends AbstractActivity implements View.OnClickListen
     public void onClick(View v) {
         Intent intent = new Intent();
         int selectedIndex = (Integer) v.getTag();
-        intent.putExtra(Keys.KeySelectedIndex, selectedIndex);
+        intent.putExtra(Keys.SelectedIndex, selectedIndex);
         setResult(RESULT_OK, intent);
         onBackPressed();
     }

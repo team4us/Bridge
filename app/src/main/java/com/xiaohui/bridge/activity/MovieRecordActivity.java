@@ -6,7 +6,6 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -161,7 +160,7 @@ public class MovieRecordActivity extends AbstractActivity implements View.OnClic
                 }
             }
             Intent intent = new Intent();
-            intent.putExtra(Keys.KeyContent, fileName);
+            intent.putExtra(Keys.Content, fileName);
             setResult(RESULT_OK, intent);
             this.finish();
         }

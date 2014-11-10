@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.activity.AbstractActivity;
-import com.xiaohui.bridge.Keys;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,7 +70,7 @@ public class ImageGridActivity extends AbstractActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_add_picture_done) {
+        if (id == R.id.action_done) {
             ArrayList<String> list = new ArrayList<String>();
             Collection<String> c = adapter.map.values();
             Iterator<String> it = c.iterator();
@@ -96,7 +95,7 @@ public class ImageGridActivity extends AbstractActivity {
     }
 
     private void initView() {
-        gridView = (GridView) findViewById(R.id.gridview);
+        gridView = (GridView) findViewById(R.id.gv_content);
         gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         adapter = new ImageGridAdapter(ImageGridActivity.this, dataList,
                 mHandler);

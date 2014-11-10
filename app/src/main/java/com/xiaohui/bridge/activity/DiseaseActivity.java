@@ -3,7 +3,6 @@ package com.xiaohui.bridge.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -26,6 +25,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
@@ -34,11 +35,9 @@ import com.xiaohui.bridge.business.enums.EDiseaseMethod;
 import com.xiaohui.bridge.component.DataAdapter;
 import com.xiaohui.bridge.component.MyGridView;
 import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
-import com.xiaohui.bridge.component.PickPicture.TestPicActivity;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
-import com.xiaohui.bridge.util.BitmapUtil;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseaseViewModel;
@@ -61,6 +60,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     public static final int MODE_NEW = 0;
     public static final int MODE_EDIT = 1;
     public static final int MODE_CHECK = 2;
+
+    private static final int MAX_PICTURE_COUNT = 9;
     private final int iconWidth = DeviceParamterUtil.dip2px(60);
     private RadioGroup rgMethods;
     private LinearLayout llMethodView;
@@ -81,10 +82,10 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private List<String> pictureList;
     private List<String> voiceList;
     private List<String> videoList;
-    private List<Bitmap> bitmapList = new ArrayList<Bitmap>();
+    private DisplayImageOptions options;
     private int mode;
     private boolean isOther;
-    private DataAdapter<Bitmap> pictureAdapter;
+    private DataAdapter<String> pictureAdapter;
     private String picturePath;
 
     @Override
@@ -94,6 +95,12 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         viewModel = new DiseaseViewModel(this, getCookie());
         setContentView(R.layout.activity_disease, viewModel);
         setTitle(mode == MODE_NEW ? "病害新增" : "病害编辑");
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.icon_no_picture)
+                .showImageForEmptyUri(R.drawable.icon_no_picture)
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
         initViews();
         fillData();
     }
@@ -102,6 +109,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     protected void onDestroy() {
         super.onDestroy();
         getCookie().remove(Keys.DISEASE);
+        ImageLoader.getInstance().stop();
     }
 
     @Override
@@ -135,7 +143,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         } else {
             rgMethods.setVisibility(View.GONE);
         }
-        
+
         setDefaultMethod(radioButtonId);
     }
 
@@ -158,6 +166,10 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
     @Override
     public void takePhoto() {
+        if (pictureList.size() >= MAX_PICTURE_COUNT) {
+            Toast.makeText(this, R.string.more_than_nine, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String fileName = "pic_" + DateTime.now().toString("yyyyMMddHHmmss") + ".jpg";
         picturePath = getGlobalApplication().getCachePathForPicture() + fileName;
@@ -168,7 +180,12 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
     @Override
     public void pickPictures() {
-        Intent intent = new Intent(this, TestPicActivity.class);
+        if (pictureList.size() >= MAX_PICTURE_COUNT) {
+            Toast.makeText(this, R.string.more_than_nine, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, PictureSelectActivity.class);
+        intent.putExtra(Keys.PictureCount, MAX_PICTURE_COUNT - pictureList.size()); //还可以选择多少张
         startActivityForResult(intent, Keys.RequestCodePickPicture);
     }
 
@@ -194,7 +211,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 onResultTakePhoto();
                 break;
             case Keys.RequestCodePickPicture:
-                onResultPickPictures();
+                onResultPickPictures(data);
                 break;
             case Keys.RequestCodeTakeVoice:
                 onResultTakeVoice(data);
@@ -210,20 +227,23 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
     private void onResultTakePhoto() {
         pictureList.add(picturePath);
-        Bitmap bitmap = BitmapUtil.getBitmapFromFilePath(picturePath, 10 * 1024);
-        bitmapList.add(bitmap);
+        pictureAdapter.setContent(pictureList);
         pictureAdapter.notifyDataSetChanged();
         viewPicture.setVisibility(View.VISIBLE);
     }
 
-    private void onResultPickPictures() {
+    private void onResultPickPictures(Intent data) {
+        pictureList.addAll(data.getStringArrayListExtra(Keys.Content));
+        pictureAdapter.setContent(pictureList);
+        pictureAdapter.notifyDataSetChanged();
+        viewPicture.setVisibility(View.VISIBLE);
     }
 
     private void onResultTakeVoice(Intent data) {
         if (data == null)
             return;
         Bundle bundle = data.getExtras();
-        String recordPath = bundle.getString(Keys.KeyContent);
+        String recordPath = bundle.getString(Keys.Content);
         if (!TextUtils.isEmpty(recordPath)) {
             addMediaFile(recordPath, true);
         }
@@ -233,7 +253,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         if (data == null)
             return;
         Bundle bundle = data.getExtras();
-        String videoPath = bundle.getString(Keys.KeyContent);
+        String videoPath = bundle.getString(Keys.Content);
         if (!TextUtils.isEmpty(videoPath)) {
             addMediaFile(videoPath, false);
         }
@@ -281,19 +301,19 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 
         MyGridView mgvPicturesGridView = (MyGridView) findViewById(R.id.mgv_pictures);
         mgvPicturesGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        pictureAdapter = new DataAdapter<Bitmap>(this, new DataAdapter.IViewCreator<Bitmap>() {
+        pictureAdapter = new DataAdapter<String>(this, new DataAdapter.IViewCreator<String>() {
             @Override
-            public View createView(LayoutInflater inflater) {
-                return inflater.inflate(R.layout.view_picture_item, null);
+            public View createView(LayoutInflater inflater, ViewGroup parent) {
+                return inflater.inflate(R.layout.view_picture_item, parent, false);
             }
 
             @Override
-            public void bindDataToView(View view, Bitmap data, int position) {
+            public void bindDataToView(View view, String data, int position) {
                 ImageView imageView = (ImageView) view.findViewById(R.id.iv_picture);
-                imageView.setImageBitmap(data);
+                ImageLoader.getInstance().displayImage("file://" + data, imageView, options);
             }
         });
-        pictureAdapter.setContent(bitmapList);
+        pictureAdapter.setContent(pictureList);
         mgvPicturesGridView.setAdapter(pictureAdapter);
         mgvPicturesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {

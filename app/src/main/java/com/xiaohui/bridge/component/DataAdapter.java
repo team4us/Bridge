@@ -55,7 +55,7 @@ public class DataAdapter<T> extends BaseAdapter {
         View view = convertView;
         if (view == null) {
             holder = new ViewHolder();
-            view = creator.createView(getLayoutInflater());
+            view = creator.createView(getLayoutInflater(), parent);
             view.setTag(holder);
             holder.view = view;
         } else {
@@ -66,7 +66,7 @@ public class DataAdapter<T> extends BaseAdapter {
     }
 
     public interface IViewCreator<T> {
-        public View createView(LayoutInflater inflater);
+        public View createView(LayoutInflater inflater, ViewGroup parent);
 
         public void bindDataToView(View view, T data, int position);
     }

@@ -14,8 +14,9 @@ public final class Keys {
 
     public static final String MODE = "MODE";
 
-    public static final String KeyContent = "K_Content";
-    public static final String KeySelectedIndex = "K_SelectedIndex";
+    public static final String Content = "Content";
+    public static final String SelectedIndex = "SelectedIndex";
+    public static final String PictureCount = "PictureCount";
 
     public static final int RequestCodeTakePicture = 1;
     public static final int RequestCodePickPicture = 2;
