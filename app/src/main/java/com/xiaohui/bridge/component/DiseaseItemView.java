@@ -11,6 +11,8 @@ import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.util.DeviceParamterUtil;
 
+import java.util.ArrayList;
+
 /**
  * 病害统计页面单个病害视图
  * Created by Administrator on 2014/11/9.
@@ -44,8 +46,8 @@ public class DiseaseItemView extends LinearLayout{
         diseaseContentLayout = (LinearLayout) findViewById(R.id.ll_disease_content_layout);
     }
 
-    public LinearLayout getInitDataView(Disease disease){
-        diseaseTypeName.setText(disease.getType());
+    public LinearLayout getInitDataView(ArrayList<Disease> diseases){
+        diseaseTypeName.setText(diseases.get(0).getType());
 
 
         return this;
