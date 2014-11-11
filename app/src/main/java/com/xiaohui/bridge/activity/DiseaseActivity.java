@@ -481,7 +481,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                     }
                 });
                 builder.create().show();
-                return false;
+                return true;
             }
         });
 
@@ -520,7 +520,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                     }
                 });
                 builder.create().show();
-                return false;
+                return true;
             }
         });
 
