@@ -91,11 +91,6 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".activity.ShowImageActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-
-        <activity
             android:name=".activity.ProjectsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
@@ -109,22 +104,13 @@
             android:name=".activity.CoordinateActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activity.DiseaseActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.xiaohui.bridge.component.PickPicture.ImageGridActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name="com.xiaohui.bridge.component.PickPicture.PhotoActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".component.PickPicture.PickPictureActivity"
+            android:name=".activity.PictureRemoverActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
@@ -134,7 +120,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".activity.PictureSelectActivity"
+            android:name=".activity.PicturePickerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
     </application>

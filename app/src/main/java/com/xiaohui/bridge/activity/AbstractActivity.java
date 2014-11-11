@@ -2,6 +2,7 @@ package com.xiaohui.bridge.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 
@@ -16,7 +17,7 @@ import org.robobinding.binder.BinderFactory;
 /**
  * Created by xhChen on 14/9/22.
  */
-public abstract class AbstractActivity extends Activity {
+public abstract class AbstractActivity extends FragmentActivity {
 
     private ActionBar actionBar;
 

@@ -23,6 +23,5 @@ public final class Keys {
     public static final int RequestCodeTakeVoice = 3;
     public static final int RequestCodeTakeVideo = 4;
     public static final int RequestCodeCoordinate = 5;
-
-    public static final int ResultCodeDelete = 2;
+    public static final int RequestCodeRemovePicture = 6;
 }

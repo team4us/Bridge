@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.xiaohui.bridge.BuildConfig;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
@@ -34,7 +35,6 @@ import com.xiaohui.bridge.business.bean.Disease;
 import com.xiaohui.bridge.business.enums.EDiseaseMethod;
 import com.xiaohui.bridge.component.DataAdapter;
 import com.xiaohui.bridge.component.MyGridView;
-import com.xiaohui.bridge.component.PickPicture.PhotoActivity;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
@@ -101,6 +101,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.icon_no_picture)
                 .showImageForEmptyUri(R.drawable.icon_no_picture)
+                .showImageOnFail(R.drawable.icon_no_picture)
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
@@ -187,7 +189,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             Toast.makeText(this, R.string.more_than_nine_pictures, Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent(this, PictureSelectActivity.class);
+        Intent intent = new Intent(this, PicturePickerActivity.class);
         intent.putExtra(Keys.PictureCount, MAX_PICTURE_COUNT - pictureList.size()); //还可以选择多少张
         startActivityForResult(intent, Keys.RequestCodePickPicture);
     }
@@ -233,6 +235,9 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             case Keys.RequestCodeCoordinate:
                 onResultCoordinate(data);
                 break;
+            case Keys.RequestCodeRemovePicture:
+                onResultRemovePicture(data);
+                break;
         }
     }
 
@@ -258,7 +263,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private void onResultTakeVideo(Intent data) {
         if (data == null)
             return;
-        videoList.add(data.getExtras().getString(Keys.Content));
+        videoList.add(data.getStringExtra(Keys.Content));
         updateVideoView();
     }
 
@@ -281,6 +286,16 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
 //                        editText.setText(endPoint);
 //                    }
 //                }
+    }
+
+    private void onResultRemovePicture(Intent data) {
+        if (data == null)
+            return;
+        List<Integer> removedList = data.getIntegerArrayListExtra(Keys.Content);
+        for (Integer index : removedList) {
+            pictureList.remove(index.intValue());
+        }
+        updatePictureView();
     }
 
     private void initDiseaseModel() {
@@ -398,34 +413,35 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         gvPicture.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent intent = new Intent(DiseaseActivity.this, PhotoActivity.class);
+                Intent intent = new Intent(DiseaseActivity.this, PictureRemoverActivity.class);
                 intent.putExtra(Keys.SelectedIndex, position);
-                startActivity(intent);
+                intent.putStringArrayListExtra(Keys.Content, new ArrayList<String>(pictureList));
+                startActivityForResult(intent, Keys.RequestCodeRemovePicture);
             }
         });
-        gvPicture.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseActivity.this);
-                builder.setMessage("确认要删除该图片吗？");
-                builder.setTitle("提示");
-                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        pictureList.remove(position);
-                        updatePictureView();
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
-                return false;
-            }
-        });
+//        gvPicture.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseActivity.this);
+//                builder.setMessage("确认要删除该图片吗？");
+//                builder.setTitle("提示");
+//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        pictureList.remove(position);
+//                        updatePictureView();
+//                    }
+//                });
+//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//                builder.create().show();
+//                return false;
+//            }
+//        });
 
         MyGridView gvVoice = (MyGridView) findViewById(R.id.mgv_voice);
         gvVoice.setSelector(new ColorDrawable(Color.TRANSPARENT));

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
 import com.xiaohui.bridge.component.DataAdapter;
@@ -26,19 +27,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PictureSelectActivity extends AbstractActivity {
+public class PicturePickerActivity extends AbstractActivity {
 
     private DataAdapter<String> pictureAdapter;
     private int remainCount;
     private SparseBooleanArray sparseBooleanArray = new SparseBooleanArray();
+    private DisplayImageOptions options;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pictures);
         setTitle("选择图片");
-        Bundle bundle = getIntent().getExtras();
-        remainCount = bundle.getInt(Keys.PictureCount, 9);
+        Intent intent = getIntent();
+        remainCount = intent.getIntExtra(Keys.PictureCount, 9);
 
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
         final String orderBy = MediaStore.Images.Media.DATE_TAKEN;
@@ -54,10 +56,11 @@ public class PictureSelectActivity extends AbstractActivity {
             imageUrls.add(imageCursor.getString(dataColumnIndex));
         }
 
-
-        final DisplayImageOptions options = new DisplayImageOptions.Builder()
+        options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.icon_no_picture)
                 .showImageForEmptyUri(R.drawable.icon_no_picture)
+                .showImageOnFail(R.drawable.icon_no_picture)
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
@@ -70,7 +73,7 @@ public class PictureSelectActivity extends AbstractActivity {
 
             @Override
             public void bindDataToView(View view, String data, int position) {
-                ImageView imageView = (ImageView) findViewById(R.id.iv_thumb);
+                ImageView imageView = (ImageView) view.findViewById(R.id.iv_thumb);
                 ImageLoader.getInstance().displayImage("file://" + data, imageView, options);
             }
         });
@@ -84,7 +87,7 @@ public class PictureSelectActivity extends AbstractActivity {
                 ImageView ivCheck = (ImageView) view.findViewById(R.id.iv_check);
                 if (ivCheck.getVisibility() == View.GONE) {
                     if (remainCount <= 0) {
-                        Toast.makeText(PictureSelectActivity.this, R.string.more_than_nine_pictures, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PicturePickerActivity.this, R.string.more_than_nine_pictures, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     remainCount--;
