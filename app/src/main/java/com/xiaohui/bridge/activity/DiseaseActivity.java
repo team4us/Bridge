@@ -91,6 +91,9 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private DataAdapter<String> videoAdapter;
     private String picturePath;
 
+    private View currentView;
+    Map<EDiseaseMethod, View> methodViews = new HashMap<EDiseaseMethod, View>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -572,13 +575,21 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private View switchMethodView(EDiseaseMethod method) {
         currentMethod = method;
         llMethodView.removeAllViews();
+        if (null != methodViews.get(method)) {
+            llMethodView.addView(methodViews.get(method));
+            currentView = methodViews.get(method);
+            return methodViews.get(method);
+        }
         View view = View.inflate(this, currentMethod.getViewResId(), null);
+        methodViews.put(method, view);
+        currentView = methodViews.get(method);
         llMethodView.addView(view);
         return view;
     }
 
     private void save() {
         Disease disease = new Disease();
+        methodValues.clear();
         disease.setLocation(viewModel.getLocation());
         if (isOther && !TextUtils.isEmpty(etOther.getText())) {
             disease.setType(etOther.getText().toString());
@@ -587,11 +598,10 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         }
         disease.setMethod(currentMethod.toString());
         disease.setComment(etComment.getText().toString());
-        methodView = switchMethodView(EDiseaseMethod.valueOf(disease.getMethod()));
         int count = currentMethod.getCount();
         for (int i = 0; i < count; i++) {
-            TextView textView = (TextView) methodView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
-            EditText editText = (EditText) methodView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
+            TextView textView = (TextView) currentView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
+            EditText editText = (EditText) currentView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
             methodValues.put(textView.getText().toString(), editText.getText().toString());
         }
         disease.setValues(methodValues);
