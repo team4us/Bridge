@@ -108,7 +108,8 @@
         <activity
             android:name=".activity.DiseaseActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".activity.PictureRemoverActivity"
             android:launchMode="singleTop"

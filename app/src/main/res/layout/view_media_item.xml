@@ -8,5 +8,5 @@
         android:id="@+id/iv_image"
         android:layout_width="68dp"
         android:layout_height="68dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitXY"/>
 </LinearLayout>

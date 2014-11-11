@@ -48,6 +48,7 @@ public class PictureRemoverActivity extends AbstractActivity {
                 .showImageOnFail(R.drawable.icon_no_picture)
                 .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
                 .cacheInMemory(true)
+                .cacheOnDisc(true)
                 .build();
         imageLoader = ImageLoader.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
