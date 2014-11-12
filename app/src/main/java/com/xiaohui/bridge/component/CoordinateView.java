@@ -47,7 +47,6 @@ public class CoordinateView extends View {
     //选择的坐标点，以系统坐标系记录的，所以返回时需要调用转换函数
     private PointF selectPointStart;
     private PointF selectPointStop;
-    private List<PointF> movePoints = new ArrayList<PointF>();
 
     private boolean isOnePoint; //表示是选择一个点还是两个点
     private List<PointF> points = new ArrayList<PointF>();
@@ -152,7 +151,7 @@ public class CoordinateView extends View {
         float offsetY = point.y - this.y;
         float x = sX + (offsetX / offsetWidth) * valueOffsetX;
         float y = sY + (offsetY / offsetHeight) * valueOffsetY;
-        return new PointF(x, y);
+        return new PointF(round(x), round(y));
     }
 
     //坐标系
@@ -254,23 +253,13 @@ public class CoordinateView extends View {
     private void drawSelectPoints(Canvas canvas) {
         if (selectPointStart == null || selectPointStop == null)
             return;
-        canvas.drawCircle(selectPointStart.x, selectPointStart.y, 10, pointPaint);
-        canvas.drawCircle(selectPointStop.x, selectPointStop.y, 10, pointPaint);
+        PointF systemPointStart = convertSelfToSystem(selectPointStart);
+        PointF systemPointStop = convertSelfToSystem(selectPointStop);
+        canvas.drawCircle(systemPointStart.x, systemPointStart.y, 10, pointPaint);
+        canvas.drawCircle(systemPointStop.x, systemPointStop.y, 10, pointPaint);
         if (!isOnePoint) {
-            float startX = selectPointStart.x;
-            float startY = selectPointStart.y;
-            float stopX;
-            float stopY;
-            for (PointF point : movePoints) {
-                stopX = point.x;
-                stopY = point.y;
-                canvas.drawLine(startX, startY, stopX, stopY, pointPaint);
-                startX = point.x;
-                startY = point.y;
-            }
-            stopX = selectPointStop.x;
-            stopY = selectPointStop.y;
-            canvas.drawLine(startX, startY, stopX, stopY, pointPaint);
+            canvas.drawLine(systemPointStart.x, systemPointStart.y,
+                    systemPointStop.x, systemPointStop.y, pointPaint);
         }
     }
 
@@ -298,16 +287,29 @@ public class CoordinateView extends View {
     public void clear() {
         selectPointStart = null;
         selectPointStop = null;
-        movePoints.clear();
         invalidate();
     }
 
     public PointF getSelectPointStart() {
-        return convertSystemToSelf(selectPointStart);
+        return selectPointStart;
     }
 
     public PointF getSelectPointStop() {
-        return convertSystemToSelf(selectPointStop);
+        return selectPointStop;
+    }
+
+    public void setSelectPointStart(PointF point) {
+        if (point == null)
+            return;
+        selectPointStart = point;
+        invalidate();
+    }
+
+    public void setSelectPointStop(PointF point) {
+        if (point == null)
+            return;
+        selectPointStop = point;
+        invalidate();
     }
 
     @Override
@@ -317,22 +319,21 @@ public class CoordinateView extends View {
         float y = event.getY();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                selectPointStart = new PointF(x, y);
-                selectPointStop = new PointF(x, y);
-                movePoints.clear();
+                selectPointStart = convertSystemToSelf(new PointF(x, y));
+                selectPointStop = convertSystemToSelf(new PointF(x, y));
                 if (isOnePoint) {
                     invalidate();
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (!isOnePoint) {
-                    movePoints.add(new PointF(x, y));
+                    selectPointStop = convertSystemToSelf(new PointF(x, y));
                     invalidate();
                 }
                 break;
             case MotionEvent.ACTION_UP:
                 if (!isOnePoint) {
-                    selectPointStop = new PointF(x, y);
+                    selectPointStop = convertSystemToSelf(new PointF(x, y));
                     invalidate();
                 }
                 break;

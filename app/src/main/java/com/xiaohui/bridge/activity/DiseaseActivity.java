@@ -97,6 +97,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     private String picturePath;
     private Map<EDiseaseMethod, View> methodViews = new HashMap<EDiseaseMethod, View>();
     private List<RadioButton> radioButtons = new ArrayList<RadioButton>();
+    private PointF pointStart;
+    private PointF pointStop;
 
     private Handler handler = new Handler() {
         @Override
@@ -266,6 +268,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     public void pickCoordinate() {
         Intent intent = new Intent(this, CoordinateActivity.class);
         intent.putExtra(Keys.Content, currentMethod);
+        intent.putExtra(Keys.PointStart, pointStart);
+        intent.putExtra(Keys.PointStop, pointStop);
         startActivityForResult(intent, Keys.RequestCodeCoordinate);
     }
 
@@ -325,19 +329,19 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     private void onResultCoordinate(Intent data) {
         if (data == null)
             return;
-        PointF pointStart = data.getParcelableExtra(Keys.PointStart);
-        PointF pointStop = data.getParcelableExtra(Keys.PointStop);
+        pointStart = data.getParcelableExtra(Keys.PointStart);
+        pointStop = data.getParcelableExtra(Keys.PointStop);
         View methodView = methodViews.get(currentMethod);
         if (currentMethod == EDiseaseMethod.MethodOne) {
-            int id = getResources().getIdentifier("et_1", "id", BuildConfig.PACKAGE_NAME);
+            int id = getResources().getIdentifier("et_0", "id", BuildConfig.PACKAGE_NAME);
             EditText editText = (EditText) methodView.findViewById(id);
-            editText.setText(pointStart.x + "," + pointStart.y);
+            editText.setText(String.format("%.1f, %.1f", pointStart.x, pointStart.y));
 
-            id = getResources().getIdentifier("et_2", "id", BuildConfig.PACKAGE_NAME);
+            id = getResources().getIdentifier("et_1", "id", BuildConfig.PACKAGE_NAME);
             editText = (EditText) methodView.findViewById(id);
-            editText.setText(pointStop.x + "," + pointStop.y);
+            editText.setText(String.format("%.1f, %.1f", pointStop.x, pointStop.y));
         } else if (currentMethod == EDiseaseMethod.MethodTwo) {
-            int id = getResources().getIdentifier("et_1", "id", BuildConfig.PACKAGE_NAME);
+            int id = getResources().getIdentifier("et_0", "id", BuildConfig.PACKAGE_NAME);
             EditText editText = (EditText) methodView.findViewById(id);
             editText.setText(pointStart.x + "," + pointStart.y);
         }
@@ -423,6 +427,30 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
 
                 EditText editText = (EditText) methodView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
                 editText.setText(value);
+
+                if (method == EDiseaseMethod.MethodOne) {
+                    if (i == 0 && !TextUtils.isEmpty(value)) {
+                        String[] values = value.split(",");
+                        if (values.length == 2) {
+                            pointStart = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
+                        }
+                    }
+
+                    if (i == 1 && !TextUtils.isEmpty(value)) {
+                        String[] values = value.split(",");
+                        if (values.length == 2) {
+                            pointStop = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
+                        }
+                    }
+                } else if (method == EDiseaseMethod.MethodTwo) {
+                    if (i == 0 && !TextUtils.isEmpty(value)) {
+                        String[] values = value.split(",");
+                        if (values.length == 2) {
+                            pointStart = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
+                            pointStop = pointStart;
+                        }
+                    }
+                }
             }
 
             etComment.setText(disease.getComment());

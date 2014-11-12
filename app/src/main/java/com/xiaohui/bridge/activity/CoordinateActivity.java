@@ -26,7 +26,11 @@ public class CoordinateActivity extends AbstractActivity {
         setTitle("坐标选择");
         EDiseaseMethod method = (EDiseaseMethod) getIntent().getSerializableExtra(Keys.Content);
         coordinateView = (CoordinateView) findViewById(R.id.cv_coordinate);
-        coordinateView.setSelectOnePoint(method == EDiseaseMethod.MethodOne);
+        coordinateView.setSelectOnePoint(method == EDiseaseMethod.MethodTwo);
+        PointF pointStart = getIntent().getParcelableExtra(Keys.PointStart);
+        PointF pointStop = getIntent().getParcelableExtra(Keys.PointStop);
+        coordinateView.setSelectPointStart(pointStart);
+        coordinateView.setSelectPointStop(pointStop);
     }
 
     @Override
