@@ -48,7 +48,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/btn_add_position_from_screen"
+            android:id="@+id/iv_coordinate"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:background="@drawable/icon_chart"

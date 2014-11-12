@@ -57,7 +57,8 @@ import java.util.Map;
 /**
  * Created by xhChen on 14/10/29.
  */
-public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> implements IDiseaseView {
+public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
+        implements IDiseaseView, View.OnClickListener {
 
     public static final int MODE_NEW = 0;
     public static final int MODE_EDIT = 1;
@@ -94,6 +95,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private DataAdapter<String> videoAdapter;
     private String picturePath;
     private Map<EDiseaseMethod, View> methodViews = new HashMap<EDiseaseMethod, View>();
+    private List<RadioButton> radioButtons = new ArrayList<RadioButton>();
 
     private Handler handler = new Handler() {
         @Override
@@ -164,7 +166,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         int count = 0;
         for (int i = 0; i < 6; i++) {
             EDiseaseMethod diseaseMethod = EDiseaseMethod.values()[i];
-            RadioButton rb = (RadioButton) findViewById(diseaseMethod.getRadioButtonResId());
+            RadioButton rb = radioButtons.get(i);
             if ((method & (1 << i)) == 0) {
                 rb.setVisibility(View.GONE);
             } else {
@@ -176,7 +178,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 } else {
                     rb.setText(diseaseMethod.getNameResId());
                     if (radioButtonId == -1) {
-                        radioButtonId = diseaseMethod.getRadioButtonResId();
+                        radioButtonId = rb.getId();
                     }
                 }
             }
@@ -206,6 +208,16 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             cancel();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.iv_coordinate) {
+            EDiseaseMethod method = (EDiseaseMethod) v.getTag();
+            Intent intent = new Intent(this, CoordinateActivity.class);
+            intent.putExtra(Keys.Content, method);
+            startActivityForResult(intent, Keys.RequestCodeCoordinate);
+        }
     }
 
     @Override
@@ -368,8 +380,10 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private void initViews() {
         for (int i = 0; i < 6; i++) {
             EDiseaseMethod diseaseMethod = EDiseaseMethod.values()[i];
-            RadioButton rb = (RadioButton) findViewById(diseaseMethod.getRadioButtonResId());
+            int id = getResources().getIdentifier("rb_method_" + diseaseMethod.getId(), "id", BuildConfig.PACKAGE_NAME);
+            RadioButton rb = (RadioButton) findViewById(id);
             rb.setTag(diseaseMethod);
+            radioButtons.add(rb);
         }
 
         rgMethods = (RadioGroup) findViewById(R.id.rg_methods);
@@ -394,7 +408,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             }
 
             EDiseaseMethod method = EDiseaseMethod.valueOf(disease.getMethod());
-            rgMethods.check(method.getRadioButtonResId());
+            rgMethods.check(radioButtons.get(method.getId()).getId());
             View methodView = switchMethodView(method);
             int count = method.getCount();
             methodValues = disease.getValues();
@@ -553,11 +567,23 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         llMethodView.removeAllViews();
         View view = methodViews.get(method);
         if (view == null) {
-            view = View.inflate(this, method.getViewResId(), null);
+            view = getMethodView(method);
         }
         methodViews.put(method, view);
         llMethodView.addView(view);
         return view;
+    }
+
+    private View getMethodView(EDiseaseMethod method) {
+        int id = getResources().getIdentifier("view_disease_method_" + method.getId(),
+                "layout", BuildConfig.PACKAGE_NAME);
+        View methodView = View.inflate(this, id, null);
+        if (method == EDiseaseMethod.MethodOne || method == EDiseaseMethod.MethodTwo) {
+            View view = methodView.findViewById(R.id.iv_coordinate);
+            view.setTag(method);
+            view.setOnClickListener(this);
+        }
+        return methodView;
     }
 
     private void save() {
