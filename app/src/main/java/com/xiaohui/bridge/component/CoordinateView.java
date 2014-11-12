@@ -23,6 +23,7 @@ public class CoordinateView extends View {
 
     private List<PointF> points = new ArrayList<PointF>();
     private List<Integer[]> shapes = new ArrayList<Integer[]>();
+    //系统坐标系的值
     private float viewWidth; //控件的宽度
     private float viewHeight; //控件的高度
     private float maxX = 0; //x轴的最大值
@@ -35,8 +36,18 @@ public class CoordinateView extends View {
     private float height; //坐标系的高度
     private float hPadding; //水平边距
     private float vPadding; //垂直边距
+    private float offsetWidth;
+    private float offsetHeight;
+
+    //自己画的坐标系的值，都以s开头，表示self
+    private float sX;        //x
+    private float sY;        //y
+    private float valueOffsetX;
+    private float valueOffsetY;
+
     private Paint coordinatePaint = new Paint();
     private Paint gridPaint = new Paint();
+    private Paint shapePaint = new Paint();
 
 
     public CoordinateView(Context context) {
@@ -45,19 +56,27 @@ public class CoordinateView extends View {
     }
 
     private void init() {
+        initPaint();
+        initPoints();
+    }
+
+    private void initPaint() {
         coordinatePaint.setAntiAlias(true);
         coordinatePaint.setColor(Color.BLACK);
         coordinatePaint.setStrokeWidth(5.0f);
         coordinatePaint.setTextSize(30);
         coordinatePaint.setTypeface(Typeface.DEFAULT_BOLD);
+        coordinatePaint.setStyle(Paint.Style.FILL);
 
-        PathEffect effects = new DashPathEffect(new float[]{1, 2, 4, 8}, 1);
+        PathEffect effects = new DashPathEffect(new float[]{5, 5, 5, 5}, 1);
         gridPaint.setStyle(Paint.Style.STROKE); //空心
         gridPaint.setStrokeWidth(2.0f);
         gridPaint.setPathEffect(effects);
         gridPaint.setColor(Color.GREEN);
 
-        initPoints();
+        shapePaint.setColor(Color.BLUE);
+        shapePaint.setStyle(Paint.Style.STROKE);
+        shapePaint.setStrokeWidth(4.0f);
     }
 
     private void initPoints() {
@@ -104,8 +123,22 @@ public class CoordinateView extends View {
         return (float) (Math.round(value * 10) / 10.0);
     }
 
+    //转换自己坐标系的坐标为系统坐标系的坐标用于画图
+    private PointF convertSelfToSystem(PointF point) {
+        float offsetX = point.x - sX;
+        float offsetY = point.y - sY;
+        float x = this.x + (offsetX / valueOffsetX) * offsetWidth;
+        float y = this.y + (offsetY / valueOffsetY) * offsetHeight;
+        return new PointF(x, y);
+    }
+
+    //转换自己坐标系的坐标为系统坐标系的坐标用于记录
+    private PointF convertSystemToSelf(PointF point) {
+        return point;
+    }
+
     //坐标系
-    private void drawCoordinateSystem(Canvas canvas) {
+    private void drawCoordinate(Canvas canvas) {
         drawXY(canvas);
         drawMark(canvas);
     }
@@ -132,8 +165,10 @@ public class CoordinateView extends View {
     }
 
     private void drawMark(Canvas canvas) {
-        float valueOffsetX = round((maxX - minX) / 5);
-        float valueOffsetY = round((maxY - minY) / 5);
+        valueOffsetX = round((maxX - minX) / 5);
+        valueOffsetY = round((maxY - minY) / 5);
+        this.offsetWidth = (float) Math.floor(width * 0.9f / 5);
+        this.offsetHeight = (float) Math.floor(height * 0.9f / 5);
 
         float offsetWidth = (float) Math.floor(width * 0.9f / 10);
         float offsetHeight = (float) Math.floor(height * 0.9f / 10);
@@ -143,6 +178,8 @@ public class CoordinateView extends View {
         float yy = y;
         float valueX = minX;
         float valueY = minY;
+        sX = minX;
+        sY = minY;
         for (int i = 0; i < 11; i++) {
             Path path = new Path();
             path.moveTo(xx, vPadding + 40);
@@ -175,16 +212,33 @@ public class CoordinateView extends View {
         }
     }
 
-    private void drawPoints() {
-
+    private void drawShapes(Canvas canvas) {
+        Path path = new Path();
+        for (Integer[] shape : shapes) {
+            boolean isNewShape = true;
+            for (Integer p : shape) {
+                PointF point = convertSelfToSystem(points.get(p - 1));
+                if (isNewShape) {
+                    path.moveTo(point.x, point.y);
+                    isNewShape = false;
+                } else {
+                    path.lineTo(point.x, point.y);
+                }
+                shapePaint.setStyle(Paint.Style.FILL);
+                canvas.drawCircle(point.x, point.y, 10, shapePaint);
+            }
+            path.close();
+            shapePaint.setStyle(Paint.Style.STROKE);
+            canvas.drawPath(path, shapePaint);
+        }
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(Color.WHITE);
-        drawCoordinateSystem(canvas);
-        drawPoints();
+        drawCoordinate(canvas);
+        drawShapes(canvas);
     }
 
     /**
@@ -196,12 +250,7 @@ public class CoordinateView extends View {
         path.lineTo(p2.x, p2.y);
         path.lineTo(p3.x, p3.y);
         path.close();
-
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setStyle(Paint.Style.FILL);
-        // 绘制这个多边形
-        canvas.drawPath(path, paint);
+        canvas.drawPath(path, coordinatePaint);
     }
 
     /*
