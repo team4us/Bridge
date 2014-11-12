@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.util.DeviceParameterUtil;
 
 public class ZoomableImageView extends ImageView implements View.OnTouchListener {
     static final int TOUCH_MODE_NONE = 0; // 无操作
@@ -156,12 +156,11 @@ public class ZoomableImageView extends ImageView implements View.OnTouchListener
             matrix.set(getImageMatrix());
             matrix.getValues(matrix_values);
 
-            float scale = DeviceParamterUtil.getScreenDensity();
-            float bitmapWidth = imageBitMap.getWidth() * DeviceParamterUtil.getScreenDensity();
-            float bitmapHeight = imageBitMap.getHeight() * DeviceParamterUtil.getScreenDensity();
+            float scale = DeviceParameterUtil.getScreenDensity(getContext());
+            float bitmapWidth = imageBitMap.getWidth() * scale;
+            float bitmapHeight = imageBitMap.getHeight() * scale;
 
             if (getWidth() > bitmapWidth) {
-                scale = DeviceParamterUtil.getScreenDensity();
                 matrix_values[Matrix.MTRANS_X] = (getWidth() - bitmapWidth) / 2;
 
                 if (getHeight() > bitmapHeight) {
@@ -170,7 +169,7 @@ public class ZoomableImageView extends ImageView implements View.OnTouchListener
                     matrix_values[Matrix.MTRANS_Y] = 0;
                 }
             } else {
-                scale = (float) getWidth() / (float) bitmapWidth * DeviceParamterUtil.getScreenDensity();
+                scale = (float) getWidth() / bitmapWidth * scale;
                 matrix_values[Matrix.MTRANS_X] = 0;
 
                 float realHeight = scale * imageBitMap.getHeight();

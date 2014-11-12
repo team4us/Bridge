@@ -26,7 +26,7 @@ import com.xiaohui.bridge.model.BridgeModel;
 import com.xiaohui.bridge.model.ChildBridgeModel;
 import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
-import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.util.DeviceParameterUtil;
 
 
 public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
@@ -136,7 +136,7 @@ public class BridgeActivity extends AbstractOrmLiteActivity<DatabaseHelper> {
                 }
             });
             RadioGroup.LayoutParams lp
-                    = new RadioGroup.LayoutParams(DeviceParamterUtil.dip2px(150),
+                    = new RadioGroup.LayoutParams(DeviceParameterUtil.dp2px(this, 150),
                     ViewGroup.LayoutParams.MATCH_PARENT);
             rg.addView(rb, i, lp);
             if (i == 0) {

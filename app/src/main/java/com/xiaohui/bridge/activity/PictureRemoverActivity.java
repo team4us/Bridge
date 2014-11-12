@@ -21,7 +21,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
-import com.xiaohui.bridge.util.DeviceParamterUtil;
+import com.xiaohui.bridge.util.DeviceParameterUtil;
 import com.xiaohui.bridge.util.ListUtil;
 
 import java.util.ArrayList;
@@ -36,6 +36,7 @@ public class PictureRemoverActivity extends AbstractActivity {
     private List<String> photoList;
     private String title;
     private ArrayList<Integer> removedList = new ArrayList<Integer>();
+    private int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class PictureRemoverActivity extends AbstractActivity {
                 .cacheInMemory(true)
                 .cacheOnDisc(true)
                 .build();
+        screenWidth = DeviceParameterUtil.getScreenPxWidth(PictureRemoverActivity.this);
         imageLoader = ImageLoader.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         photoList = getIntent().getStringArrayListExtra(Keys.Content);
@@ -177,8 +179,8 @@ public class PictureRemoverActivity extends AbstractActivity {
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     ivNoImage.setVisibility(View.GONE);
                     pbLoading.setVisibility(View.GONE);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DeviceParamterUtil.getScreenPixelsWidth(),
-                            ((loadedImage.getHeight() * DeviceParamterUtil.getScreenPixelsWidth()) / loadedImage.getWidth()));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth,
+                            ((loadedImage.getHeight() * screenWidth) / loadedImage.getWidth()));
                     ivImage.setLayoutParams(params);
                     ivImage.setVisibility(View.VISIBLE);
                 }

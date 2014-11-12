@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -70,29 +72,63 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
     private static final int MAX_VIDEO_COUNT = 9;
     private RadioGroup rgMethods;
     private LinearLayout llMethodView;
-    private View methodView;
     private EditText etComment;
     private EditText etOther;
     private View viewPicture;
     private View viewVoice;
     private View viewVideo;
+    private Spinner spLocations;
+    private Spinner spDiseaseType;
     private DiseaseViewModel viewModel;
-    private EDiseaseMethod currentMethod;
     private DiseaseModel diseaseModel;
     private Map<String, String> methodValues;
     private List<String> pictureList;
     private List<String> voiceList;
     private List<String> videoList;
     private DisplayImageOptions options;
+    private EDiseaseMethod currentMethod;
     private int mode;
     private boolean isOther;
     private DataAdapter<String> pictureAdapter;
     private DataAdapter<String> voiceAdapter;
     private DataAdapter<String> videoAdapter;
     private String picturePath;
+    private Map<EDiseaseMethod, View> methodViews = new HashMap<EDiseaseMethod, View>();
 
-    private View currentView;
-    Map<EDiseaseMethod, View> methodViews = new HashMap<EDiseaseMethod, View>();
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            spLocations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    viewModel.onItemClickLocation(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            spDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    viewModel.onItemClickDiseaseType(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            rgMethods.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switchMethodView((EDiseaseMethod) findViewById(checkedId).getTag());
+                }
+            });
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +188,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
             rgMethods.setVisibility(View.GONE);
         }
 
-        setDefaultMethod(radioButtonId);
+        rgMethods.check(radioButtonId);
     }
 
     @Override
@@ -343,44 +379,13 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         viewPicture = findViewById(R.id.ll_photo);
         viewVoice = findViewById(R.id.ll_voice);
         viewVideo = findViewById(R.id.ll_video);
-        Spinner spLocations = (Spinner) findViewById(R.id.sp_locations);
-        Spinner spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
-
-        spLocations.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onItemClickLocation(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        spDiseaseType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.onItemClickDiseaseType(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        rgMethods.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switchMethodView(checkedId);
-            }
-        });
-
+        spLocations = (Spinner) findViewById(R.id.sp_locations);
+        spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         if (mode != MODE_NEW) {
             Disease disease = diseaseModel.getDisease();
             int index = viewModel.indexWithLocation(disease.getLocation());
             spLocations.setSelection(index);
             viewModel.onItemClickLocation(index);
-
             index = viewModel.indexWithType(disease.getType());
             spDiseaseType.setSelection(index);
             viewModel.onItemClickDiseaseType(index);
@@ -388,8 +393,10 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 etOther.setText(disease.getType());
             }
 
-            methodView = switchMethodView(EDiseaseMethod.valueOf(disease.getMethod()));
-            int count = currentMethod.getCount();
+            EDiseaseMethod method = EDiseaseMethod.valueOf(disease.getMethod());
+            rgMethods.check(method.getRadioButtonResId());
+            View methodView = switchMethodView(method);
+            int count = method.getCount();
             methodValues = disease.getValues();
             for (int i = 0; i < count; i++) {
                 TextView textView = (TextView) methodView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
@@ -406,6 +413,8 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         }
 
         initMediaView();
+
+        handler.sendEmptyMessageDelayed(0, 100);//由于Spinner的setSelection方法会延迟执行Listener方法，所以这样处理
     }
 
     private void initMediaView() {
@@ -422,29 +431,6 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
                 startActivityForResult(intent, Keys.RequestCodeRemovePicture);
             }
         });
-//        gvPicture.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(DiseaseActivity.this);
-//                builder.setMessage("确认要删除该图片吗？");
-//                builder.setTitle("提示");
-//                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        pictureList.remove(position);
-//                        updatePictureView();
-//                    }
-//                });
-//                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//                builder.create().show();
-//                return false;
-//            }
-//        });
 
         MyGridView gvVoice = (MyGridView) findViewById(R.id.mgv_voice);
         gvVoice.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -562,27 +548,14 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         }
     }
 
-    private void setDefaultMethod(int radioButtonId) {
-        rgMethods.check(radioButtonId);
-        switchMethodView(radioButtonId);
-    }
-
-    private View switchMethodView(int radioButtonId) {
-        Object tag = findViewById(radioButtonId).getTag();
-        return switchMethodView((EDiseaseMethod) tag);
-    }
-
     private View switchMethodView(EDiseaseMethod method) {
         currentMethod = method;
         llMethodView.removeAllViews();
-        if (null != methodViews.get(method)) {
-            llMethodView.addView(methodViews.get(method));
-            currentView = methodViews.get(method);
-            return methodViews.get(method);
+        View view = methodViews.get(method);
+        if (view == null) {
+            view = View.inflate(this, method.getViewResId(), null);
         }
-        View view = View.inflate(this, currentMethod.getViewResId(), null);
         methodViews.put(method, view);
-        currentView = methodViews.get(method);
         llMethodView.addView(view);
         return view;
     }
@@ -596,15 +569,18 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper> imp
         } else {
             disease.setType(viewModel.getType());
         }
-        disease.setMethod(currentMethod.toString());
         disease.setComment(etComment.getText().toString());
-        int count = currentMethod.getCount();
-        for (int i = 0; i < count; i++) {
-            TextView textView = (TextView) currentView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
-            EditText editText = (EditText) currentView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
-            methodValues.put(textView.getText().toString(), editText.getText().toString());
+        disease.setMethod(currentMethod.toString());
+        View methodView = methodViews.get(currentMethod);
+        if (methodView != null) {
+            int count = currentMethod.getCount();
+            for (int i = 0; i < count; i++) {
+                TextView textView = (TextView) methodView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
+                EditText editText = (EditText) methodView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
+                methodValues.put(textView.getText().toString(), editText.getText().toString());
+            }
+            disease.setValues(methodValues);
         }
-        disease.setValues(methodValues);
         disease.setPictureList(pictureList);
         disease.setVideoList(videoList);
         disease.setVoiceList(voiceList);
