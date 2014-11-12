@@ -11,6 +11,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -21,8 +22,6 @@ import java.util.List;
  */
 public class CoordinateView extends View {
 
-    private List<PointF> points = new ArrayList<PointF>();
-    private List<Integer[]> shapes = new ArrayList<Integer[]>();
     //系统坐标系的值
     private float viewWidth; //控件的宽度
     private float viewHeight; //控件的高度
@@ -45,13 +44,26 @@ public class CoordinateView extends View {
     private float valueOffsetX;
     private float valueOffsetY;
 
+    //选择的坐标点，以系统坐标系记录的，所以返回时需要调用转换函数
+    private PointF selectPointStart;
+    private PointF selectPointStop;
+    private List<PointF> movePoints = new ArrayList<PointF>();
+
+    private boolean isOnePoint; //表示是选择一个点还是两个点
+    private List<PointF> points = new ArrayList<PointF>();
+    private List<Integer[]> shapes = new ArrayList<Integer[]>();
     private Paint coordinatePaint = new Paint();
     private Paint gridPaint = new Paint();
     private Paint shapePaint = new Paint();
-
+    private Paint pointPaint = new Paint();
 
     public CoordinateView(Context context) {
         super(context);
+        init();
+    }
+
+    public CoordinateView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         init();
     }
 
@@ -69,14 +81,17 @@ public class CoordinateView extends View {
         coordinatePaint.setStyle(Paint.Style.FILL);
 
         PathEffect effects = new DashPathEffect(new float[]{5, 5, 5, 5}, 1);
-        gridPaint.setStyle(Paint.Style.STROKE); //空心
+        gridPaint.setStyle(Paint.Style.STROKE);
         gridPaint.setStrokeWidth(2.0f);
         gridPaint.setPathEffect(effects);
         gridPaint.setColor(Color.GREEN);
 
         shapePaint.setColor(Color.BLUE);
-        shapePaint.setStyle(Paint.Style.STROKE);
         shapePaint.setStrokeWidth(4.0f);
+
+        pointPaint.setColor(Color.RED);
+        pointPaint.setStyle(Paint.Style.FILL);
+        pointPaint.setStrokeWidth(4.0f);
     }
 
     private void initPoints() {
@@ -107,9 +122,8 @@ public class CoordinateView extends View {
         }
     }
 
-    public CoordinateView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+    public void setSelectOnePoint(boolean isOnePoint) {
+        this.isOnePoint = isOnePoint;
     }
 
     @Override
@@ -134,7 +148,11 @@ public class CoordinateView extends View {
 
     //转换自己坐标系的坐标为系统坐标系的坐标用于记录
     private PointF convertSystemToSelf(PointF point) {
-        return point;
+        float offsetX = point.x - this.x;
+        float offsetY = point.y - this.y;
+        float x = sX + (offsetX / offsetWidth) * valueOffsetX;
+        float y = sY + (offsetY / offsetHeight) * valueOffsetY;
+        return new PointF(x, y);
     }
 
     //坐标系
@@ -233,12 +251,36 @@ public class CoordinateView extends View {
         }
     }
 
+    private void drawSelectPoints(Canvas canvas) {
+        if (selectPointStart == null || selectPointStop == null)
+            return;
+        canvas.drawCircle(selectPointStart.x, selectPointStart.y, 10, pointPaint);
+        canvas.drawCircle(selectPointStop.x, selectPointStop.y, 10, pointPaint);
+        if (!isOnePoint) {
+            float startX = selectPointStart.x;
+            float startY = selectPointStart.y;
+            float stopX;
+            float stopY;
+            for (PointF point : movePoints) {
+                stopX = point.x;
+                stopY = point.y;
+                canvas.drawLine(startX, startY, stopX, stopY, pointPaint);
+                startX = point.x;
+                startY = point.y;
+            }
+            stopX = selectPointStop.x;
+            stopY = selectPointStop.y;
+            canvas.drawLine(startX, startY, stopX, stopY, pointPaint);
+        }
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(Color.WHITE);
         drawCoordinate(canvas);
         drawShapes(canvas);
+        drawSelectPoints(canvas);
     }
 
     /**
@@ -253,53 +295,48 @@ public class CoordinateView extends View {
         canvas.drawPath(path, coordinatePaint);
     }
 
-    /*
-     * 用于保存拖动时的上一个点的位置
-     */
-    int x0, y0;
+    public void clear() {
+        selectPointStart = null;
+        selectPointStop = null;
+        movePoints.clear();
+        invalidate();
+    }
 
-    /*
-     * 拖动事件监听
-     */
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        int action = event.getAction();
-//        /*
-//         * (x,y)点为发生事件时的点，它的坐标值为相对于该控件左上角的距离
-//         */
-//        int x = (int) event.getX();
-//        int y = (int) event.getY();
-//        switch (action) {
-//
-//            case MotionEvent.ACTION_DOWN: // 按下
-//                x0 = x;
-//                y0 = y;
-//                Log.i("down", "(" + x0 + "," + y0 + ")");
-//                break;
-//            case MotionEvent.ACTION_MOVE: // 拖动
-//            /*
-//             * 拖动时圆心坐标相对运动 (x0,y0)保存先前一次事件发生的坐标
-//             * 拖动的时候只要计算两个坐标的delta值，然后加到圆心中，即移动了圆心。
-//             * 然后调用invalidate()让系统调用onDraw()刷新以下屏幕，即实现了坐标移动。
-//             */
-//                po.x += x - x0;
-//                po.y += y - y0;
-//                x0 = x;
-//                y0 = y;
-//                Log.i("move", "(" + x0 + "," + y0 + ")");
-//                invalidate();
-//                break;
-//            case MotionEvent.ACTION_UP: // 弹起
-//                break;
-//        }
-//
-//        /*
-//         * 注意：这里一定要返回true
-//         * 返回false和super.onTouchEvent(event)都会本监听只能检测到按下消息
-//         * 这是因为false和super.onTouchEvent(event)的处理都是告诉系统该控件不能处理这样的消息，
-//         * 最终系统会将这些事件交给它的父容器处理。
-//         */
-//        return true;
-//
-//    }
+    public PointF getSelectPointStart() {
+        return convertSystemToSelf(selectPointStart);
+    }
+
+    public PointF getSelectPointStop() {
+        return convertSystemToSelf(selectPointStop);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int action = event.getAction();
+        float x = event.getX();
+        float y = event.getY();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                selectPointStart = new PointF(x, y);
+                selectPointStop = new PointF(x, y);
+                movePoints.clear();
+                if (isOnePoint) {
+                    invalidate();
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (!isOnePoint) {
+                    movePoints.add(new PointF(x, y));
+                    invalidate();
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (!isOnePoint) {
+                    selectPointStop = new PointF(x, y);
+                    invalidate();
+                }
+                break;
+        }
+        return true;
+    }
 }

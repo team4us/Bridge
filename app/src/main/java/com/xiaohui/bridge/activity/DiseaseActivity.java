@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -213,10 +214,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.iv_coordinate) {
-            EDiseaseMethod method = (EDiseaseMethod) v.getTag();
-            Intent intent = new Intent(this, CoordinateActivity.class);
-            intent.putExtra(Keys.Content, method);
-            startActivityForResult(intent, Keys.RequestCodeCoordinate);
+            pickCoordinate();
         }
     }
 
@@ -263,6 +261,12 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
         }
         Intent intent = new Intent(this, VideoRecordActivity.class);
         startActivityForResult(intent, Keys.RequestCodeTakeVideo);
+    }
+
+    public void pickCoordinate() {
+        Intent intent = new Intent(this, CoordinateActivity.class);
+        intent.putExtra(Keys.Content, currentMethod);
+        startActivityForResult(intent, Keys.RequestCodeCoordinate);
     }
 
     @Override
@@ -321,22 +325,22 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
     private void onResultCoordinate(Intent data) {
         if (data == null)
             return;
-//                View view = methodView.findViewById(R.id.et_startpoint);
-//                if (view != null) {
-//                    String startPoint = random() + "," + random();
-//                    ((EditText) view).setText(startPoint);
-//
-//                    EditText editText = (EditText) methodView.findViewById(R.id.et_endpoint);
-//                    String endPoint = random() + "," + random();
-//                    editText.setText(endPoint);
-//                } else {
-//                    view = methodView.findViewById(R.id.et_position);
-//                    if (view != null) {
-//                        EditText editText = (EditText) view;
-//                        String endPoint = random() + "," + random();
-//                        editText.setText(endPoint);
-//                    }
-//                }
+        PointF pointStart = data.getParcelableExtra(Keys.PointStart);
+        PointF pointStop = data.getParcelableExtra(Keys.PointStop);
+        View methodView = methodViews.get(currentMethod);
+        if (currentMethod == EDiseaseMethod.MethodOne) {
+            int id = getResources().getIdentifier("et_1", "id", BuildConfig.PACKAGE_NAME);
+            EditText editText = (EditText) methodView.findViewById(id);
+            editText.setText(pointStart.x + "," + pointStart.y);
+
+            id = getResources().getIdentifier("et_2", "id", BuildConfig.PACKAGE_NAME);
+            editText = (EditText) methodView.findViewById(id);
+            editText.setText(pointStop.x + "," + pointStop.y);
+        } else if (currentMethod == EDiseaseMethod.MethodTwo) {
+            int id = getResources().getIdentifier("et_1", "id", BuildConfig.PACKAGE_NAME);
+            EditText editText = (EditText) methodView.findViewById(id);
+            editText.setText(pointStart.x + "," + pointStart.y);
+        }
     }
 
     private void onResultRemovePicture(Intent data) {
