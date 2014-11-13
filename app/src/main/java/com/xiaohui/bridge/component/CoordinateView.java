@@ -50,6 +50,7 @@ public class CoordinateView extends View {
     private PointF selectPointStart;
     private PointF selectPointStop;
 
+    private int touchCount;
     private boolean isOnePoint; //表示是选择一个点还是两个点
     private List<PointF> points;
     private List<Integer[]> shapes;
@@ -99,8 +100,6 @@ public class CoordinateView extends View {
     public void setShapes(List<PointF> points, List<Integer[]> shapes) {
         if (ListUtil.isEmpty(points) || ListUtil.isEmpty(shapes))
             return;
-        selectPointStart = null;
-        selectPointStop = null;
         this.points = points;
         this.shapes = shapes;
 
@@ -120,7 +119,7 @@ public class CoordinateView extends View {
         mX = minX;
         mY = minY;
 
-        invalidate();
+        clear();
     }
 
     public void setSelectOnePoint(boolean isOnePoint) {
@@ -355,27 +354,32 @@ public class CoordinateView extends View {
         float x = event.getX();
         float y = event.getY();
         switch (action) {
-            case MotionEvent.ACTION_DOWN: {
-                selectPointStart = convertSystemToSelf(new PointF(x, y));
-                selectPointStop = selectPointStart;
-                if (isOnePoint) {
-                    invalidate();
-                }
-                break;
-            }
+            case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                if (!isOnePoint) {
+                if (!isFirstTime()) {
                     selectPointStop = convertSystemToSelf(new PointF(x, y));
                     invalidate();
+                } else {
+                    clear();
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (!isOnePoint) {
-                    selectPointStop = convertSystemToSelf(new PointF(x, y));
-                    invalidate();
+                PointF point = convertSystemToSelf(new PointF(x, y));
+                if (isFirstTime()) {
+                    selectPointStart = point;
+                    selectPointStop = point;
+                    touchCount++;
+                } else {
+                    selectPointStop = point;
+                    touchCount = 0;
                 }
+                invalidate();
                 break;
         }
         return true;
+    }
+
+    private boolean isFirstTime() {
+        return isOnePoint || touchCount == 0;
     }
 }
