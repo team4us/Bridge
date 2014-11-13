@@ -126,12 +126,6 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
 
                 }
             });
-            rgMethods.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    switchMethodView((EDiseaseMethod) findViewById(checkedId).getTag());
-                }
-            });
         }
     };
 
@@ -395,6 +389,12 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
         }
 
         rgMethods = (RadioGroup) findViewById(R.id.rg_methods);
+        rgMethods.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switchMethodView((EDiseaseMethod) findViewById(checkedId).getTag());
+            }
+        });
         llMethodView = (LinearLayout) findViewById(R.id.ll_method_view);
         etComment = (EditText) findViewById(R.id.et_comment);
         etOther = (EditText) findViewById(R.id.et_other);
@@ -456,6 +456,7 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
             etComment.setText(disease.getComment());
         } else {
             viewModel.onItemClickDiseaseType(0);
+            viewModel.onItemClickLocation(0);
         }
 
         initMediaView();
