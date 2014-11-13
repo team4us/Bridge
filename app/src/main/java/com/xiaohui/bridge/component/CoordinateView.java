@@ -25,24 +25,24 @@ public class CoordinateView extends View {
     //系统坐标系的值
     private float viewWidth; //控件的宽度
     private float viewHeight; //控件的高度
-    private float maxX = 0; //x轴的最大值
-    private float minX = 0; //x轴的最小值
-    private float maxY = 0; //y轴的最大值
-    private float minY = 0; //y轴的最小值
     private float x;        //坐标系的x
     private float y;        //坐标系的y
     private float width;    //坐标系的宽度
     private float height; //坐标系的高度
+    private float stepX; //x轴的步长
+    private float stepY; //y轴的步长
     private float hPadding; //水平边距
     private float vPadding; //垂直边距
-    private float offsetWidth;
-    private float offsetHeight;
 
-    //自己画的坐标系的值，都以s开头，表示self
-    private float sX;        //x
-    private float sY;        //y
-    private float valueOffsetX;
-    private float valueOffsetY;
+    //自己画的坐标系的值，都以s开头，表示myself
+    private float maxX = 0; //x轴的最大值
+    private float minX = 0; //x轴的最小值
+    private float maxY = 0; //y轴的最大值
+    private float minY = 0; //y轴的最小值
+    private float mX;       //x原点
+    private float mY;       //y原点
+    private float mStepX;   //x轴的步长
+    private float mStepY;   //y轴的步长
 
     //选择的坐标点，以系统坐标系记录的，所以返回时需要调用转换函数
     private PointF selectPointStart;
@@ -119,6 +119,9 @@ public class CoordinateView extends View {
                 minY = point.y;
             }
         }
+
+        mX = minX;
+        mY = minY;
     }
 
     public void setSelectOnePoint(boolean isOnePoint) {
@@ -138,19 +141,15 @@ public class CoordinateView extends View {
 
     //转换自己坐标系的坐标为系统坐标系的坐标用于画图
     private PointF convertSelfToSystem(PointF point) {
-        float offsetX = point.x - sX;
-        float offsetY = point.y - sY;
-        float x = this.x + (offsetX / valueOffsetX) * offsetWidth;
-        float y = this.y + (offsetY / valueOffsetY) * offsetHeight;
+        float x = this.x + ((point.y - mY) / mStepY) * stepX;
+        float y = this.y + ((point.x - mX) / mStepX) * stepY;
         return new PointF(x, y);
     }
 
     //转换自己坐标系的坐标为系统坐标系的坐标用于记录
     private PointF convertSystemToSelf(PointF point) {
-        float offsetX = point.x - this.x;
-        float offsetY = point.y - this.y;
-        float x = sX + (offsetX / offsetWidth) * valueOffsetX;
-        float y = sY + (offsetY / offsetHeight) * valueOffsetY;
+        float x = mX + ((point.y - this.y) / stepY) * mStepX;
+        float y = mY + ((point.x - this.x) / stepX) * mStepY;
         return new PointF(round(x), round(y));
     }
 
@@ -168,64 +167,64 @@ public class CoordinateView extends View {
         y = vPadding + 40;
         width = viewWidth - 2 * hPadding;
         height = viewHeight - 2 * vPadding;
-        canvas.drawLine(x, vPadding, x + width, vPadding, coordinatePaint);
-        canvas.drawLine(hPadding, y, hPadding, y + height, coordinatePaint);
+        canvas.drawLine(hPadding, y, hPadding, y + height, coordinatePaint); // 画X轴
+        canvas.drawLine(x, vPadding, x + width, vPadding, coordinatePaint); // 画Y轴
 
         // 画X轴箭头
-        PointF endX = new PointF(x + width, vPadding);
-        drawTriangle(canvas, new PointF(endX.x + 30, endX.y), new PointF(endX.x, endX.y - 15), new PointF(endX.x, endX.y + 15));
-        canvas.drawText("X", endX.x, endX.y - 20, coordinatePaint);
-        // 画Y轴箭头
         PointF endY = new PointF(hPadding, y + height);
         drawTriangle(canvas, new PointF(endY.x, endY.y + 30), new PointF(endY.x - 15, endY.y), new PointF(endY.x + 15, endY.y));
-        canvas.drawText("Y", endY.x - 40, endY.y + 20, coordinatePaint);
+        canvas.drawText("X", endY.x - 40, endY.y + 20, coordinatePaint);
+
+        // 画Y轴箭头
+        PointF endX = new PointF(x + width, vPadding);
+        drawTriangle(canvas, new PointF(endX.x + 30, endX.y), new PointF(endX.x, endX.y - 15), new PointF(endX.x, endX.y + 15));
+        canvas.drawText("Y", endX.x, endX.y - 20, coordinatePaint);
     }
 
     private void drawMark(Canvas canvas) {
-        valueOffsetX = round((maxX - minX) / 5);
-        valueOffsetY = round((maxY - minY) / 5);
-        this.offsetWidth = (float) Math.floor(width * 0.9f / 5);
-        this.offsetHeight = (float) Math.floor(height * 0.9f / 5);
-
-        float offsetWidth = (float) Math.floor(width * 0.9f / 10);
-        float offsetHeight = (float) Math.floor(height * 0.9f / 10);
+        mStepX = round((maxX - minX) / 5);
+        mStepY = round((maxY - minY) / 5);
+        stepX = (float) Math.floor(width * 0.9f / 5);
+        stepY = (float) Math.floor(height * 0.9f / 5);
+        float tStepX = (float) Math.floor(width * 0.9f / 10);
+        float tStepY = (float) Math.floor(height * 0.9f / 10);
 
         //画刻度
-        float xx = x;
-        float yy = y;
-        float valueX = minX;
-        float valueY = minY;
-        sX = minX;
-        sY = minY;
-        for (int i = 0; i < 11; i++) {
+        //系统坐标系下当前X轴和Y轴值
+        float currentX = x;
+        float currentY = y;
+        //自己坐标系下X轴和Y轴值
+        float mCurrentX = mX;
+        float mCurrentY = mY;
+        for (int i = 0; i <= 10; i++) {
             Path path = new Path();
-            path.moveTo(xx, vPadding + 40);
-            path.lineTo(xx, vPadding + height);
+            path.moveTo(currentX, vPadding + 40);
+            path.lineTo(currentX, vPadding + height);
             canvas.drawPath(path, gridPaint);
 
-            path.moveTo(hPadding + 40, yy);
-            path.lineTo(hPadding + width, yy);
+            path.moveTo(hPadding + 40, currentY);
+            path.lineTo(hPadding + width, currentY);
             canvas.drawPath(path, gridPaint);
 
             if (i % 2 == 1) {
-                canvas.drawLine(xx, vPadding - 2, xx, vPadding + 10, coordinatePaint);
-                canvas.drawLine(hPadding - 2, yy, hPadding + 10, yy, coordinatePaint);
+                canvas.drawLine(currentX, vPadding - 2, currentX, vPadding + 10, coordinatePaint);
+                canvas.drawLine(hPadding - 2, currentY, hPadding + 10, currentY, coordinatePaint);
             } else {
-                canvas.drawLine(xx, vPadding - 2, xx, vPadding + 20, coordinatePaint);
-                canvas.drawLine(hPadding - 2, yy, hPadding + 20, yy, coordinatePaint);
+                canvas.drawLine(currentX, vPadding - 2, currentX, vPadding + 20, coordinatePaint);
+                canvas.drawLine(hPadding - 2, currentY, hPadding + 20, currentY, coordinatePaint);
                 Rect bounds = new Rect();
-                String textX = String.format("%.1f", valueX);
+                String textX = String.format("%.1f", mCurrentY);
                 coordinatePaint.getTextBounds(textX, 0, textX.length(), bounds);
-                canvas.drawText(textX, xx - bounds.width() / 2, vPadding - bounds.height(), coordinatePaint);
+                canvas.drawText(textX, currentX - bounds.width() / 2, vPadding - bounds.height(), coordinatePaint);
 
-                String textY = String.format("%.1f", valueY);
+                String textY = String.format("%.1f", mCurrentX);
                 coordinatePaint.getTextBounds(textY, 0, textY.length(), bounds);
-                canvas.drawText(textY, hPadding - bounds.width() - 10, yy + bounds.height() / 2, coordinatePaint);
-                valueX += valueOffsetX;
-                valueY += valueOffsetY;
+                canvas.drawText(textY, hPadding - bounds.width() - 10, currentY + bounds.height() / 2, coordinatePaint);
+                mCurrentX += mStepX;
+                mCurrentY += mStepY;
             }
-            xx += offsetWidth;
-            yy += offsetHeight;
+            currentX += tStepX;
+            currentY += tStepY;
         }
     }
 
