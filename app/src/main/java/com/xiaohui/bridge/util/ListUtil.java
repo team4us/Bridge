@@ -10,4 +10,8 @@ public class ListUtil {
     public static int sizeOfList(List<?> list) {
         return list == null ? 0 : list.size();
     }
+
+    public static boolean isEmpty(List<?> list) {
+        return sizeOfList(list) == 0;
+    }
 }

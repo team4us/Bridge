@@ -14,6 +14,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.xiaohui.bridge.util.ListUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +51,8 @@ public class CoordinateView extends View {
     private PointF selectPointStop;
 
     private boolean isOnePoint; //表示是选择一个点还是两个点
-    private List<PointF> points = new ArrayList<PointF>();
-    private List<Integer[]> shapes = new ArrayList<Integer[]>();
+    private List<PointF> points;
+    private List<Integer[]> shapes;
     private Paint coordinatePaint = new Paint();
     private Paint gridPaint = new Paint();
     private Paint shapePaint = new Paint();
@@ -68,7 +70,6 @@ public class CoordinateView extends View {
 
     private void init() {
         initPaint();
-        initPoints();
     }
 
     private void initPaint() {
@@ -79,33 +80,29 @@ public class CoordinateView extends View {
         coordinatePaint.setTypeface(Typeface.DEFAULT_BOLD);
         coordinatePaint.setStyle(Paint.Style.FILL);
 
-        PathEffect effects = new DashPathEffect(new float[]{5, 5, 5, 5}, 1);
+        gridPaint.setAntiAlias(true);
         gridPaint.setStyle(Paint.Style.STROKE);
         gridPaint.setStrokeWidth(2.0f);
-        gridPaint.setPathEffect(effects);
+        gridPaint.setPathEffect(new DashPathEffect(new float[]{5, 5, 5, 5}, 1));
         gridPaint.setColor(Color.GREEN);
 
+        shapePaint.setAntiAlias(true);
         shapePaint.setColor(Color.BLUE);
         shapePaint.setStrokeWidth(4.0f);
 
+        pointPaint.setAntiAlias(true);
         pointPaint.setColor(Color.RED);
         pointPaint.setStyle(Paint.Style.FILL);
         pointPaint.setStrokeWidth(4.0f);
     }
 
-    private void initPoints() {
-        points.add(new PointF(0, 1));
-        points.add(new PointF(0, 0.5f));
-        points.add(new PointF(0, -0.5f));
-        points.add(new PointF(0, -1));
-        points.add(new PointF(20, 1));
-        points.add(new PointF(20, 0.5f));
-        points.add(new PointF(20, -0.5f));
-        points.add(new PointF(20, -1));
-
-        shapes.add(new Integer[]{1, 2, 6, 5, 1});
-        shapes.add(new Integer[]{2, 3, 7, 6, 2});
-        shapes.add(new Integer[]{3, 4, 8, 7, 3});
+    public void setShapes(List<PointF> points, List<Integer[]> shapes) {
+        if (ListUtil.isEmpty(points) || ListUtil.isEmpty(shapes))
+            return;
+        selectPointStart = null;
+        selectPointStop = null;
+        this.points = points;
+        this.shapes = shapes;
 
         for (PointF point : points) {
             if (maxX < point.x) {
@@ -122,6 +119,8 @@ public class CoordinateView extends View {
 
         mX = minX;
         mY = minY;
+
+        invalidate();
     }
 
     public void setSelectOnePoint(boolean isOnePoint) {
@@ -232,8 +231,8 @@ public class CoordinateView extends View {
         Path path = new Path();
         for (Integer[] shape : shapes) {
             boolean isNewShape = true;
-            for (Integer p : shape) {
-                PointF point = convertSelfToSystem(points.get(p - 1));
+            for (Integer index : shape) {
+                PointF point = convertSelfToSystem(points.get(index - 1));
                 if (isNewShape) {
                     path.moveTo(point.x, point.y);
                     isNewShape = false;
@@ -265,6 +264,8 @@ public class CoordinateView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if (ListUtil.isEmpty(points) || ListUtil.isEmpty(shapes))
+            return;
         canvas.drawColor(Color.WHITE);
         drawCoordinate(canvas);
         drawShapes(canvas);
@@ -281,6 +282,43 @@ public class CoordinateView extends View {
         path.lineTo(p3.x, p3.y);
         path.close();
         canvas.drawPath(path, coordinatePaint);
+    }
+
+    //判断一个点是否在圈定的图形范围内
+    //0 点p在轮廓上；1 点p在多边形内；-1 点p在多边形外
+    private int pointInShapes(PointF point) {
+        int i, CrossPoints = 0;
+        float xmin, ymin, xmax, ymax;
+        double x;
+        for (i = 0; i < points.size() - 1; i++) {
+            PointF point1 = points.get(i);
+            PointF point2 = points.get(i + 1);
+            xmin = Math.min(point1.x, point2.x);
+            xmax = Math.max(point1.x, point2.x);
+            ymin = Math.min(point1.y, point2.y);
+            ymax = Math.max(point1.y, point2.y);
+            if (point.y > ymax || point.y < ymin) continue; //水平射线不可能与轮廓线段i->i+1有交
+            if (point.y == ymax) {
+                if (ymax == point1.y && point.x == point1.x || ymax == point2.y &&
+                        point.x == point2.x)
+                    return 0;          // p位于多边形轮廓上
+                else if (ymin == ymax) {
+                    if (point.x >= xmin && point.x <= xmax)
+                        return 0; // p位于多边形轮廓上
+                }
+                continue; // 放弃求交（避免重复交点）
+            }
+            //计算水平射线与轮廓线段i->i+1交点的x值
+            x = (double) (point.y - point1.y) / (point2.y - point1.y) * (point2.x - point1.x) + point1.x;
+            if (x == point.x)
+                return 0;    // p位于多边形轮廓上
+            if (x > point.x)
+                CrossPoints++; // 统计位于p右方的交点数
+        }
+        if (CrossPoints % 2 == 0)
+            return -1; // p在多边形外
+        else
+            return 1;  // p在多边形内
     }
 
     public void clear() {
@@ -317,13 +355,14 @@ public class CoordinateView extends View {
         float x = event.getX();
         float y = event.getY();
         switch (action) {
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_DOWN: {
                 selectPointStart = convertSystemToSelf(new PointF(x, y));
-                selectPointStop = convertSystemToSelf(new PointF(x, y));
+                selectPointStop = selectPointStart;
                 if (isOnePoint) {
                     invalidate();
                 }
                 break;
+            }
             case MotionEvent.ACTION_MOVE:
                 if (!isOnePoint) {
                     selectPointStop = convertSystemToSelf(new PointF(x, y));
