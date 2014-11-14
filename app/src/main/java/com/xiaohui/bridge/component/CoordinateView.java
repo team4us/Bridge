@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -15,8 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.xiaohui.bridge.util.ListUtil;
+import com.xiaohui.bridge.util.MathUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,11 +46,14 @@ public class CoordinateView extends View {
     private float mStepY;   //y轴的步长
 
     //选择的坐标点，以系统坐标系记录的，所以返回时需要调用转换函数
+    private PointF touchPoint;
     private PointF selectPointStart;
     private PointF selectPointStop;
+    private float length;
+
 
     private int touchCount;
-    private boolean isOnePoint; //表示是选择一个点还是两个点
+    private boolean needOnePoint; //表示是选择一个点还是两个点
     private List<PointF> points;
     private List<Integer[]> shapes;
     private Paint coordinatePaint = new Paint();
@@ -123,7 +125,7 @@ public class CoordinateView extends View {
     }
 
     public void setSelectOnePoint(boolean isOnePoint) {
-        this.isOnePoint = isOnePoint;
+        this.needOnePoint = isOnePoint;
     }
 
     @Override
@@ -134,7 +136,7 @@ public class CoordinateView extends View {
     }
 
     private float round(float value) {
-        return (float) (Math.round(value * 10) / 10.0);
+        return MathUtil.round(value, 2);
     }
 
     //转换自己坐标系的坐标为系统坐标系的坐标用于画图
@@ -248,16 +250,45 @@ public class CoordinateView extends View {
     }
 
     private void drawSelectPoints(Canvas canvas) {
-        if (selectPointStart == null || selectPointStop == null)
-            return;
-        PointF systemPointStart = convertSelfToSystem(selectPointStart);
-        PointF systemPointStop = convertSelfToSystem(selectPointStop);
-        canvas.drawCircle(systemPointStart.x, systemPointStart.y, 10, pointPaint);
-        canvas.drawCircle(systemPointStop.x, systemPointStop.y, 10, pointPaint);
-        if (!isOnePoint) {
+        PointF systemPointStart = null;
+        PointF systemPointStop = null;
+        if (selectPointStart != null) {
+            systemPointStart = convertSelfToSystem(selectPointStart);
+            canvas.drawCircle(systemPointStart.x, systemPointStart.y, 10, pointPaint);
+            canvas.drawText("A", systemPointStart.x + 10, systemPointStart.y + 10, coordinatePaint);
+        }
+
+        if (selectPointStop != null) {
+            systemPointStop = convertSelfToSystem(selectPointStop);
+            canvas.drawCircle(systemPointStop.x, systemPointStop.y, 10, pointPaint);
+            canvas.drawText("B", systemPointStop.x + 10, systemPointStop.y + 10, coordinatePaint);
+        }
+
+        if (!needOnePoint && systemPointStart != null && systemPointStop != null) {
             canvas.drawLine(systemPointStart.x, systemPointStart.y,
                     systemPointStop.x, systemPointStop.y, pointPaint);
         }
+    }
+
+    private void drawTouchPoint(Canvas canvas) {
+        Rect bounds = new Rect();
+        String textX = "";
+        if (selectPointStart != null) {
+            textX += String.format("A(%.1f, %.1f)", selectPointStart.x, selectPointStart.y);
+            if (selectPointStop != null) {
+                textX += String.format("   B(%.1f, %.1f)", selectPointStop.x, selectPointStop.y);
+                length = MathUtil.lengthWithTwoPoint(selectPointStart, selectPointStop);
+                textX += String.format("   长度 %.1f", length);
+            } else if (touchPoint != null) {
+                textX += String.format("   B(%.1f, %.1f)", touchPoint.x, touchPoint.y);
+                textX += String.format("   长度 %.1f", MathUtil.lengthWithTwoPoint(selectPointStart, touchPoint));
+            }
+        } else if (touchPoint != null) {
+            textX += String.format("A(%.1f, %.1f)", touchPoint.x, touchPoint.y);
+        }
+
+        coordinatePaint.getTextBounds(textX, 0, textX.length(), bounds);
+        canvas.drawText(textX, x + (width - bounds.width()) / 2, y + height + (vPadding - bounds.height()) / 2, coordinatePaint);
     }
 
     @Override
@@ -269,6 +300,7 @@ public class CoordinateView extends View {
         drawCoordinate(canvas);
         drawShapes(canvas);
         drawSelectPoints(canvas);
+        drawTouchPoint(canvas);
     }
 
     /**
@@ -323,6 +355,7 @@ public class CoordinateView extends View {
     public void clear() {
         selectPointStart = null;
         selectPointStop = null;
+        length = 0;
         invalidate();
     }
 
@@ -351,28 +384,26 @@ public class CoordinateView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
-        float x = event.getX();
-        float y = event.getY();
+        touchPoint = convertSystemToSelf(new PointF(event.getX(), event.getY()));
         switch (action) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 if (!isFirstTime()) {
-                    selectPointStop = convertSystemToSelf(new PointF(x, y));
+                    selectPointStop = touchPoint;
                     invalidate();
                 } else {
                     clear();
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                PointF point = convertSystemToSelf(new PointF(x, y));
                 if (isFirstTime()) {
-                    selectPointStart = point;
-                    selectPointStop = point;
+                    selectPointStart = touchPoint;
                     touchCount++;
                 } else {
-                    selectPointStop = point;
+                    selectPointStop = touchPoint;
                     touchCount = 0;
                 }
+                touchPoint = null;
                 invalidate();
                 break;
         }
@@ -380,6 +411,6 @@ public class CoordinateView extends View {
     }
 
     private boolean isFirstTime() {
-        return isOnePoint || touchCount == 0;
+        return needOnePoint || touchCount == 0;
     }
 }

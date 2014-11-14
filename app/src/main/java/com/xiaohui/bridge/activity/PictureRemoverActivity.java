@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.xiaohui.bridge.Keys;
 import com.xiaohui.bridge.R;
+import com.xiaohui.bridge.component.ImageFragment;
 import com.xiaohui.bridge.util.DeviceParameterUtil;
 import com.xiaohui.bridge.util.ListUtil;
 
@@ -29,36 +30,25 @@ import java.util.List;
 
 public class PictureRemoverActivity extends AbstractActivity {
 
-    private DisplayImageOptions options;
     private ImageLoader imageLoader;
     private ViewPager viewPager;
     private int currentIndex;
     private List<String> photoList;
     private String title;
     private ArrayList<Integer> removedList = new ArrayList<Integer>();
-    private int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
         title = "图片选择";
-        options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.icon_no_picture)
-                .showImageForEmptyUri(R.drawable.icon_no_picture)
-                .showImageOnFail(R.drawable.icon_no_picture)
-                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
-                .cacheInMemory(true)
-                .cacheOnDisc(true)
-                .build();
-        screenWidth = DeviceParameterUtil.getScreenPxWidth(PictureRemoverActivity.this);
         imageLoader = ImageLoader.getInstance();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         photoList = getIntent().getStringArrayListExtra(Keys.Content);
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return newInstance(photoList.get(position));
+                return ImageFragment.newInstance(photoList.get(position));
             }
 
             @Override
@@ -136,63 +126,5 @@ public class PictureRemoverActivity extends AbstractActivity {
             setResult(RESULT_OK, intent);
         }
         finish();
-    }
-
-    private ImageFragment newInstance(String url) {
-        ImageFragment fragment = new ImageFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(Keys.Content, url);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    class ImageFragment extends Fragment {
-
-        private ImageView ivImage;
-        private ImageView ivNoImage;
-        private ProgressBar pbLoading;
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.view_image_loader, container, false);
-            ivImage = (ImageView) view.findViewById(R.id.iv_image);
-            ivNoImage = (ImageView) view.findViewById(R.id.iv_no_image);
-            pbLoading = (ProgressBar) view.findViewById(R.id.pb_loading);
-
-            String url = "file://" + getArguments().getString(Keys.Content);
-            imageLoader.displayImage(url, ivImage, options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    ivNoImage.setVisibility(View.GONE);
-                    ivImage.setVisibility(View.GONE);
-                    pbLoading.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    ivNoImage.setVisibility(View.VISIBLE);
-                    ivImage.setVisibility(View.GONE);
-                    pbLoading.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    ivNoImage.setVisibility(View.GONE);
-                    pbLoading.setVisibility(View.GONE);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth,
-                            ((loadedImage.getHeight() * screenWidth) / loadedImage.getWidth()));
-                    ivImage.setLayoutParams(params);
-                    ivImage.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
-                    ivNoImage.setVisibility(View.VISIBLE);
-                    ivImage.setVisibility(View.GONE);
-                    pbLoading.setVisibility(View.GONE);
-                }
-            });
-            return view;
-        }
     }
 }

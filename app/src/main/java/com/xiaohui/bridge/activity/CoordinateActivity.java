@@ -1,9 +1,13 @@
 package com.xiaohui.bridge.activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +21,6 @@ import com.xiaohui.bridge.business.enums.EDiseaseMethod;
 import com.xiaohui.bridge.component.CoordinateView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,21 +32,46 @@ public class CoordinateActivity extends AbstractActivity {
     private List<PointF> points = new ArrayList<PointF>();
     private List<Integer[]> shapes = new ArrayList<Integer[]>();
     private CoordinateView coordinateView;
+    private boolean needOnePoint;
+    private Spinner spSurface;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            spSurface.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (position == 0) {
+                        coordinateView.setShapes(points, shapes);
+                    } else {
+                        coordinateView.setShapes(points, shapes.subList(position - 1, position));
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coordinate);
-        initActionBar();
         initPoints();
         EDiseaseMethod method = (EDiseaseMethod) getIntent().getSerializableExtra(Keys.Content);
-        coordinateView = (CoordinateView) findViewById(R.id.cv_coordinate);
-        coordinateView.setShapes(points, shapes);
-        coordinateView.setSelectOnePoint(method == EDiseaseMethod.MethodTwo);
         PointF pointStart = getIntent().getParcelableExtra(Keys.PointStart);
         PointF pointStop = getIntent().getParcelableExtra(Keys.PointStop);
+        needOnePoint = (method == EDiseaseMethod.MethodTwo);
+        coordinateView = (CoordinateView) findViewById(R.id.cv_coordinate);
+        coordinateView.setSelectOnePoint(needOnePoint);
+        coordinateView.setShapes(points, shapes);
         coordinateView.setSelectPointStart(pointStart);
         coordinateView.setSelectPointStop(pointStop);
+        initActionBar();
     }
 
     private void initPoints() {
@@ -70,23 +98,9 @@ public class CoordinateActivity extends AbstractActivity {
         View view = View.inflate(this, R.layout.view_coordinate_action_bar, null);
         actionBar.setCustomView(view);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        Spinner spSurface = (Spinner) view.findViewById(R.id.sp_surface);
+        spSurface = (Spinner) view.findViewById(R.id.sp_surface);
         spSurface.setAdapter(new ArrayAdapter<String>(this, R.layout.view_spinner_item, surfaces));
-        spSurface.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    coordinateView.setShapes(points, shapes);
-                } else {
-                    coordinateView.setShapes(points, shapes.subList(position - 1, position));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        handler.sendEmptyMessageDelayed(0, 100);
     }
 
     @Override
@@ -110,13 +124,35 @@ public class CoordinateActivity extends AbstractActivity {
         PointF pointStart = coordinateView.getSelectPointStart();
         PointF pointStop = coordinateView.getSelectPointStop();
         if (pointStart == null) {
-            setResult(RESULT_CANCELED);
-        } else {
-            Intent intent = new Intent();
-            intent.putExtra(Keys.PointStart, pointStart);
-            intent.putExtra(Keys.PointStop, pointStop);
-            setResult(RESULT_OK, intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("请选择1个点");
+            builder.setTitle("提示");
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+            return;
         }
+        if (!needOnePoint && pointStop == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("需要选择2个点");
+            builder.setTitle("提示");
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(Keys.PointStart, pointStart);
+        intent.putExtra(Keys.PointStop, pointStop);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

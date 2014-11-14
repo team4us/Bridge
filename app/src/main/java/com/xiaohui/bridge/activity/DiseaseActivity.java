@@ -42,6 +42,7 @@ import com.xiaohui.bridge.model.ComponentModel;
 import com.xiaohui.bridge.model.DiseaseModel;
 import com.xiaohui.bridge.storage.DatabaseHelper;
 import com.xiaohui.bridge.util.ListUtil;
+import com.xiaohui.bridge.util.MathUtil;
 import com.xiaohui.bridge.view.IDiseaseView;
 import com.xiaohui.bridge.viewmodel.DiseaseViewModel;
 
@@ -334,6 +335,10 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
             id = getResources().getIdentifier("et_1", "id", BuildConfig.PACKAGE_NAME);
             editText = (EditText) methodView.findViewById(id);
             editText.setText(String.format("%.1f, %.1f", pointStop.x, pointStop.y));
+
+            id = getResources().getIdentifier("et_2", "id", BuildConfig.PACKAGE_NAME);
+            editText = (EditText) methodView.findViewById(id);
+            editText.setText(String.format("%.1f", MathUtil.lengthWithTwoPoint(pointStart, pointStop)));
         } else if (currentMethod == EDiseaseMethod.MethodTwo) {
             int id = getResources().getIdentifier("et_0", "id", BuildConfig.PACKAGE_NAME);
             EditText editText = (EditText) methodView.findViewById(id);
@@ -404,64 +409,72 @@ public class DiseaseActivity extends AbstractOrmLiteActivity<DatabaseHelper>
         spLocations = (Spinner) findViewById(R.id.sp_locations);
         spDiseaseType = (Spinner) findViewById(R.id.sp_disease_type);
         if (mode != MODE_NEW) {
-            Disease disease = diseaseModel.getDisease();
-            int index = viewModel.indexWithLocation(disease.getLocation());
-            spLocations.setSelection(index);
-            viewModel.onItemClickLocation(index);
-            index = viewModel.indexWithType(disease.getType());
-            spDiseaseType.setSelection(index);
-            viewModel.onItemClickDiseaseType(index);
-            if (isOther) {
-                etOther.setText(disease.getType());
-            }
-
-            EDiseaseMethod method = EDiseaseMethod.valueOf(disease.getMethod());
-            rgMethods.check(radioButtons.get(method.getId()).getId());
-            View methodView = switchMethodView(method);
-            int count = method.getCount();
-            methodValues = disease.getValues();
-            for (int i = 0; i < count; i++) {
-                TextView textView = (TextView) methodView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
-                String key = textView.getText().toString();
-                String value = methodValues.get(key);
-
-                EditText editText = (EditText) methodView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
-                editText.setText(value);
-
-                if (method == EDiseaseMethod.MethodOne) {
-                    if (i == 0 && !TextUtils.isEmpty(value)) {
-                        String[] values = value.split(",");
-                        if (values.length == 2) {
-                            pointStart = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
-                        }
-                    }
-
-                    if (i == 1 && !TextUtils.isEmpty(value)) {
-                        String[] values = value.split(",");
-                        if (values.length == 2) {
-                            pointStop = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
-                        }
-                    }
-                } else if (method == EDiseaseMethod.MethodTwo) {
-                    if (i == 0 && !TextUtils.isEmpty(value)) {
-                        String[] values = value.split(",");
-                        if (values.length == 2) {
-                            pointStart = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
-                            pointStop = pointStart;
-                        }
-                    }
-                }
-            }
-
-            etComment.setText(disease.getComment());
+            initDataForEdit();
         } else {
-            viewModel.onItemClickDiseaseType(0);
-            viewModel.onItemClickLocation(0);
+            initDataForNew();
         }
 
         initMediaView();
 
         handler.sendEmptyMessageDelayed(0, 100);//由于Spinner的setSelection方法会延迟执行Listener方法，所以这样处理
+    }
+
+    private void initDataForEdit() {
+        Disease disease = diseaseModel.getDisease();
+        int index = viewModel.indexWithLocation(disease.getLocation());
+        spLocations.setSelection(index);
+        viewModel.onItemClickLocation(index);
+        index = viewModel.indexWithType(disease.getType());
+        spDiseaseType.setSelection(index);
+        viewModel.onItemClickDiseaseType(index);
+        if (isOther) {
+            etOther.setText(disease.getType());
+        }
+
+        EDiseaseMethod method = EDiseaseMethod.valueOf(disease.getMethod());
+        rgMethods.check(radioButtons.get(method.getId()).getId());
+        View methodView = switchMethodView(method);
+        int count = method.getCount();
+        methodValues = disease.getValues();
+        for (int i = 0; i < count; i++) {
+            TextView textView = (TextView) methodView.findViewById(getResources().getIdentifier("tv_" + i, "id", BuildConfig.PACKAGE_NAME));
+            String key = textView.getText().toString();
+            String value = methodValues.get(key);
+
+            EditText editText = (EditText) methodView.findViewById(getResources().getIdentifier("et_" + i, "id", BuildConfig.PACKAGE_NAME));
+            editText.setText(value);
+
+            if (method == EDiseaseMethod.MethodOne) {
+                if (i == 0 && !TextUtils.isEmpty(value)) {
+                    String[] values = value.split(",");
+                    if (values.length == 2) {
+                        pointStart = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
+                    }
+                }
+
+                if (i == 1 && !TextUtils.isEmpty(value)) {
+                    String[] values = value.split(",");
+                    if (values.length == 2) {
+                        pointStop = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
+                    }
+                }
+            } else if (method == EDiseaseMethod.MethodTwo) {
+                if (i == 0 && !TextUtils.isEmpty(value)) {
+                    String[] values = value.split(",");
+                    if (values.length == 2) {
+                        pointStart = new PointF(Float.valueOf(values[0]), Float.valueOf(values[1]));
+                        pointStop = pointStart;
+                    }
+                }
+            }
+        }
+
+        etComment.setText(disease.getComment());
+    }
+
+    private void initDataForNew() {
+        viewModel.onItemClickDiseaseType(0);
+        viewModel.onItemClickLocation(0);
     }
 
     private void initMediaView() {
