@@ -66,5 +66,6 @@ dependencies {
     compile 'joda-time:joda-time:2.3'
     compile 'com.google.code.gson:gson:1.7.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1'
+    compile 'com.mcxiaoke.volley:library:1.0.+'
 //    compile 'com.couchbase.lite:couchbase-lite-android:1.0.2'
 }
