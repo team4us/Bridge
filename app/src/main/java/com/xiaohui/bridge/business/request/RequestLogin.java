@@ -1,7 +1,7 @@
 package com.xiaohui.bridge.business.request;
 
 import com.android.volley.AuthFailureError;
-import com.xiaohui.bridge.business.response.ResponseLogin;
+import com.xiaohui.bridge.business.response.BaseResponse;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by xiaohui on 14/11/19.
  */
-public class RequestLogin extends Post<ResponseLogin> {
+public class RequestLogin extends Post<BaseResponse> {
 
     private static final String PATH = "/PadVisit/Login";
 
@@ -23,7 +23,7 @@ public class RequestLogin extends Post<ResponseLogin> {
 
     @Override
     protected Type getResponseClass() {
-        return ResponseLogin.class;
+        return BaseResponse.class;
     }
 
     @Override

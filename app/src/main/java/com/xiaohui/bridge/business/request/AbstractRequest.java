@@ -47,21 +47,27 @@ public abstract class AbstractRequest<T extends IResponse> extends Request<T> {
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
-        VolleyError error;
+        VolleyError volleyError;
         try {
             if (response.statusCode / 100 == 2) { //Http code是2xx，则表示Http请求成功
                 String charset = HttpHeaderParser.parseCharset(response.headers);
-                return Response.success(parseResponse(response.data, charset),
-                        HttpHeaderParser.parseCacheHeaders(response));
+                T resp = parseResponse(response.data, charset);
+                resp.onParseComplete();
+                Error error = resp.verify();
+                if (!error.equals(Error.Success())) {
+                    volleyError = new ParseError();
+                } else {
+                    return Response.success(resp, HttpHeaderParser.parseCacheHeaders(response));
+                }
             } else {
-                error = new NetworkError();
+                volleyError = new NetworkError();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            error = new ParseError();
+            volleyError = new ParseError();
         }
 
-        return Response.error(error);
+        return Response.error(volleyError);
     }
 
     protected T parseResponse(byte[] data, String charset) throws Exception {

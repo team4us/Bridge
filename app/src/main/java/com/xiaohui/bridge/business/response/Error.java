@@ -5,8 +5,8 @@ package com.xiaohui.bridge.business.response;
  */
 public class Error {
 
-    private static final Error SUCCESS = new Error(1);
-    private static final Error FAILURE = new Error(-1);
+    private static final Error SUCCESS = new Error(1, "成功");
+    private static final Error FAILURE = new Error(-1, "失败");
     private int code;
     private String message;
 
@@ -41,5 +41,9 @@ public class Error {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean equals(Error e) {
+        return code == e.getCode() && message.equalsIgnoreCase(e.getMessage());
     }
 }
