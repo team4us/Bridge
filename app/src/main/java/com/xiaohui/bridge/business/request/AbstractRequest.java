@@ -21,8 +21,10 @@ import java.lang.reflect.Type;
 public abstract class AbstractRequest<T extends IResponse> extends Request<T> {
     protected IResponseListener<T> responseListener;
 
-    public AbstractRequest(int method, String url) {
-        super(method, url, null);
+    private static final String HOST = "";
+
+    public AbstractRequest(int method, String path) {
+        super(method, HOST + path, null);
     }
 
     public void setResponseHandler(IResponseListener<T> listener) {

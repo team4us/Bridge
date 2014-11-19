@@ -5,6 +5,8 @@ import com.xiaohui.bridge.business.bean.Bridge;
 import com.xiaohui.bridge.business.bean.ChildBridge;
 import com.xiaohui.bridge.business.bean.Component;
 import com.xiaohui.bridge.business.bean.Project;
+import com.xiaohui.bridge.business.request.AbstractRequest;
+import com.xiaohui.bridge.business.response.IResponse;
 import com.xiaohui.bridge.business.store.StoreManager;
 import com.xiaohui.bridge.model.BlockModel;
 import com.xiaohui.bridge.model.BridgeModel;
@@ -79,6 +81,16 @@ public class BusinessManager {
             {"照明设施简介", "标志类型及数量", "备注"},
     };
 
+    private RequestManager requestManager;
+
+    public BusinessManager() {
+        requestManager = new RequestManager();
+    }
+
+    public void request(AbstractRequest<? extends IResponse> request) {
+        requestManager.request(request);
+    }
+
     public void download(DatabaseHelper helper, UserModel user) {
         List<Project> projects = StoreManager.Instance.getProjects();
         List<Bridge> bridges = StoreManager.Instance.getBridges();
@@ -118,7 +130,7 @@ public class BusinessManager {
 
                             String[] blockPropertyTitle = blockProperty[j];
                             HashMap<String, String> blockPropertyMap = new HashMap<String, String>();
-                            for(int x = 0; x < blockPropertyTitle.length; x ++){
+                            for (int x = 0; x < blockPropertyTitle.length; x++) {
                                 blockPropertyMap.put(blockPropertyTitle[x], "value " + x);
                             }
 
